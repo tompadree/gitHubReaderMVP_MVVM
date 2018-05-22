@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
+}
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
+//apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.asanatest"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        languageVersion = "1.2"
+    }
+
+    sourceSets {
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    kapt {
+        generateStubs = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def dependencies = rootProject.ext.dependencies
+    def testDependencies = rootProject.ext.testDependencies
+
+    implementation dependencies.dagger
+    implementation dependencies.butterKnife
+    implementation dependencies.rxJava
+    implementation dependencies.rxAndroid
+    implementation dependencies.supportAppcompat
+    implementation dependencies.supportSupport
+    implementation dependencies.recyclerView
+    implementation dependencies.javaxInject
+    implementation dependencies.gson
+    implementation dependencies.libphonenumber
+    implementation dependencies.retrofit2
+    implementation dependencies.retrofit2rxJava2
+    implementation dependencies.retrofit2gson
+    implementation dependencies.constraintLayout
+    implementation dependencies.timber
+    implementation dependencies.design
+    implementation dependencies.expandablerecyclerview
+    implementation dependencies.room
+    implementation dependencies.constraintLayout
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation dependencies.picasso
+
+//    implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+//    implementation (dependencies.crashlytics) { transitive = true; }
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    kapt dependencies.daggerCompiler
+    kapt dependencies.butterKnifeCompiler
+    kapt dependencies.roomCompiler
+
+    kaptAndroidTest dependencies.daggerCompiler
+    kaptAndroidTest dependencies.butterKnifeCompiler
+
+    androidTestImplementation testDependencies.junit
+    androidTestImplementation testDependencies.robolectric
+    androidTestImplementation testDependencies.mockito
+    androidTestImplementation(testDependencies.espresso) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2') {
+        exclude module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+
+
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.robolectric
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.roomTesting
+//    testImplementation testDependencies.supportTestRunner
+//    testImplementation testDependencies.supportTestMonitor
+
+
+    testImplementation(testDependencies.espresso) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    testImplementation('com.android.support.test.espresso:espresso-contrib:2.2') {
+        exclude module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    testImplementation 'com.android.support.test:runner:1.0.2-alpha1'
+//    testImplementation 'com.android.support.test:runner:1.0.1'
+    testImplementation 'com.android.support.test:monitor:1.0.1'
+}

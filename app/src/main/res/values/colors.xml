@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="app_black">#000000</color>
+        <color name="app_green_dark">#FF007C3E</color>
+        <color name="white">#FFFFFFFF</color>
+        <color name="error_red">#FF001F</color>
+
+        <color name="main_white">#FFE5E5E5</color>
+        <color name="message_gray">#FFEEEEEE</color>
+        <color name="label_grey">#FFD1D1D1</color>
+        <color name="text_grey_color">#6E313131</color>
+
+        <color name="bottom_navigation_grey">#FFBFBFBF</color>
+        <color name="object_text_color_black">#FF313131</color>
+        <color name="separator_grey">#1F000000</color>
+
+        <color name="about_object_black">#FF070606</color>
+        <color name="black">#FF313131</color>
+        <color name="spinner_add_bill">#FFF1F6E5</color>
+
+
+
+</resources>
