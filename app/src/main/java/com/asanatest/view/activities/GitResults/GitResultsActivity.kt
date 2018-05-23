@@ -92,12 +92,12 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     }
 
     override fun showLoadingFooter() {
-        if (gitResultsAdapter != null)
+        if (gitResultsAdapter != null && localRepos.size > 0)
             gitResultsAdapter?.addLoadingFooter()
     }
 
     override fun hideLoadingFooter() {
-        if (gitResultsAdapter != null)
+        if (gitResultsAdapter != null && localRepos.size > 0)
             gitResultsAdapter?.removeLoadingFooter()
     }
 
