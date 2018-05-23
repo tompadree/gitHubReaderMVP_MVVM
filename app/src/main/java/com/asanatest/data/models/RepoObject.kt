@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.io.Serializable
+import java.security.acl.Owner
 
 /**
  * Created by Tom on 22.5.2018..
@@ -16,8 +17,6 @@ import java.io.Serializable
 
 @Entity(tableName = "repos")
 class RepoObject : Serializable {
-
-    constructor() {}
 
     @SerializedName("id")
     var repoId: Int = 0
@@ -42,10 +41,6 @@ class RepoObject : Serializable {
     @SerializedName("description")
     var description: String? = ""
 
-    @SerializedName("owner")
-    @TypeConverters(OwnerObject.OwnerConverter::class)
-    var owner: OwnerObject? = OwnerObject()
-
     @SerializedName("created_at")
     var createdAt: String? = null
 
@@ -55,5 +50,39 @@ class RepoObject : Serializable {
     @SerializedName("language")
     var language: String? = null
 
+    @SerializedName("owner")
+    @TypeConverters(OwnerConverter::class)
+    var owner: Owner? = Owner()
 
+    class Owner : Serializable {
+
+        @SerializedName("login")
+        var userName: String? = ""
+
+        @SerializedName("avatar_url")
+        var avatarUrl: String? = null
+
+        @SerializedName("type")
+        var userType: String? = null
+
+        @SerializedName("site_admin")
+        var siteAdmin: String? = null
+
+        @SerializedName("parent_repo")
+        var parentRepo: String? = ""
+
+    }
+
+    class OwnerConverter {
+
+        @TypeConverter
+        fun stringToOwner(value: String): Owner {
+            val listType = object : TypeToken<ArrayList<String>>() {}.type
+            return Gson().fromJson(value, listType)
+        }
+
+        @TypeConverter
+        fun fromOwnerToString(owner: Owner): String = Gson().toJson(owner)
+
+    }
 }

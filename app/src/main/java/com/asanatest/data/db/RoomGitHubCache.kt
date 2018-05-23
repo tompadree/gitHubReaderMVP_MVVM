@@ -20,13 +20,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class RoomGitHubCache(database: GitHubDatabase) : GitHubCache {
 
-    private val INITIAL_LOAD_KEY = 0
-    private val PREFETCH_DISTANCE = 5
-
     private val dao: GitHubDAO = database.getGitHubDao()
-
-
-    var resultList: Flowable<PagedList<RepoObject>>? = null
 
     override fun saveGitHubResults(githubResults: ArrayList<RepoObject>): Single<LongArray> {
         return Single.fromCallable { dao.saveGitHubResults(githubResults) }
@@ -47,27 +41,6 @@ class RoomGitHubCache(database: GitHubDatabase) : GitHubCache {
 
 
     override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Single<ArrayList<RepoObject>> {
-
-//        var tst = RepoObject()
-//        val test : Single<RepoObject> = Single.fromCallable {dao.getGitHubResults1("%$repoName%") }
-//        test
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(Schedulers.io())
-//                .subscribe(object  : SingleObserver<RepoObject> {
-//
-//                    override fun onSuccess(t: RepoObject) {
-//                        tst = t
-//                    }
-//
-//                    override fun onSubscribe(d: Disposable) {
-//
-//                    }
-//
-//                    override fun onError(e: Throwable) {
-//                        val er = e
-//                    }
-//                })
-
         val sending = "%$repoName%"
         return Single.fromCallable { ArrayList(dao.getGitHubResults(sending)) }
 
@@ -78,8 +51,6 @@ class RoomGitHubCache(database: GitHubDatabase) : GitHubCache {
     }
 
     override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: Int, per_page: Int): Single<ArrayList<OwnerObject>> {
-        var sending = repoName.split("/")[0]
-        sending = "%$sending%"
         return Single.fromCallable { ArrayList(dao.getGitHubResultSubscribers("%$repoName%")) }//, page, per_page)) }
     }
 }

@@ -18,4 +18,8 @@ interface OnResultFetchListener {
 
     fun hideLoadingFooter()
 
+    fun showLoading()
+
+    fun hideLoading()
+
 }

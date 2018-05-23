@@ -92,11 +92,13 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     }
 
     override fun showLoadingFooter() {
-        gitResultsAdapter?.addLoadingFooter()
+        if (gitResultsAdapter != null)
+            gitResultsAdapter?.addLoadingFooter()
     }
 
     override fun hideLoadingFooter() {
-        gitResultsAdapter?.removeLoadingFooter()
+        if (gitResultsAdapter != null)
+            gitResultsAdapter?.removeLoadingFooter()
     }
 
     override fun showRefreshLoading() {
@@ -111,10 +113,10 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
     override fun onInternetConnected() {
         /*TODO*/
-//        if (localRepos.size == 0) {
-//            showRefreshLoading()
-//            onRefresh()
-//        }
+        if (localRepos.size == 0) {
+            showRefreshLoading()
+            onRefresh()
+        }
     }
 
     override fun onRefresh() {
@@ -139,6 +141,10 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     }
 
     override fun onItemClicked(position: Int) {
+
+        if (localRepos.size <= 0)
+            return
+
         var intent = Intent(this, GitResultDetailsActivity::class.java)
         intent.putExtra(REPO_NAME, localRepos[position].repoName)
         intent.putExtra(REPO_ID, localRepos[position].repoId)

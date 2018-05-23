@@ -31,17 +31,4 @@ class OwnerObject : Serializable {
 
     @SerializedName("parent_repo")
     var parentRepo : String? = ""
-
-
-    class OwnerConverter {
-
-        @TypeConverter
-        fun stringToOwner(value: String): OwnerObject {
-            val listType = object : TypeToken<ArrayList<String>>() {}.type
-            return Gson().fromJson(value, listType)
-        }
-
-        @TypeConverter
-        fun fromOwnerToString(owner: OwnerObject): String = Gson().toJson(owner)
-    }
 }

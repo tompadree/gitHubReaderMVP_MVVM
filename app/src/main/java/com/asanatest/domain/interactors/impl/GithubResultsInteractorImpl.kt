@@ -10,13 +10,18 @@ import com.asanatest.di.module.ThreadModule
 import com.asanatest.domain.interactors.GithubResultsInteractor
 import com.asanatest.domain.listeners.OnResultFetchListener
 import io.reactivex.CompletableOnSubscribe
+import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
 import io.reactivex.processors.PublishProcessor
+import org.reactivestreams.Publisher
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.collections.ArrayList
 
 /**
  * Created by Tom on 22.5.2018..
@@ -54,25 +59,34 @@ class GithubResultsInteractorImpl
                     loading = true
                 }
 //                .concatMap {
-//                    //                    if (currentPage == 1)
-////                        localGithubResultsDataStore.getGitHubResults(repoName, 0, PAGE_ENTRIES)
-////                                .subscribeOn(subscribeScheduler)
-////                                .unsubscribeOn(subscribeScheduler)
-////                    else
-//                    localGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+//                    localGithubResultsDataStore.getGitHubResults1(repoName, currentPage, PAGE_ENTRIES)
 //                            .subscribeOn(subscribeScheduler)
 //                            .observeOn(observeScheduler)
 //                            .unsubscribeOn(subscribeScheduler)
 //                }
+//                .concatMap {
+//                    localGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+//                            .subscribeOn(subscribeScheduler)
+//                            .observeOn(observeScheduler)
+//                            .unsubscribeOn(subscribeScheduler)
+//                            .doOnError {
+//                                remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+//                                        .subscribeOn(subscribeScheduler)
+//                                        .observeOn(observeScheduler)
+//                                        .unsubscribeOn(subscribeScheduler)
+//                            }
+//                }
                 .concatMap {
-                    remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
-                            .subscribeOn(subscribeScheduler)
-                            .observeOn(observeScheduler)
-                            .unsubscribeOn(subscribeScheduler)
+//                    if (it.items.size <= 0)
+                        remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+                                .subscribeOn(subscribeScheduler)
+                                .observeOn(observeScheduler)
+                                .unsubscribeOn(subscribeScheduler)
+//                    else
+//                        Flowable.just(it)
                 }// API call
                 .observeOn(observeScheduler, true)
                 .subscribe({
-
                     if (currentPage == 0) {
                         // gitResultsView.hideLoading()
                     } else {
@@ -122,23 +136,25 @@ class GithubResultsInteractorImpl
                     }
                     loading = true
                 }
-                .concatMap {
+                .flatMap {
                     localGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
                             .subscribeOn(subscribeScheduler)
                             .observeOn(observeScheduler)
                             .unsubscribeOn(subscribeScheduler)
-                }
-                .concatMap {
 
-                    remoteGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
-                            .subscribeOn(subscribeScheduler)
-                            .observeOn(observeScheduler)
-                            .unsubscribeOn(subscribeScheduler)
                 }
-                // API call
+                .flatMap {
+                    if (it.size <= 0)
+                        remoteGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
+                                .subscribeOn(subscribeScheduler)
+                                .observeOn(observeScheduler)
+                                .unsubscribeOn(subscribeScheduler)
+                    else
+                        Flowable.just(it)
+
+                } // API call
                 .observeOn(observeScheduler, true)
                 .subscribe({
-
                     if (currentPage == 1) {
                         // gitResultsView.hideLoading()
                     } else {
@@ -146,6 +162,7 @@ class GithubResultsInteractorImpl
                     }
                     loading = false
                     if (it.size != 0) {
+
                         listener.onRepoSubscribersFetched(it)
                         if (it[0].parentRepo == "") {
                             currentPage++
@@ -153,12 +170,13 @@ class GithubResultsInteractorImpl
                         }
                     } else {
                         currentPage = -1
+                        listener.hideLoading()
                     }
-                }, {
-                    listener.onReposError(it as Throwable)
-
-                    loading = false
-                })
+                },
+                        {
+                            listener.onReposError(it as Throwable)
+                            loading = false
+                        })
 
         disposables?.add(d)
 
@@ -221,3 +239,4 @@ class GithubResultsInteractorImpl
     }
 
 }
+

@@ -19,12 +19,29 @@ constructor(private val gitHubCache: GitHubCache) : GitHubResultsDataStore {
         return gitHubCache.saveGitHubResults(githubResults)
     }
 
+//    override fun getGitHubResults1(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
+//        var reposModel = ReposModel()
+//        return gitHubCache.getGitHubResults1(repoName, page - 1, per_page).toFlowable()
+//                .map {
+//                    reposModel.items[0] = it
+//                    reposModel
+//                }
+//    }
+
     override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
-        val reposModel = ReposModel()
-        return (gitHubCache.getGitHubResults(repoName, page - 1, per_page).map {
-            reposModel.items = it
-            reposModel
-        }).toFlowable()
+        var reposModel = ReposModel()
+        var repoObject = ArrayList<RepoObject>()
+        return gitHubCache.getGitHubResults(repoName, page - 1, per_page).toFlowable()
+                .map {
+                    repoObject = it
+                    reposModel.items = it
+                    reposModel
+                }
+//
+//        return (gitHubCache.getGitHubResults(repoName, page - 1, per_page).map {
+//            reposModel.items = it
+//            reposModel
+//        }).toFlowable()
 
 
 //        return when (page) {
@@ -36,7 +53,7 @@ constructor(private val gitHubCache: GitHubCache) : GitHubResultsDataStore {
     }
 
     override fun saveGitHubResultSubscribersDB(repoName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
-        for(i in 0 until subscribers.size)
+        for (i in 0 until subscribers.size)
             subscribers[i].parentRepo = repoName
 
         return gitHubCache.saveGitHubResultSubscribersDB(subscribers)

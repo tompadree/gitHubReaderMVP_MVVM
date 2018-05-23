@@ -53,6 +53,13 @@ constructor(private val context: Context, private val interactor: GithubResultsI
         gitResultsView.hideLoadingFooter()
     }
 
+    override fun showLoading() {
+        gitResultsView.showLoading()
+    }
+
+    override fun hideLoading() {
+        gitResultsView.hideLoading()
+    }
 
     override fun resume() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

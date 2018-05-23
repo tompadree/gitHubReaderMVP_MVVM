@@ -14,7 +14,6 @@ interface GitHubCache {
     fun saveGitHubResults(githubResults: ArrayList<RepoObject>) : Single<LongArray>
     fun getGitHubResults(repoName: String, page: Int, per_page: Int) : Single<ArrayList<RepoObject>>
 
-
     fun saveGitHubResultSubscribersDB(subscribers : ArrayList<OwnerObject>): Single<LongArray>
     fun getGitHubResultSubscribers(repoId : Int, repoName: String, page: Int, per_page: Int): Single<ArrayList<OwnerObject>>
 }
