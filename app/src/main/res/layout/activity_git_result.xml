@@ -9,6 +9,8 @@
     android:background="@null"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <!--<android.support.v7.widget.Toolbar-->
     <!--android:id="@+id/search_bar_toolbar"-->
     <!--android:layout_width="match_parent"-->
@@ -44,6 +46,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/gitResultActivityProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/BlackAcccent"
+            android:visibility="invisible"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/gitResultActivityRv"

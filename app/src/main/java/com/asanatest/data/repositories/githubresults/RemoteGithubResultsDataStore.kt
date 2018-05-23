@@ -1,6 +1,7 @@
 package com.asanatest.data.repositories.githubresults
 
 import com.asanatest.data.api.NetworkApi
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.data.models.ReposModel
 import io.reactivex.Flowable
@@ -18,16 +19,16 @@ constructor(private val networkApi: NetworkApi) : GitHubResultsDataStore {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getGitHubResults(repoName: String, page: String, per_page: String): Flowable<ReposModel> {
-        return networkApi.searchRepos(repoName, page, per_page)
+    override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
+        return networkApi.searchRepos(repoName, page.toString(), per_page.toString())
 
     }
 
-    override fun saveGitHubResultDB(repoName: String): Single<LongArray> {
+    override fun saveGitHubResultSubscribersDB(userName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: String, per_page: String): Flowable<ArrayList<RepoObject.Owner>> {
-        return networkApi.getRepoSubscribers(repoName, page, per_page)
+    override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: Int, per_page: Int): Flowable<ArrayList<OwnerObject>> {
+        return networkApi.getRepoSubscribers(repoName, page.toString(), per_page.toString())
     }
 }

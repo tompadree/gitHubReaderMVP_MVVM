@@ -31,33 +31,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     kotlinOptions {
         languageVersion = "1.2"
     }
-
     sourceSets {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
-
     testOptions {
         unitTests {
             includeAndroidResources = true
         }
     }
-
     kapt {
         generateStubs = true
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     def dependencies = rootProject.ext.dependencies
     def testDependencies = rootProject.ext.testDependencies
-
     implementation dependencies.dagger
     implementation dependencies.butterKnife
     implementation dependencies.rxJava
@@ -76,21 +71,18 @@ dependencies {
     implementation dependencies.design
     implementation dependencies.expandablerecyclerview
     implementation dependencies.room
+    implementation dependencies.paging
     implementation dependencies.constraintLayout
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation dependencies.picasso
-
-//    implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
-//    implementation (dependencies.crashlytics) { transitive = true; }
-
+    //    implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+    //    implementation (dependencies.crashlytics) { transitive = true; }
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     kapt dependencies.daggerCompiler
     kapt dependencies.butterKnifeCompiler
     kapt dependencies.roomCompiler
-
     kaptAndroidTest dependencies.daggerCompiler
     kaptAndroidTest dependencies.butterKnifeCompiler
-
     androidTestImplementation testDependencies.junit
     androidTestImplementation testDependencies.robolectric
     androidTestImplementation testDependencies.mockito
@@ -103,16 +95,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-
-
     testImplementation testDependencies.junit
     testImplementation testDependencies.robolectric
     testImplementation testDependencies.mockito
     testImplementation testDependencies.roomTesting
-//    testImplementation testDependencies.supportTestRunner
-//    testImplementation testDependencies.supportTestMonitor
-
-
+    //    testImplementation testDependencies.supportTestRunner
+    //    testImplementation testDependencies.supportTestMonitor
     testImplementation(testDependencies.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -122,10 +110,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
+    //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     testImplementation 'com.android.support.test:runner:1.0.2-alpha1'
-//    testImplementation 'com.android.support.test:runner:1.0.1'
+    //    testImplementation 'com.android.support.test:runner:1.0.1'
     testImplementation 'com.android.support.test:monitor:1.0.1'
 }

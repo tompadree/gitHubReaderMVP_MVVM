@@ -27,7 +27,7 @@ interface APIConstants {
         val httpMethod_POST = "POST"
         val httpMethod_DELETE = "DELETE"
 
-        val PAGE_ENTRIES = 20
+        val PAGE_ENTRIES = 50
 
         const val FILTER_FIELD_EMIS = "emisCode"
         const val RPT_ID = "hr2014abs";

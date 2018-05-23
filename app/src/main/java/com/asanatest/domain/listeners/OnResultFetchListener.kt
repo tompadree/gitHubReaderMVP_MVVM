@@ -1,5 +1,6 @@
 package com.asanatest.domain.listeners
 
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 
 /**
@@ -9,7 +10,7 @@ interface OnResultFetchListener {
 
     fun onReposFetched(repos : ArrayList<RepoObject>)
 
-    fun onRepoSubscribersFetched(subscribers : ArrayList<RepoObject.Owner>)
+    fun onRepoSubscribersFetched(subscribers : ArrayList<OwnerObject>)
 
     fun onReposError(e : Throwable)
 

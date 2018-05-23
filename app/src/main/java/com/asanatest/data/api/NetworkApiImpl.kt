@@ -1,5 +1,6 @@
 package com.asanatest.data.api
 
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.data.models.ReposModel
 import io.reactivex.Flowable
@@ -16,7 +17,7 @@ class NetworkApiImpl
         return Flowable.defer<ReposModel> { githubApi.searchRepos(repoName, page, per_page) }
     }
 
-    override fun getRepoSubscribers(repoName: String, page: String, per_page: String): Flowable<ArrayList<RepoObject.Owner>> {
-        return Flowable.defer<ArrayList<RepoObject.Owner>> { githubApi.getRepoSubscribers(repoName, page, per_page) }
+    override fun getRepoSubscribers(repoName: String, page: String, per_page: String): Flowable<ArrayList<OwnerObject>> {
+        return Flowable.defer<ArrayList<OwnerObject>> { githubApi.getRepoSubscribers(repoName, page, per_page) }
     }
 }

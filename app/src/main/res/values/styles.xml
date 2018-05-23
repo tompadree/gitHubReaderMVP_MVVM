@@ -22,7 +22,7 @@
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/app_black</item>
         <item name="colorPrimaryDark">@color/app_black</item>
-        <item name="colorAccent">@color/app_black</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <!--<style name="AppTheme." parent="Theme.AppCompat.Light.DarkActionBar">-->
@@ -33,6 +33,10 @@
 
     <style name="HintColor" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/app_black</item>
+    </style>
+
+    <style name="BlackAcccent" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">#000000</item>
     </style>
 
     <style name="ErrorAppearance" parent="TextAppearance.AppCompat">

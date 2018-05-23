@@ -1,5 +1,6 @@
 package com.asanatest.data.repositories.githubresults
 
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.data.models.ReposModel
 import io.reactivex.Flowable
@@ -12,9 +13,9 @@ interface GitHubResultsDataStore {
 
     fun saveGitHubResultsDB(repoName: String, githubResults: ArrayList<RepoObject>): Single<LongArray>
 
-    fun getGitHubResults(repoName: String, page: String, per_page: String): Flowable<ReposModel>
+    fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel>
 
-    fun saveGitHubResultDB(repoName: String): Single<LongArray>
+    fun saveGitHubResultSubscribersDB(repoName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray>
 
-    fun getGitHubResultSubscribers(repoId : Int, repoName: String, page: String, per_page: String): Flowable<ArrayList<RepoObject.Owner>>
+    fun getGitHubResultSubscribers(repoId : Int, repoName: String, page: Int, per_page: Int): Flowable<ArrayList<OwnerObject>>
 }

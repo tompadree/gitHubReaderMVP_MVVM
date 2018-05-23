@@ -2,12 +2,14 @@ package com.asanatest.domain.interactors.impl
 
 import android.content.Context
 import com.asanatest.data.api.APIConstants.Companion.PAGE_ENTRIES
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.data.repositories.githubresults.LocalGithubResultsDataStore
 import com.asanatest.data.repositories.githubresults.RemoteGithubResultsDataStore
 import com.asanatest.di.module.ThreadModule
 import com.asanatest.domain.interactors.GithubResultsInteractor
 import com.asanatest.domain.listeners.OnResultFetchListener
+import io.reactivex.CompletableOnSubscribe
 import io.reactivex.Scheduler
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.CompositeDisposable
@@ -37,25 +39,37 @@ class GithubResultsInteractorImpl
     private var loading: Boolean = false
 
     override fun getGitHubResults(repoName: String, listener: OnResultFetchListener) {
-        currentPage = 0 // set page = 1
+        currentPage = 1 // set page = 0
 //        var loading = false
         paginator = PublishProcessor.create()   // create PublishProcessor
 
         val d = paginator.onBackpressureDrop()
                 .filter { !loading }  // return if it is still loading
                 .doOnNext {
-                    if (currentPage == 0) {
+                    if (currentPage == 1) {
                         //  listener.showLoading()
                     } else {
                         listener.showLoadingFooter()
                     }
                     loading = true
                 }
+//                .concatMap {
+//                    //                    if (currentPage == 1)
+////                        localGithubResultsDataStore.getGitHubResults(repoName, 0, PAGE_ENTRIES)
+////                                .subscribeOn(subscribeScheduler)
+////                                .unsubscribeOn(subscribeScheduler)
+////                    else
+//                    localGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+//                            .subscribeOn(subscribeScheduler)
+//                            .observeOn(observeScheduler)
+//                            .unsubscribeOn(subscribeScheduler)
+//                }
                 .concatMap {
-                    remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage.toString(), PAGE_ENTRIES.toString())
+                    remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
                             .subscribeOn(subscribeScheduler)
                             .observeOn(observeScheduler)
-                } // API call
+                            .unsubscribeOn(subscribeScheduler)
+                }// API call
                 .observeOn(observeScheduler, true)
                 .subscribe({
 
@@ -68,6 +82,7 @@ class GithubResultsInteractorImpl
                     if (it.items.size != 0) {
                         listener.onReposFetched(it.items)
                         currentPage++
+                        saveLocalResults(repoName, it.items, listener)
                     } else {
                         currentPage = -1
                     }
@@ -108,11 +123,19 @@ class GithubResultsInteractorImpl
                     loading = true
                 }
                 .concatMap {
-                    remoteGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage.toString(),
-                            PAGE_ENTRIES.toString())
+                    localGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
                             .subscribeOn(subscribeScheduler)
                             .observeOn(observeScheduler)
-                } // API call
+                            .unsubscribeOn(subscribeScheduler)
+                }
+                .concatMap {
+
+                    remoteGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
+                            .subscribeOn(subscribeScheduler)
+                            .observeOn(observeScheduler)
+                            .unsubscribeOn(subscribeScheduler)
+                }
+                // API call
                 .observeOn(observeScheduler, true)
                 .subscribe({
 
@@ -124,12 +147,16 @@ class GithubResultsInteractorImpl
                     loading = false
                     if (it.size != 0) {
                         listener.onRepoSubscribersFetched(it)
-                        currentPage++
+                        if (it[0].parentRepo == "") {
+                            currentPage++
+                            saveLocalSubscribers(repoName, it, listener)
+                        }
                     } else {
                         currentPage = -1
                     }
                 }, {
                     listener.onReposError(it as Throwable)
+
                     loading = false
                 })
 
@@ -137,46 +164,60 @@ class GithubResultsInteractorImpl
 
         fetchNextPage()
 
-
-//        localGithubResultsDataStore.getGitHubResult(repoId, repoName)
-//                .subscribeOn(subscribeScheduler)
-//                .observeOn(observeScheduler)
-//                .unsubscribeOn(subscribeScheduler)
-//                .subscribe(object : SingleObserver<RepoObject> {
-//
-//                    override fun onSubscribe(d: Disposable) {
-//                    }
-//
-//                    override fun onSuccess(t: RepoObject) {
-//                        listener.onRepoFetched(t)
-//
-//                    }
-//
-//                    override fun onError(e: Throwable) {
-//                        remoteGitHubResult(repoName, listener)
-//                    }
-//                })
     }
 
-//    fun remoteGitHubResult(repoName: String, listener: OnResultFetchListener) {
-//
-//        remoteGithubResultsDataStore.getGitHubResult(0, repoName)
-//                .subscribeOn(subscribeScheduler)
-//                .observeOn(observeScheduler)
-//                .unsubscribeOn(subscribeScheduler)
-//                .subscribe(object : SingleObserver<RepoObject> {
-//
-//                    override fun onSubscribe(d: Disposable) {
-//                    }
-//
-//                    override fun onSuccess(t: RepoObject) {
-//                        listener.onRepoFetched(t)
-//                    }
-//
-//                    override fun onError(e: Throwable) {
-//                        listener.onReposError(e)
-//                    }
-//                })
-//
-//    }
+
+    fun saveLocalResults(repoName: String, resultItems: ArrayList<RepoObject>, listener: OnResultFetchListener) {
+
+        localGithubResultsDataStore.saveGitHubResultsDB(repoName, resultItems)
+                .subscribeOn(subscribeScheduler)
+                .observeOn(observeScheduler)
+                .unsubscribeOn(subscribeScheduler)
+                .subscribe(object : SingleObserver<LongArray> {
+
+                    override fun onSuccess(t: LongArray) {
+
+                        var test: LongArray = t as LongArray
+
+                        test = t
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        listener.onReposError(e)
+                    }
+                })
+
+    }
+
+
+    fun saveLocalSubscribers(repoName: String, subscribers: ArrayList<OwnerObject>, listener: OnResultFetchListener) {
+
+        localGithubResultsDataStore.saveGitHubResultSubscribersDB(repoName, subscribers)
+                .subscribeOn(subscribeScheduler)
+                .observeOn(observeScheduler)
+                .unsubscribeOn(subscribeScheduler)
+                .subscribe(object : SingleObserver<LongArray> {
+
+                    override fun onSuccess(t: LongArray) {
+
+                        var test: LongArray = t as LongArray
+
+                        test = t
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        listener.onReposError(e)
+                    }
+                })
+
+    }
+
 }

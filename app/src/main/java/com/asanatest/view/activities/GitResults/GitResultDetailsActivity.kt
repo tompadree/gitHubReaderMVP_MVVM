@@ -6,14 +6,21 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import butterknife.Unbinder
 import com.asanatest.R
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.di.component.DaggerGitResultComponent
 import com.asanatest.di.module.GitResultModule
+import com.asanatest.domain.listeners.OnInternetConnected
 import com.asanatest.presenter.GithubResultsPresenter
+import com.asanatest.utils.AppConstants.Companion.REPO_ID
+import com.asanatest.utils.AppConstants.Companion.REPO_NAME
+import com.asanatest.utils.AppConstants.Companion.SUBSCRIBERS
+import com.asanatest.utils.AppConstants.Companion.USER_NAME
 import com.asanatest.utils.helpers.NetworkHelper
 import com.asanatest.view.activities.BaseActivity
 import com.asanatest.view.adapters.GitResultDetailsAdapter
@@ -22,15 +29,16 @@ import com.asanatest.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result_details.*
 import javax.inject.Inject
 
-class GitResultDetailsActivity : BaseActivity(), GitResultsView {
+class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConnected {
 
     @Inject
     lateinit var githubResultsPresenter: GithubResultsPresenter
 
     lateinit var internetReceiver: BroadcastReceiver
     lateinit var gitResultDetailsAdapter: GitResultDetailsAdapter
-    lateinit var localSubscribers: ArrayList<RepoObject.Owner>
+    lateinit var localSubscribers: ArrayList<OwnerObject>
     var repoName = ""
+    var userName = ""
     var subscribersCt = 0
     var repoId = 0
     var lastText = ""
@@ -39,6 +47,8 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_git_result_details)
 
+        // showLoading()
+
         DaggerGitResultComponent.builder()
                 .appComponent(getApplicationComponent())
                 .gitResultModule(GitResultModule(this))
@@ -46,10 +56,15 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         intent?.let {
-            repoName = it.getStringExtra("repoName")
-            repoId = it.getIntExtra("repoId", 0)
-            subscribersCt = it.getIntExtra("subscribers", 0)
+            repoName = it.getStringExtra(REPO_NAME)
+            if (repoName != "")
+                supportActionBar?.title = repoName
+
+            userName = it.getStringExtra(USER_NAME)
+            repoId = it.getIntExtra(REPO_ID, 0)
+            subscribersCt = it.getIntExtra(SUBSCRIBERS, 0)
         }
         localSubscribers = ArrayList()
 
@@ -75,16 +90,18 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
         githubResultsPresenter.destroy()
     }
 
-//    override fun onBackPressed() {
-//
-//    }
+    override fun onBackPressed() {
+
+        finish()
+
+    }
 
     override fun showLoading() {
-          repo_detail_ProgressBar?.visibility = View.VISIBLE
+        repo_detail_ProgressBar?.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-          repo_detail_ProgressBar?.visibility = View.GONE
+        repo_detail_ProgressBar?.visibility = View.GONE
     }
 
     override fun showLoadingFooter() {
@@ -95,19 +112,15 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
         gitResultDetailsAdapter.removeLoadingFooter()
     }
 
-    override fun showRefreshLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun hideRefreshLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun updateList(repos: ArrayList<RepoObject>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun repoSubscribersFetched(subscribers: ArrayList<RepoObject.Owner>) {
+    override fun repoSubscribersFetched(subscribers: ArrayList<OwnerObject>) {
         if (localSubscribers.size == 0) {
             localSubscribers = subscribers
             setupRecyclerView()
@@ -117,10 +130,18 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
         }
     }
 
+    override fun onInternetConnected() {
+        /*TODO*/
+//        if (localSubscribers.size == 0 && repoId != 0 && repoName != "") {
+//            githubResultsPresenter.fetchRepoSubscribers(repoId, repoName)
+//            showLoading()
+//        }
+    }
 
     override fun showError(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
 
+        hideLoading()
 //        if (gitResultDetailsAdapter == null)
 //            setupRecyclerView()
     }
@@ -128,7 +149,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
     internal fun isInternetAvailable() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        internetReceiver = NetworkHelper.isInternetAvailable(findViewById(android.R.id.content), getString(R.string.no_internet_message))
+        internetReceiver = NetworkHelper.isInternetAvailable(findViewById(android.R.id.content), getString(R.string.no_internet_message), this)
         registerReceiver(internetReceiver, intentFilter)
     }
 
@@ -160,11 +181,22 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView {
             }
         })
 
-        hideRefreshLoading()
+//        hideRefreshLoading()
         hideLoading()
         //hideLoadingFooter()
 
     }
 
 
+    override fun showRefreshLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hideRefreshLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun updateList(repos: ArrayList<RepoObject>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

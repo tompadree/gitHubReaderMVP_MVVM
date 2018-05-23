@@ -55,7 +55,7 @@
             android:id="@+id/repo_forks_text_view"
             android:layout_width="wrap_content"
             android:layout_toEndOf="@+id/repo_forks_text_view_label"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/repo_desc_id_text_view"
             android:layout_marginTop="4dp"

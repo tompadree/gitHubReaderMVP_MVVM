@@ -1,6 +1,7 @@
 package com.asanatest.presenter.impl
 
 import android.content.Context
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.domain.interactors.GithubResultsInteractor
 import com.asanatest.domain.listeners.OnResultFetchListener
@@ -22,10 +23,11 @@ constructor(private val context: Context, private val interactor: GithubResultsI
     }
 
     override fun fetchRepos(repoName: String) {
+        gitResultsView.showLoading()
         interactor.getGitHubResults(repoName, this)
     }
 
-    override fun onRepoSubscribersFetched(subscribers: ArrayList<RepoObject.Owner>) {
+    override fun onRepoSubscribersFetched(subscribers: ArrayList<OwnerObject>) {
         gitResultsView.repoSubscribersFetched(subscribers)
         gitResultsView.hideLoading()
     }

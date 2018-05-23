@@ -1,5 +1,6 @@
 package com.asanatest.view.views
 
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 
 /**
@@ -9,7 +10,7 @@ interface GitResultsView : DefaultView {
 
     fun updateList(repos : ArrayList<RepoObject>)
 
-    fun repoSubscribersFetched(subscribers : ArrayList<RepoObject.Owner>)
+    fun repoSubscribersFetched(subscribers : ArrayList<OwnerObject>)
 
     fun showLoadingFooter()
 

@@ -2,6 +2,8 @@ package com.asanatest.di.component
 
 import android.content.Context
 import com.asanatest.data.api.NetworkApi
+import com.asanatest.data.db.GitHubCache
+import com.asanatest.data.db.GitHubDatabase
 import com.asanatest.di.module.AppModule
 import com.asanatest.di.module.DataModule
 import com.asanatest.di.module.NetModule
@@ -23,20 +25,18 @@ interface AppComponent {
 
     fun context(): Context
 
-   fun networkApi(): NetworkApi
-//
-//    fun isgeDatabase(): ISGEDatabase
-//
-//    fun isgeCache(): ISGECache
-//
+    fun networkApi(): NetworkApi
+
+    fun gitHubDatabase(): GitHubDatabase
+
+    fun gitHubCache(): GitHubCache
+
     @Named(OBSERVE_SCHEDULER)
     fun provideAndroidSchedulersMainThread(): Scheduler
 
     @Named(SUBSCRIBE_SCHEDULER)
     fun provideSchedulersIo(): Scheduler
-//
-    fun inject(baseActivity: BaseActivity)
 
-//    fun inject(baseFragment: BaseFragment)
+    fun inject(baseActivity: BaseActivity)
 
 }

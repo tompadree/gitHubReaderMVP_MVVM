@@ -33,6 +33,7 @@ ext {
     retrofit2Version = '2.3.0'
     timberVersion = '4.6.1'
     roomVersion = '1.0.0'
+    pagingVersion = '1.0.0-alpha1'
     picassoVersion = '2.71828'
 
 
@@ -76,6 +77,7 @@ ext {
             expandablerecyclerview: "com.thoughtbot:expandablerecyclerview:${expandablerecyclerviewVersion}",
             room                  : "android.arch.persistence.room:runtime:${roomVersion}",
             roomCompiler          : "android.arch.persistence.room:compiler:${roomVersion}",
+            paging                : "android.arch.paging:runtime:${pagingVersion}",
             javaxInject           : "javax.inject:javax.inject:${javaxInjectVersion}",
             gson                  : "com.google.code.gson:gson:${gsonVersion}",
             libphonenumber        : "com.googlecode.libphonenumber:libphonenumber:${libphonenumber}",

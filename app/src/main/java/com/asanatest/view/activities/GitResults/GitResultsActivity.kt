@@ -10,14 +10,21 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import butterknife.Unbinder
 import com.asanatest.R
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.di.component.DaggerGitResultComponent
 import com.asanatest.di.module.GitResultModule
+import com.asanatest.domain.listeners.OnInternetConnected
 import com.asanatest.domain.listeners.OnResultItemClicked
 import com.asanatest.presenter.GithubResultsPresenter
+import com.asanatest.utils.AppConstants.Companion.REPO_ID
+import com.asanatest.utils.AppConstants.Companion.REPO_NAME
+import com.asanatest.utils.AppConstants.Companion.SUBSCRIBERS
+import com.asanatest.utils.AppConstants.Companion.USER_NAME
 import com.asanatest.utils.helpers.NetworkHelper
 import com.asanatest.view.activities.BaseActivity
 import com.asanatest.view.adapters.GitResultsAdapter
@@ -25,13 +32,13 @@ import com.asanatest.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result.*
 import javax.inject.Inject
 
-class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, SwipeRefreshLayout.OnRefreshListener {
+class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, SwipeRefreshLayout.OnRefreshListener, OnInternetConnected {
 
     @Inject
     lateinit var githubResultsPresenter: GithubResultsPresenter
 
     lateinit var internetReceiver: BroadcastReceiver
-    lateinit var gitResultsAdapter: GitResultsAdapter
+    var gitResultsAdapter: GitResultsAdapter? = null
     lateinit var localRepos: ArrayList<RepoObject>
     var lastText = ""
 
@@ -46,6 +53,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
 //        supportActionBar?.title = "GithubRepos"
         localRepos = ArrayList()
+        gitResultActivitySwipeLayout.setOnRefreshListener(this)
 //        gitResultsAdapter = GitResultsAdapter(this, localRepos, this)
         githubResultsPresenter.fetchRepos("a")
 
@@ -76,19 +84,19 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
 
     override fun showLoading() {
-        //  homeActivityProgressBar?.visibility = View.VISIBLE
+        gitResultActivityProgressBar?.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        //  homeActivityProgressBar?.visibility = View.GONE
+        gitResultActivityProgressBar?.visibility = View.GONE
     }
 
     override fun showLoadingFooter() {
-        gitResultsAdapter.addLoadingFooter()
+        gitResultsAdapter?.addLoadingFooter()
     }
 
     override fun hideLoadingFooter() {
-        gitResultsAdapter.removeLoadingFooter()
+        gitResultsAdapter?.removeLoadingFooter()
     }
 
     override fun showRefreshLoading() {
@@ -99,6 +107,14 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     override fun hideRefreshLoading() {
         gitResultActivitySwipeLayout.isRefreshing = false
         gitResultActivitySwipeLayout.isEnabled = true
+    }
+
+    override fun onInternetConnected() {
+        /*TODO*/
+//        if (localRepos.size == 0) {
+//            showRefreshLoading()
+//            onRefresh()
+//        }
     }
 
     override fun onRefresh() {
@@ -114,32 +130,36 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
             localRepos.addAll(repos)
             gitResultActivityRv.adapter.notifyDataSetChanged()
         }
+        hideLoading()
+        hideRefreshLoading()
     }
 
-    override fun repoSubscribersFetched(subscribers: ArrayList<RepoObject.Owner>) {
+    override fun repoSubscribersFetched(subscribers: ArrayList<OwnerObject>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onItemClicked(position: Int) {
         var intent = Intent(this, GitResultDetailsActivity::class.java)
-        intent.putExtra("repoName", localRepos[position].reponame)
-        intent.putExtra("repoId", localRepos[position].repoId)
-        intent.putExtra("subscribers", localRepos[position].watchers_count)
+        intent.putExtra(REPO_NAME, localRepos[position].repoName)
+        intent.putExtra(REPO_ID, localRepos[position].repoId)
+        intent.putExtra(SUBSCRIBERS, localRepos[position].watchers_count)
+        intent.putExtra(USER_NAME, localRepos[position].owner?.userName)
         startActivity(intent)
 //        finish()
     }
 
     override fun showError(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
-
-        if(gitResultsAdapter == null)
+        hideRefreshLoading()
+        hideLoading()
+        if (gitResultsAdapter == null)
             setupRecyclerView()
     }
 
     internal fun isInternetAvailable() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        internetReceiver = NetworkHelper.isInternetAvailable(findViewById(android.R.id.content), getString(R.string.no_internet_message))
+        internetReceiver = NetworkHelper.isInternetAvailable(findViewById(android.R.id.content), getString(R.string.no_internet_message), this)
         registerReceiver(internetReceiver, intentFilter)
     }
 
@@ -155,11 +175,13 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
             override fun onQueryTextChange(newText: String): Boolean {
 
                 if (newText != lastText) {
+
+                    showLoading()
                     localRepos.clear()
-                    gitResultsAdapter.clear()
+                    gitResultsAdapter?.clear()
                     localRepos = ArrayList()
-                    gitResultsAdapter.notifyDataSetChanged()
-                    if(newText == "")
+                    gitResultsAdapter?.notifyDataSetChanged()
+                    if (newText == "")
                         githubResultsPresenter.fetchRepos("a")
                     else
                         githubResultsPresenter.fetchRepos(newText)
@@ -172,11 +194,12 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
             override fun onQueryTextSubmit(query: String): Boolean {
 
                 if (!query.isEmpty()) {
+                    showLoading()
                     localRepos.clear()
-                    gitResultsAdapter.clear()
+                    gitResultsAdapter?.clear()
                     localRepos = ArrayList()
-                    gitResultsAdapter.notifyDataSetChanged()
-                    if(query == "")
+                    gitResultsAdapter?.notifyDataSetChanged()
+                    if (query == "")
                         githubResultsPresenter.fetchRepos("a")
                     else
                         githubResultsPresenter.fetchRepos(query)
@@ -203,7 +226,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount = layoutManager.itemCount
-                val myTotalCount = totalItemCount - 14
+                val myTotalCount = totalItemCount - 34
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                 if (dy > 0) { //dy scrolling down

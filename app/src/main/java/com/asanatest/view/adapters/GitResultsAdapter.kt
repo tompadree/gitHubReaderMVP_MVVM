@@ -51,7 +51,7 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             val item = repos[position]
 
-            holder.name.text = item.reponame
+            holder.name.text = item.repoName
             holder.repoDesc.text = item.description
             holder.repoForks.text = item.forks_count.toString()
 
@@ -67,7 +67,7 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (repos[position].reponame != null) {
+        return if (repos[position].repoName != null) {
             ITEM
         } else {
             LOADING

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.asanatest.view.activities.GitResults.GitResultDetailsActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.asanatest.view.activities.GitResults.GitResultDetailsActivity">
+
     <ProgressBar
         android:id="@+id/repo_detail_ProgressBar"
         android:layout_width="wrap_content"
@@ -11,7 +12,9 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="invisible"
+        android:theme="@style/BlackAcccent"
         />
+
     <RelativeLayout
         android:id="@+id/repo_detail_relative_layout"
         android:layout_width="wrap_content"
@@ -24,7 +27,8 @@
             android:id="@+id/repo_detail_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/object_text_color_black" />
+            android:textStyle="bold"
+            android:textColor="@color/object_text_color_black"/>
 
         <TextView
             android:id="@+id/repo_detail_subscribers_label"
@@ -34,18 +38,18 @@
             android:layout_marginTop="4dp"
             android:text="@string/subscribers"
             android:textColor="@color/object_text_color_black"
-            android:textStyle="bold" />
+            />
 
         <TextView
             android:id="@+id/repo_detail_subscribers_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/repo_detail_name_text_view"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@+id/repo_detail_subscribers_label"
             android:textColor="@color/object_text_color_black"
-            android:textStyle="bold" />
+            />
     </RelativeLayout>
 
     <View
@@ -53,12 +57,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/repo_detail_relative_layout"
-        android:background="@color/separator_grey" />
+        android:background="@color/separator_grey"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/repo_detail_subscribers_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/repo_detail_separator_view" />
+        android:layout_below="@+id/repo_detail_separator_view"/>
 
 </RelativeLayout>

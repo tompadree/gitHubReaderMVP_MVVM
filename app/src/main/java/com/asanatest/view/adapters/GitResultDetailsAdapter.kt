@@ -1,6 +1,7 @@
 package com.asanatest.view.adapters
 
 import android.content.Context
+import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.asanatest.R
+import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
 import com.asanatest.domain.listeners.OnResultItemClicked
 import com.asanatest.utils.AppConstants
@@ -22,13 +24,13 @@ import com.squareup.picasso.Picasso
 class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     lateinit var context: Context
-    lateinit var subscribers: ArrayList<RepoObject.Owner>
+    lateinit var subscribers: ArrayList<OwnerObject>
     private var isLoadingAdded: Boolean = false
 //    private lateinit var onListItemClicked: OnResultItemClicked
 
     constructor()
 
-    constructor(context: Context, subscribers: ArrayList<RepoObject.Owner>) : super() {
+    constructor(context: Context, subscribers: ArrayList<OwnerObject>) : super() {
         this.context = context
         this.subscribers = subscribers
 //        this.onListItemClicked = onListItemClicked
@@ -51,11 +53,11 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             val item = subscribers[position]
 
             holder.name.text = item.userName
-            holder.repoDesc.visibility = View.GONE
-            holder.repoForksLabel.visibility = View.GONE
-            holder.repoForks.visibility = View.GONE
+            holder.name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+//            holder.repoDesc.visibility = View.GONE
+            holder.repoForksLabel.visibility = View.INVISIBLE
+//            holder.repoForks.visibility = View.GONE
 
-//            holder.repoItem.setOnClickListener { onListItemClicked.onItemClicked(position) }
 
             Picasso.get()
                     .load(item.avatarUrl)
@@ -106,18 +108,18 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected inner class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    fun add(owner: RepoObject.Owner) {
+    fun add(owner: OwnerObject) {
         subscribers.add(owner)
         notifyItemInserted(subscribers.size - 1)
     }
 
-    fun addAll(subscribersListList: List<RepoObject.Owner>) {
+    fun addAll(subscribersListList: List<OwnerObject>) {
         for (sl in subscribersListList) {
             add(sl)
         }
     }
 
-    fun remove(owner: RepoObject.Owner) {
+    fun remove(owner: OwnerObject) {
         val position = subscribers.indexOf(owner)
         if (position > -1) {
             subscribers.removeAt(position)
@@ -138,7 +140,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        add(RepoObject.Owner())
+        add(OwnerObject())
     }
 
     fun removeLoadingFooter() {
@@ -152,7 +154,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    fun getItem(position: Int): RepoObject.Owner {
+    fun getItem(position: Int): OwnerObject {
         return subscribers[position]
     }
 
