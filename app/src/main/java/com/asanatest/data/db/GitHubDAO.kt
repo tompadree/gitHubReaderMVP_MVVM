@@ -21,20 +21,13 @@ interface GitHubDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveGitHubResults(githubResults: ArrayList<RepoObject>): LongArray
 
-    @Query("SELECT * FROM repos WHERE repoName LIKE :repoName") // ORDER BY repoName ASC LIMIT :page , :per_page") //" AND RowNum >= 1 AND RowNum < 20")
-    fun getGitHubResults(repoName: String): List<RepoObject>
-
-    @Query("SELECT * FROM repos WHERE repoName LIKE :repoName") // ORDER BY repoName ASC LIMIT :page , :per_page") //" AND RowNum >= 1 AND RowNum < 20")
-    fun getGitHubResults1(repoName: String): RepoObject
-
-//    @Query("SELECT * FROM repos ORDER BY repoName ASC")
-//    fun results(): LivePagedListProvider<Int, RepoObject>
-
+    @Query("SELECT * FROM repos WHERE repoName LIKE :repoName LIMIT :page , :per_page") //" ORDER BY repoName ASC
+    fun getGitHubResults(repoName: String, page: Int, per_page: Int): List<RepoObject>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveGitHubResultSubscribers(subscribers: ArrayList<OwnerObject>): LongArray
 
-    @Query("SELECT * FROM owners WHERE parentRepo LIKE :repoName") // ORDER BY userName ASC LIMIT (:page * :per_page) , :per_page")
-    fun getGitHubResultSubscribers(repoName: String): List<OwnerObject>
+    @Query("SELECT * FROM owners WHERE parentRepo LIKE :repoName LIMIT :page , :per_page") // ORDER BY userName ASC LIMIT (:page * :per_page) , :per_page")
+    fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int): List<OwnerObject>
 
 }

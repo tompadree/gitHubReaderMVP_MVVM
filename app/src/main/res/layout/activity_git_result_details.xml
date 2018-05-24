@@ -16,6 +16,12 @@
         />
 
     <RelativeLayout
+        android:id="@+id/repo_detail_info_layout"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
         android:id="@+id/repo_detail_relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,10 +65,12 @@
         android:layout_below="@+id/repo_detail_relative_layout"
         android:background="@color/separator_grey"/>
 
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/repo_detail_subscribers_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/repo_detail_separator_view"/>
+        android:layout_below="@+id/repo_detail_info_layout"/>
 
 </RelativeLayout>

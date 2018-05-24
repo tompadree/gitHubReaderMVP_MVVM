@@ -58,32 +58,26 @@ class GithubResultsInteractorImpl
                     }
                     loading = true
                 }
-//                .concatMap {
-//                    localGithubResultsDataStore.getGitHubResults1(repoName, currentPage, PAGE_ENTRIES)
-//                            .subscribeOn(subscribeScheduler)
-//                            .observeOn(observeScheduler)
-//                            .unsubscribeOn(subscribeScheduler)
-//                }
-//                .concatMap {
-//                    localGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
-//                            .subscribeOn(subscribeScheduler)
-//                            .observeOn(observeScheduler)
-//                            .unsubscribeOn(subscribeScheduler)
+                .concatMap {
+                    localGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
+                            .subscribeOn(subscribeScheduler)
+                            .observeOn(observeScheduler)
+                            .unsubscribeOn(subscribeScheduler)
 //                            .doOnError {
 //                                remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
 //                                        .subscribeOn(subscribeScheduler)
 //                                        .observeOn(observeScheduler)
 //                                        .unsubscribeOn(subscribeScheduler)
 //                            }
-//                }
+                }
                 .concatMap {
-//                    if (it.items.size <= 0)
+                    if (it.items.size <= 0)
                         remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
                                 .subscribeOn(subscribeScheduler)
                                 .observeOn(observeScheduler)
                                 .unsubscribeOn(subscribeScheduler)
-//                    else
-//                        Flowable.just(it)
+                    else
+                        Flowable.just(it)
                 }// API call
                 .observeOn(observeScheduler, true)
                 .subscribe({
@@ -96,7 +90,8 @@ class GithubResultsInteractorImpl
                     if (it.items.size != 0) {
                         listener.onReposFetched(it.items)
                         currentPage++
-                        saveLocalResults(repoName, it.items, listener)
+                        if (it.items[0].from_cache == false)
+                            saveLocalResults(repoName, it.items, listener)
                     } else {
                         currentPage = -1
                     }
@@ -164,8 +159,9 @@ class GithubResultsInteractorImpl
                     if (it.size != 0) {
 
                         listener.onRepoSubscribersFetched(it)
+                        currentPage++
+
                         if (it[0].parentRepo == "") {
-                            currentPage++
                             saveLocalSubscribers(repoName, it, listener)
                         }
                     } else {
@@ -194,9 +190,7 @@ class GithubResultsInteractorImpl
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
-
                         var test: LongArray = t as LongArray
-
                         test = t
                     }
 
@@ -221,9 +215,7 @@ class GithubResultsInteractorImpl
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
-
                         var test: LongArray = t as LongArray
-
                         test = t
                     }
 

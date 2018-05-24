@@ -16,40 +16,19 @@ class LocalGithubResultsDataStore
 constructor(private val gitHubCache: GitHubCache) : GitHubResultsDataStore {
 
     override fun saveGitHubResultsDB(repoName: String, githubResults: ArrayList<RepoObject>): Single<LongArray> {
+        for (i in 0 until githubResults.size)
+            githubResults[i].from_cache = true
+
         return gitHubCache.saveGitHubResults(githubResults)
     }
 
-//    override fun getGitHubResults1(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
-//        var reposModel = ReposModel()
-//        return gitHubCache.getGitHubResults1(repoName, page - 1, per_page).toFlowable()
-//                .map {
-//                    reposModel.items[0] = it
-//                    reposModel
-//                }
-//    }
-
     override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
         var reposModel = ReposModel()
-        var repoObject = ArrayList<RepoObject>()
-        return gitHubCache.getGitHubResults(repoName, page - 1, per_page).toFlowable()
+        return gitHubCache.getGitHubResults(repoName, ((page - 1) * per_page) , per_page).toFlowable()
                 .map {
-                    repoObject = it
                     reposModel.items = it
                     reposModel
                 }
-//
-//        return (gitHubCache.getGitHubResults(repoName, page - 1, per_page).map {
-//            reposModel.items = it
-//            reposModel
-//        }).toFlowable()
-
-
-//        return when (page) {
-//        0 -> gitHubCache . getGitHubResults (repoName, page, per_page).toFlowable()
-//        else
-//            gitHubCache . getGitHubResults (repoName, page, per_page).toFlowable()
-//    }
-
     }
 
     override fun saveGitHubResultSubscribersDB(repoName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
@@ -60,6 +39,6 @@ constructor(private val gitHubCache: GitHubCache) : GitHubResultsDataStore {
     }
 
     override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: Int, per_page: Int): Flowable<ArrayList<OwnerObject>> {
-        return gitHubCache.getGitHubResultSubscribers(repoId, repoName, page - 1, per_page).toFlowable()
+        return gitHubCache.getGitHubResultSubscribers(repoId, repoName, ((page - 1) * per_page) , per_page).toFlowable()
     }
 }

@@ -31,4 +31,14 @@ class OwnerObject : Serializable {
 
     @SerializedName("parent_repo")
     var parentRepo : String? = ""
+
+    class OwnerConverter {
+
+        @TypeConverter
+        fun stringToLicense(person: String): OwnerObject? = Gson().fromJson(person, OwnerObject::class.java)
+
+        @TypeConverter
+        fun fromLicenseToString(person: OwnerObject): String? = Gson().toJson(person)
+
+    }
 }

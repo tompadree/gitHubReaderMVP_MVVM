@@ -67,7 +67,7 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (repos[position].repoName != null) {
+        return if (repos[position].createdAt != null) {
             ITEM
         } else {
             LOADING

@@ -131,11 +131,11 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
     }
 
     override fun onInternetConnected() {
-        /*TODO*/
-//        if (localSubscribers.size == 0 && repoId != 0 && repoName != "") {
-//            githubResultsPresenter.fetchRepoSubscribers(repoId, repoName)
-//            showLoading()
-//        }
+
+        if (localSubscribers.size == 0 && repo_detail_ProgressBar?.visibility != View.VISIBLE) {
+            githubResultsPresenter.fetchRepoSubscribers(repoId, repoName)
+            showLoading()
+        }
     }
 
     override fun showError(message: String) {
@@ -155,6 +155,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
 
     fun setupRecyclerView() {
 
+        repo_detail_info_layout.visibility = View.VISIBLE
         repo_detail_name_text_view.text = repoName
         repo_detail_subscribers_number.text = subscribersCt.toString()
 

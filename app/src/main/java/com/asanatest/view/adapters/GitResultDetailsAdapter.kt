@@ -69,7 +69,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (subscribers[position].userName != null) {
+        return if (subscribers[position].userType != null) {
             AppConstants.ITEM
         } else {
             AppConstants.LOADING

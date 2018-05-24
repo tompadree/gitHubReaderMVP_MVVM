@@ -5,6 +5,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
 import android.support.annotation.NonNull
+import android.support.annotation.Nullable
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -47,42 +48,16 @@ class RepoObject : Serializable {
     @SerializedName("updated_at")
     var modified: String? = null
 
+    @SerializedName("from_cache")
+    var from_cache: Boolean? = false
+
     @SerializedName("language")
     var language: String? = null
 
     @SerializedName("owner")
-    @TypeConverters(OwnerConverter::class)
-    var owner: Owner? = Owner()
+    @TypeConverters(OwnerObject.OwnerConverter::class)
+    var owner: OwnerObject? = OwnerObject()
 
-    class Owner : Serializable {
-
-        @SerializedName("login")
-        var userName: String? = ""
-
-        @SerializedName("avatar_url")
-        var avatarUrl: String? = null
-
-        @SerializedName("type")
-        var userType: String? = null
-
-        @SerializedName("site_admin")
-        var siteAdmin: String? = null
-
-        @SerializedName("parent_repo")
-        var parentRepo: String? = ""
-
-    }
-
-    class OwnerConverter {
-
-        @TypeConverter
-        fun stringToOwner(value: String): Owner {
-            val listType = object : TypeToken<ArrayList<String>>() {}.type
-            return Gson().fromJson(value, listType)
-        }
-
-        @TypeConverter
-        fun fromOwnerToString(owner: Owner): String = Gson().toJson(owner)
-
-    }
 }
+
+

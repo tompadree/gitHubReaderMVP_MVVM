@@ -112,8 +112,8 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     }
 
     override fun onInternetConnected() {
-        /*TODO*/
-        if (localRepos.size == 0) {
+
+        if (localRepos.size == 0 && !gitResultActivitySwipeLayout.isRefreshing && gitResultActivityProgressBar?.visibility != View.VISIBLE) {
             showRefreshLoading()
             onRefresh()
         }

@@ -26,24 +26,8 @@ class RoomGitHubCache(database: GitHubDatabase) : GitHubCache {
         return Single.fromCallable { dao.saveGitHubResults(githubResults) }
     }
 
-//    fun getResults() {
-//
-//        resultList = dao.results().create(INITIAL_LOAD_KEY, PagedList.Config.Builder()
-//                .setPageSize(PAGE_SIZE)
-//                .setPrefetchDistance(PREFETCH_DISTANCE)
-//                .setEnablePlaceholders(true)
-//                .build())
-//
-//    }
-//
-//    fun <T> LiveData<T>.toFlowable(lifecycleOwner: LifecycleOwner) : Flowable<T> =
-//            Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(lifecycleOwner, this))
-
-
     override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Single<ArrayList<RepoObject>> {
-        val sending = "%$repoName%"
-        return Single.fromCallable { ArrayList(dao.getGitHubResults(sending)) }
-
+        return Single.fromCallable { ArrayList(dao.getGitHubResults("%$repoName%", page, per_page)) }
     }
 
     override fun saveGitHubResultSubscribersDB(subscribers: ArrayList<OwnerObject>): Single<LongArray> {
@@ -51,6 +35,6 @@ class RoomGitHubCache(database: GitHubDatabase) : GitHubCache {
     }
 
     override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: Int, per_page: Int): Single<ArrayList<OwnerObject>> {
-        return Single.fromCallable { ArrayList(dao.getGitHubResultSubscribers("%$repoName%")) }//, page, per_page)) }
+        return Single.fromCallable { ArrayList(dao.getGitHubResultSubscribers("%$repoName%", page, per_page)) }//, page, per_page)) }
     }
 }
