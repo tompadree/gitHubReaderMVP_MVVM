@@ -39,7 +39,7 @@ import org.mockito.MockitoAnnotations
  * Created by Tom on 24.5.2018..
  */
 @RunWith(AndroidJUnit4::class)
-class GitResultsActivityTest {
+class GitResultsActivityUnitTest {
 
     private var gitResultsActivity: GitResultsActivity? = null
     private val DUMMY_SEARCH = "a"

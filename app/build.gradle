@@ -42,6 +42,9 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+
+        unitTests.returnDefaultValues = true
+
     }
     kapt {
         generateStubs = true
@@ -98,6 +101,7 @@ dependencies {
     testImplementation testDependencies.junit
     testImplementation testDependencies.robolectric
     testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitocore
     testImplementation testDependencies.roomTesting
     //    testImplementation testDependencies.supportTestRunner
     //    testImplementation testDependencies.supportTestMonitor

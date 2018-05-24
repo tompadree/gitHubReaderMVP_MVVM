@@ -7,33 +7,28 @@ import com.asanatest.di.module.AppModule
 import com.asanatest.di.module.DataModule
 import com.asanatest.di.module.NetModule
 import com.asanatest.di.module.ThreadModule
-import com.asanatest.di.module.ThreadModule.Companion.OBSERVE_SCHEDULER
-import com.asanatest.di.module.ThreadModule.Companion.SUBSCRIBE_SCHEDULER
 import com.asanatest.view.activities.BaseActivity
 import dagger.Component
 import io.reactivex.Scheduler
-import javax.inject.Named
 import javax.inject.Singleton
 
+
 /**
- * Created by Tom on 22.5.2018..
+ * Created by Tomislav on 24,May,2018
  */
 @Singleton
 @Component(modules = [AppModule::class, NetModule::class, DataModule::class, ThreadModule::class])
-interface AppComponent {
+interface TestAppComponent : AppComponent {
 
-    fun context(): Context
+    override fun context(): Context
 
-    fun networkApi(): NetworkApi
+    override fun networkApi(): NetworkApi
 
-    fun gitHubDatabase(): GitHubDatabase
+    override fun gitHubDatabase(): GitHubDatabase
 
-    @Named(OBSERVE_SCHEDULER)
-    fun provideAndroidSchedulersMainThread(): Scheduler
+//    override fun provideAndroidSchedulersMainThread(): Scheduler
+//
+//    override fun provideSchedulersIo(): Scheduler
 
-    @Named(SUBSCRIBE_SCHEDULER)
-    fun provideSchedulersIo(): Scheduler
-
-    fun inject(baseActivity: BaseActivity)
-
+    override fun inject(baseActivity: BaseActivity)
 }

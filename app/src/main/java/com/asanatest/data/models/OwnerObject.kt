@@ -32,6 +32,16 @@ class OwnerObject : Serializable {
     @SerializedName("parent_repo")
     var parentRepo : String? = ""
 
+    constructor()
+
+    constructor(userName: String?, avatarUrl: String?, userType: String?, siteAdmin: String?, parentRepo: String?) {
+        this.userName = userName
+        this.avatarUrl = avatarUrl
+        this.userType = userType
+        this.siteAdmin = siteAdmin
+        this.parentRepo = parentRepo
+    }
+
     class OwnerConverter {
 
         @TypeConverter
@@ -41,4 +51,6 @@ class OwnerObject : Serializable {
         fun fromLicenseToString(person: OwnerObject): String? = Gson().toJson(person)
 
     }
+
+
 }
