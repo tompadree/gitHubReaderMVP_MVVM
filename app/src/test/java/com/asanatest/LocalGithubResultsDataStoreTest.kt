@@ -20,89 +20,70 @@ import org.mockito.Mockito.`when`
  */
 class LocalGithubResultsDataStoreTest {
 
-
     @Mock
     lateinit var gitHubDAO: GitHubDAO
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-//        userRepository = DefaultUserRepository(mockUserService, mockUserDao, mockConnectionHelper, mockPreferencesHelper, mockCalendarWrapper)
     }
 
     @Test
-    fun testGetUsers_isOnlineReceivedEmptyList_emitEmptyList() {
-        // Given
-        val userListModel = UserListModel(emptyList())
+    private fun saveGetGitHubResults() {
 
-        // When
-        setUpMocks(userListModel, true)
-        val testObserver = userRepository.getUsers().test()
+        val saveRepos = Single.fromCallable {
+            gitHubDAO.saveGitHubResults(ArrayList(listOf(
+                    RepoObject(2, "BTest", 185, 715, "23:4", false, OwnerObject()),
+                    RepoObject(4, "ATest", 145, 155, "YESTERDAY", false, OwnerObject()),
+                    RepoObject(),
+                    RepoObject(1, "Test2", 99919, 992, "12:34", true, OwnerObject())
+            )))
+        }.toFlowable().test()
 
-        // Then
-        testObserver.assertNoErrors()
-        testObserver.assertValue { userListModelResult: UserListModel -> userListModelResult.items.isEmpty() }
-        verify(mockUserDao).insertAll(userListModel.items)
-    }
+        saveRepos.assertNoErrors()
+        saveRepos.assertValue { t: LongArray ->
+            t.size == 4
+        }
 
-
-    https://android.jlelse.eu/complete-example-of-testing-mvp-architecture-with-kotlin-and-rxjava-part-1-816e22e71ff4
-    https://github.com/kozmi55/Kotlin-Android-Examples/blob/master/app/src/test/java/com/example/tamaskozmer/kotlinrxexample/domain/interactors/GetUsersTest.kt
-
-    @Test
-    fun testExecute_userListModelWithOneItem_emitListWithOneViewModel() {
-        // Given
-        val mockSingle = Single.create { e: SingleEmitter<UserListModel>? -> e?.onSuccess(UserListModel(listOf(User(1, "Name", 100, "Image url")))) }
-
-        // When
-        `when`(mockUserRepository.getUsers(1, false))
-                .thenReturn(mockSingle)
-
-        val resultSingle = getUsers.execute(1, false)
-
-        val testObserver = resultSingle.test()
-
-        testObserver.assertNoErrors()
-        testObserver.assertValue { userViewModels: List<UserViewModel> -> userViewModels.size == 1 }
-        testObserver.assertValue { userViewModels: List<UserViewModel> ->
-            userViewModels.get(0) == UserViewModel(1, "Name", 100, "Image url") }
-    }
-
-
-    fun saveGetGitHubResultsDB(repoName: String, githubResults: ArrayList<RepoObject>): Single<LongArray> {
-        for (i in 0 until githubResults.size)
-            githubResults[i].from_cache = true
-        return Single.fromCallable { dao.saveGitHubResults(githubResults) }
-    }
-
-    override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
         var reposModel = ReposModel()
-        return Single.fromCallable { ArrayList(dao.getGitHubResults("%$repoName%", ((page - 1) * per_page), per_page)) }.toFlowable()
+        val getRepos = Single.fromCallable { ArrayList(gitHubDAO.getGitHubResults("es", 1, 50)) }.toFlowable()
                 .map {
                     reposModel.items = it
                     reposModel
-                }
+                }.test()
+        getRepos.assertNoErrors()
+        getRepos.assertValue { reposModel: ReposModel ->
+            reposModel.items.size == 4
+        }
+
     }
 
-    fun saveGetGitHubResultSubscribers(repoName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
-        for (i in 0 until subscribers.size)
-            subscribers[i].parentRepo = repoName
-        return Single.fromCallable { dao.saveGitHubResultSubscribers(subscribers) }
-    }
+    @Test
+    private fun saveGetGitHubResultSubscribers(repoName: String, emitter: SingleEmitter<ArrayList<OwnerObject>>) {
 
-    override fun getGitHubResultSubscribers(repoId: Int, repoName: String, page: Int, per_page: Int): Flowable<ArrayList<OwnerObject>> {
-        return Single.fromCallable { ArrayList(dao.getGitHubResultSubscribers("%$repoName%", ((page - 1) * per_page), per_page)) }.toFlowable()
-    }
+        val saveSubs = Single.fromCallable {
+            gitHubDAO.saveGitHubResultSubscribers(ArrayList(listOf(
+                    OwnerObject("user5", "www.avatar.com/223.jpeg", "usetype", "Admin", "JakeWHarton"),
+                    OwnerObject("user6", "www.avatar.com/212.jpeg", "usetype", "Admin", "JakeWHarton"),
+                    OwnerObject("user7", "www.avatar.com/123.jpeg", "usetype", "Admin", "JakeWHarton"),
+                    OwnerObject(),
+                    OwnerObject("user8", "www.avatar.com/213.jpeg", "usetype", "Admin", "JakeWHarton")
+            )))
+        }.toFlowable().test()
 
-    private fun setUpMocks(modelFromUserService: UserListModel, isOnline: Boolean) {
-        `when`(mockConnectionHelper.isOnline()).thenReturn(isOnline)
-        `when`(mockCalendarWrapper.getCurrentTimeInMillis()).thenReturn(1000 * 60 * 60 * 12 + 1)
-        `when`(mockPreferencesHelper.loadLong("last_update_page_1")).thenReturn(0)
+        saveSubs.assertNoErrors()
+        saveSubs.assertValue { t: LongArray ->
+            t.size == 5
+        }
 
-        `when`(mockUserService.getUsers()).thenReturn(mockUserCall)
-        `when`(mockUserCall.execute()).thenReturn(mockUserResponse)
-        `when`(mockUserResponse.body()).thenReturn(modelFromUserService)
-        `when`(mockUserDao.getUsers(1)).thenReturn(emptyList())
+        val getSubs = Single.fromCallable { ArrayList(gitHubDAO.getGitHubResultSubscribers("JakeWHarton", 1, 50)) }
+                .toFlowable().test()
+
+        getSubs.assertNoErrors()
+        getSubs.assertValue { owners: ArrayList<OwnerObject> ->
+            owners.size == 5
+        }
+
     }
 
 }

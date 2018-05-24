@@ -24,7 +24,7 @@ constructor(private val networkApi: NetworkApi) : GitHubResultsDataStore {
 
     }
 
-    override fun saveGitHubResultSubscribersDB(userName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
+    override fun saveGitHubResultSubscribersDB(repoName: String, subscribers: ArrayList<OwnerObject>): Single<LongArray> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

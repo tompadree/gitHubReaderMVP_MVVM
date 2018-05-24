@@ -87,7 +87,7 @@ dependencies {
     kaptAndroidTest dependencies.daggerCompiler
     kaptAndroidTest dependencies.butterKnifeCompiler
     androidTestImplementation testDependencies.junit
-    androidTestImplementation testDependencies.robolectric
+//    androidTestImplementation testDependencies.robolectric
     androidTestImplementation testDependencies.mockito
     androidTestImplementation(testDependencies.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -99,7 +99,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     testImplementation testDependencies.junit
-    testImplementation testDependencies.robolectric
+//    testImplementation testDependencies.robolectric
     testImplementation testDependencies.mockito
     testImplementation testDependencies.mockitocore
     testImplementation testDependencies.roomTesting
@@ -117,5 +117,5 @@ dependencies {
     //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     testImplementation 'com.android.support.test:runner:1.0.2-alpha1'
     //    testImplementation 'com.android.support.test:runner:1.0.1'
-    testImplementation 'com.android.support.test:monitor:1.0.1'
+    testImplementation 'com.android.support.test:monitor:1.0.2'
 }

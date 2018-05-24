@@ -11,7 +11,7 @@ import com.asanatest.di.module.AppModule
 class App : Application() {
 
     var appComponent: AppComponent? = null
-        private set
+        set
 
     override fun onCreate() {
         super.onCreate()

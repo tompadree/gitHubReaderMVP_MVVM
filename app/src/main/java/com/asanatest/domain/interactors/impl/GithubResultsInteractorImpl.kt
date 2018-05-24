@@ -190,7 +190,7 @@ class GithubResultsInteractorImpl
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
-                        var test: LongArray = t as LongArray
+                        var test: LongArray = t
                         test = t
                     }
 
@@ -215,7 +215,7 @@ class GithubResultsInteractorImpl
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
-                        var test: LongArray = t as LongArray
+                        var test: LongArray = t
                         test = t
                     }
 
