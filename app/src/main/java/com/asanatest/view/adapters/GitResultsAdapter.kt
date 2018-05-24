@@ -142,7 +142,6 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         isLoadingAdded = false
 
         val position = if (repos.size > 0) repos.size - 1 else 0
-//        val item = getItem(position)
 
         repos.removeAt(position)
         notifyItemRemoved(position)

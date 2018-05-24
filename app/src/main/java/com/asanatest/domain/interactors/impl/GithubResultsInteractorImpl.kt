@@ -1,6 +1,7 @@
 package com.asanatest.domain.interactors.impl
 
 import android.content.Context
+import android.util.Log
 import com.asanatest.data.api.APIConstants.Companion.PAGE_ENTRIES
 import com.asanatest.data.models.OwnerObject
 import com.asanatest.data.models.RepoObject
@@ -9,16 +10,13 @@ import com.asanatest.data.repositories.githubresults.RemoteGithubResultsDataStor
 import com.asanatest.di.module.ThreadModule
 import com.asanatest.domain.interactors.GithubResultsInteractor
 import com.asanatest.domain.listeners.OnResultFetchListener
-import io.reactivex.CompletableOnSubscribe
+import com.asanatest.utils.helpers.NetworkHelper
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
 import io.reactivex.processors.PublishProcessor
-import org.reactivestreams.Publisher
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 import kotlin.collections.ArrayList
@@ -44,18 +42,15 @@ class GithubResultsInteractorImpl
     private var loading: Boolean = false
 
     override fun getGitHubResults(repoName: String, listener: OnResultFetchListener) {
-        currentPage = 1 // set page = 0
-//        var loading = false
-        paginator = PublishProcessor.create()   // create PublishProcessor
+        currentPage = 1
+        paginator = PublishProcessor.create()
 
         val d = paginator.onBackpressureDrop()
-                .filter { !loading }  // return if it is still loading
+                .filter { !loading }
                 .doOnNext {
-                    if (currentPage == 1) {
-                        //  listener.showLoading()
-                    } else {
+                    if (currentPage != 1)
                         listener.showLoadingFooter()
-                    }
+
                     loading = true
                 }
                 .concatMap {
@@ -63,22 +58,16 @@ class GithubResultsInteractorImpl
                             .subscribeOn(subscribeScheduler)
                             .observeOn(observeScheduler)
                             .unsubscribeOn(subscribeScheduler)
-//                            .doOnError {
-//                                remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
-//                                        .subscribeOn(subscribeScheduler)
-//                                        .observeOn(observeScheduler)
-//                                        .unsubscribeOn(subscribeScheduler)
-//                            }
                 }
                 .concatMap {
-                    if (it.items.size <= 0)
+                    if (it.items.size <= 0 && NetworkHelper.isInternetOn)
                         remoteGithubResultsDataStore.getGitHubResults(repoName, currentPage, PAGE_ENTRIES)
                                 .subscribeOn(subscribeScheduler)
                                 .observeOn(observeScheduler)
                                 .unsubscribeOn(subscribeScheduler)
                     else
                         Flowable.just(it)
-                }// API call
+                }
                 .observeOn(observeScheduler, true)
                 .subscribe({
                     if (currentPage == 0) {
@@ -117,18 +106,15 @@ class GithubResultsInteractorImpl
 
     override fun getGitHubResultSubscribers(repoId: Int, repoName: String, listener: OnResultFetchListener) {
 
-        currentPage = 1 // set page = 1
-//        var loading = false
-        paginator = PublishProcessor.create()   // create PublishProcessor
+        currentPage = 1
+        paginator = PublishProcessor.create()
 
         val d = paginator.onBackpressureDrop()
-                .filter { !loading }  // return if it is still loading
+                .filter { !loading }
                 .doOnNext {
-                    if (currentPage == 1) {
-                        //  listener.showLoading()
-                    } else {
+                    if (currentPage != 1)
                         listener.showLoadingFooter()
-                    }
+
                     loading = true
                 }
                 .flatMap {
@@ -139,25 +125,22 @@ class GithubResultsInteractorImpl
 
                 }
                 .flatMap {
-                    if (it.size <= 0)
+                    if (it.size <= 0 && NetworkHelper.isInternetOn) {
                         remoteGithubResultsDataStore.getGitHubResultSubscribers(repoId, repoName, currentPage, PAGE_ENTRIES)
                                 .subscribeOn(subscribeScheduler)
                                 .observeOn(observeScheduler)
                                 .unsubscribeOn(subscribeScheduler)
-                    else
+                    }else
                         Flowable.just(it)
 
-                } // API call
+                }
                 .observeOn(observeScheduler, true)
                 .subscribe({
-                    if (currentPage == 1) {
-                        // gitResultsView.hideLoading()
-                    } else {
+                    if (currentPage != 1)
                         listener.hideLoadingFooter()
-                    }
+
                     loading = false
                     if (it.size != 0) {
-
                         listener.onRepoSubscribersFetched(it)
                         currentPage++
 
@@ -179,7 +162,6 @@ class GithubResultsInteractorImpl
         fetchNextPage()
 
     }
-
 
     fun saveLocalResults(repoName: String, resultItems: ArrayList<RepoObject>, listener: OnResultFetchListener) {
 

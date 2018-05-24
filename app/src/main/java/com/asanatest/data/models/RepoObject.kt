@@ -19,10 +19,6 @@ import java.security.acl.Owner
 @Entity(tableName = "repos")
 class RepoObject : Serializable {
 
-//    constructor( repoId : Int, )
-
-
-
     @SerializedName("id")
     var repoId: Int = 0
 
@@ -74,5 +70,3 @@ class RepoObject : Serializable {
         this.owner = owner
     }
 }
-
-

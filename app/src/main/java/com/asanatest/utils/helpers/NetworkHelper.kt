@@ -17,7 +17,7 @@ class NetworkHelper {
 
     companion object {
 
-
+        var isInternetOn = true
 
         fun isInternetAvailable(mParentLayout: View, message: String, onInternetConnected : OnInternetConnected): BroadcastReceiver {
 
@@ -35,8 +35,10 @@ class NetworkHelper {
                     if (state == NetworkInfo.State.CONNECTED) {
                         noIntSnaBar.dismiss()
                         onInternetConnectedHelper.onInternetConnected()
+                        isInternetOn = true
                     } else {
                         noIntSnaBar.show()
+                        isInternetOn = false
                     }
                 }
             }

@@ -25,7 +25,7 @@ constructor(private val database: GitHubDatabase) : GitHubResultsDataStore {
     }
 
     override fun getGitHubResults(repoName: String, page: Int, per_page: Int): Flowable<ReposModel> {
-        var reposModel = ReposModel()
+        val reposModel = ReposModel()
         return Single.fromCallable { ArrayList(dao.getGitHubResults("%$repoName%", ((page - 1) * per_page), per_page)) }.toFlowable()
                 .map {
                     reposModel.items = it

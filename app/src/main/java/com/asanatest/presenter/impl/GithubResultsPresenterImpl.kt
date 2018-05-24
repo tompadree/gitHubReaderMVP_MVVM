@@ -62,11 +62,9 @@ constructor(private val context: Context, private val interactor: GithubResultsI
     }
 
     override fun resume() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun pause() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun destroy() {

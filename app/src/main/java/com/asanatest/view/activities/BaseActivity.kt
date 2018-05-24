@@ -15,13 +15,6 @@ open class BaseActivity : AppCompatActivity() {
         this.getApplicationComponent()?.inject(this)
     }
 
-//    protected fun addFragment(containerViewId: Int, fragment: Fragment) {
-//
-//        val fragmentTransaction = this.fragmentManager.beginTransaction()
-//        fragmentTransaction.add(containerViewId, fragment)
-//        fragmentTransaction.commit()
-//    }
-
     protected fun getApplicationComponent(): AppComponent? {
         return (application as App).appComponent
     }

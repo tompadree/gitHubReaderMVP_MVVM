@@ -43,7 +43,7 @@ ext {
     //assertJVersion = '1.7.1'
     robolectricVersion = '3.7.1'
     jUnitVersion = '4.12'
-    mockitoVersion = '2.10.0'
+    mockitoVersion = '2.18.3'
     dexmakerVersion = '1.0'
     espressoVersion = '3.0.1'
     testingSupportLibVersion = '0.1'
@@ -90,7 +90,7 @@ ext {
             robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
             junit             : "junit:junit:${jUnitVersion}",
             mockito           : "org.mockito:mockito-android:${mockitoVersion}",
-            mockitocore           : "org.mockito:mockito-core:${mockitoVersion}",
+            mockitocore       : "org.mockito:mockito-core:${mockitoVersion}",
             dexmaker          : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
             dexmakerMockito   : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
             espresso          : "com.android.support.test.espresso:espresso-core:${espressoVersion}",

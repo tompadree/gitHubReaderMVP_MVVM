@@ -91,9 +91,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
     }
 
     override fun onBackPressed() {
-
         finish()
-
     }
 
     override fun showLoading() {
@@ -142,8 +140,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
         Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
 
         hideLoading()
-//        if (gitResultDetailsAdapter == null)
-//            setupRecyclerView()
+
     }
 
     internal fun isInternetAvailable() {
@@ -182,22 +179,14 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
             }
         })
 
-//        hideRefreshLoading()
         hideLoading()
-        //hideLoadingFooter()
 
     }
 
 
-    override fun showRefreshLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun showRefreshLoading() {}
 
-    override fun hideRefreshLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun hideRefreshLoading() {}
 
-    override fun updateList(repos: ArrayList<RepoObject>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun updateList(repos: ArrayList<RepoObject>) {}
 }

@@ -51,14 +51,12 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
                 .gitResultModule(GitResultModule(this))
                 .build().inject(this)
 
-//        supportActionBar?.title = "GithubRepos"
         localRepos = ArrayList()
         gitResultActivitySwipeLayout.setOnRefreshListener(this)
-//        gitResultsAdapter = GitResultsAdapter(this, localRepos, this)
+
         githubResultsPresenter.fetchRepos("a")
 
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -77,11 +75,6 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
         unregisterReceiver(internetReceiver)
         githubResultsPresenter.destroy()
     }
-
-//    override fun onBackPressed() {
-//
-//    }
-
 
     override fun showLoading() {
         gitResultActivityProgressBar?.visibility = View.VISIBLE
@@ -136,16 +129,14 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
         hideRefreshLoading()
     }
 
-    override fun repoSubscribersFetched(subscribers: ArrayList<OwnerObject>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun repoSubscribersFetched(subscribers: ArrayList<OwnerObject>) {}
 
     override fun onItemClicked(position: Int) {
 
         if (localRepos.size <= 0)
             return
 
-        var intent = Intent(this, GitResultDetailsActivity::class.java)
+        val intent = Intent(this, GitResultDetailsActivity::class.java)
         intent.putExtra(REPO_NAME, localRepos[position].repoName)
         intent.putExtra(REPO_ID, localRepos[position].repoId)
         intent.putExtra(SUBSCRIBERS, localRepos[position].watchers_count)
@@ -245,8 +236,5 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
         hideRefreshLoading()
         hideLoading()
-        //hideLoadingFooter()
-
-
     }
 }

@@ -19,7 +19,6 @@ import dagger.Provides
 @Module
 class GitResultModule(private val gitResultsView: GitResultsView) {
 
-
     @Provides
     @ResultScope
     fun providesGitResultsView(): GitResultsView = this.gitResultsView

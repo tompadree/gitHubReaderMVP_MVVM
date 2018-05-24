@@ -26,14 +26,12 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     lateinit var context: Context
     lateinit var subscribers: ArrayList<OwnerObject>
     private var isLoadingAdded: Boolean = false
-//    private lateinit var onListItemClicked: OnResultItemClicked
 
     constructor()
 
     constructor(context: Context, subscribers: ArrayList<OwnerObject>) : super() {
         this.context = context
         this.subscribers = subscribers
-//        this.onListItemClicked = onListItemClicked
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
@@ -45,7 +43,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var viewType = getItemViewType(position)
+        val viewType = getItemViewType(position)
 
         if (viewType == AppConstants.ITEM) {
             holder as ResultItemHolder
@@ -54,10 +52,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             holder.name.text = item.userName
             holder.name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-//            holder.repoDesc.visibility = View.GONE
             holder.repoForksLabel.visibility = View.INVISIBLE
-//            holder.repoForks.visibility = View.GONE
-
 
             Picasso.get()
                     .load(item.avatarUrl)

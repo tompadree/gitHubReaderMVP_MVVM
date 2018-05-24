@@ -25,7 +25,6 @@ import org.reactivestreams.Subscriber
 //@RunWith(MockitoJUnitRunner::class)
 class GithubResultsPresenterUnitTest : OnResultFetchListener {
 
-//    private var githubResultsPresenter: GithubResultsPresenter? = null
     private val DUMMY_SEARCH = "a"
 
     @Mock
@@ -37,22 +36,11 @@ class GithubResultsPresenterUnitTest : OnResultFetchListener {
     @Mock
     lateinit var interactor : GithubResultsInteractor
 
-//    @Mock
-//    var onResultFetchListener : OnResultFetchListener = this
-
-//    @Mock
-//    private val mockRepos: ArrayList<RepoObject>? = null
-//    @Mock
-//    private val mockOwners: ArrayList<OwnerObject>? = null
 
     @Before
     fun setUp() {
 
         MockitoAnnotations.initMocks(this)
-
-//        mockRepos?.let { gitResultsView?.updateList(it) }
-//        mockOwners?.let { gitResultsView?.repoSubscribersFetched(it) }
-
     }
 
     @Test
