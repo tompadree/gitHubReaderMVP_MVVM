@@ -20,7 +20,7 @@ class DataModule {
         return Room.databaseBuilder(
                 context,
                 GitHubDatabase::class.java,
-                "asana_db").build()
+                "test_db").build()
     }
 
 }
