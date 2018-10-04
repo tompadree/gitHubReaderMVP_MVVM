@@ -1,23 +1,15 @@
-package com.asanatest
+package com.githubreader
 
 import android.content.Context
-import com.asanatest.data.models.OwnerObject
-import com.asanatest.data.models.RepoObject
-import com.asanatest.domain.interactors.GithubResultsInteractor
-import com.asanatest.domain.listeners.OnResultFetchListener
-import com.asanatest.presenter.GithubResultsPresenter
-import com.asanatest.view.views.GitResultsView
+import com.githubreader.data.models.OwnerObject
+import com.githubreader.data.models.RepoObject
+import com.githubreader.domain.interactors.GithubResultsInteractor
+import com.githubreader.domain.listeners.OnResultFetchListener
+import com.githubreader.view.views.GitResultsView
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.BDDMockito.given
-import org.mockito.Mockito.verify
-import org.reactivestreams.Subscriber
 
 /**
  * Created by Tom on 23.5.2018..

@@ -1,13 +1,9 @@
-package com.asanatest
+package com.githubreader
 
-import android.app.Fragment
-import android.content.Intent
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.asanatest.view.activities.GitResults.GitResultsActivity
+import com.githubreader.view.activities.GitResults.GitResultsActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -15,33 +11,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.action.ViewActions.closeSoftKeyboard
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.isEnabled
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import com.asanatest.di.DaggerAppComponentTest
-import com.asanatest.di.component.DaggerAppComponent
-import com.asanatest.di.module.AppModule
-import com.asanatest.di.module.DataModule
-import com.asanatest.di.module.NetModule
-import com.asanatest.di.module.ThreadModule
-import kotlinx.android.synthetic.main.activity_git_result.*
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
-import org.hamcrest.MatcherAssert.assertThat
+import com.githubreader.di.DaggerAppComponentTest
+import com.githubreader.di.module.AppModule
+import com.githubreader.di.module.DataModule
+import com.githubreader.di.module.NetModule
+import com.githubreader.di.module.ThreadModule
 import org.hamcrest.Matchers
-import org.hamcrest.Matchers.not
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-
+import com.githubreader.App
 
 
 /**

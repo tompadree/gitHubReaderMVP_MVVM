@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.asanatest.view.activities.GitResults.GitResultDetailsActivity">
+                tools:context="com.githubreader.temp.view.activities.GitResults.GitResultDetailsActivity">
 
     <ProgressBar
         android:id="@+id/repo_detail_ProgressBar"

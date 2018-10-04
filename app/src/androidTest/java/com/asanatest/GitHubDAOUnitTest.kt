@@ -1,18 +1,14 @@
-package com.asanatest
+package com.githubreader
 
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.asanatest.data.db.GitHubDAO
-import com.asanatest.data.db.GitHubDatabase
-import com.asanatest.data.models.OwnerObject
-import com.asanatest.data.models.RepoObject
+import com.githubreader.data.db.GitHubDAO
+import com.githubreader.data.db.GitHubDatabase
+import com.githubreader.data.models.OwnerObject
+import com.githubreader.data.models.RepoObject
 import io.reactivex.Single
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

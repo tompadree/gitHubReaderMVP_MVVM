@@ -1,19 +1,16 @@
-package com.asanatest
+package com.githubreader
 
-import com.asanatest.data.db.GitHubDAO
-import com.asanatest.data.models.OwnerObject
-import com.asanatest.data.models.RepoObject
-import com.asanatest.data.models.ReposModel
-import io.reactivex.Flowable
+import com.githubreader.data.db.GitHubDAO
+import com.githubreader.data.models.OwnerObject
+import com.githubreader.data.models.RepoObject
+import com.githubreader.data.models.ReposModel
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when` as whenever
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import io.reactivex.SingleEmitter
-import org.mockito.Mockito.`when`
 
 /**
  * Created by Tomislav on 24,May,2018

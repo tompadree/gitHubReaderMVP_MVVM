@@ -1,9 +1,9 @@
-package com.asanatest
+package com.githubreader
 
 import android.app.Application
-import com.asanatest.di.component.AppComponent
-import com.asanatest.di.component.DaggerAppComponent
-import com.asanatest.di.module.AppModule
+import com.githubreader.di.component.AppComponent
+import com.githubreader.di.component.DaggerAppComponent
+import com.githubreader.di.module.AppModule
 
 /**
  * Created by Tom on 24.5.2018..

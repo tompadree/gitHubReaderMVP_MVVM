@@ -1,11 +1,7 @@
-package com.asanatest.di
+package com.githubreader.di
 
 import android.app.Application
-import android.content.Context
-import com.asanatest.domain.interactors.GithubResultsInteractor
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by Tom on 24.5.2018..

@@ -1,11 +1,11 @@
-package com.asanatest.di
+package com.githubreader.di
 
-import com.asanatest.GitResultsActivityTest
-import com.asanatest.di.component.AppComponent
-import com.asanatest.di.module.AppModule
-import com.asanatest.di.module.DataModule
-import com.asanatest.di.module.NetModule
-import com.asanatest.di.module.ThreadModule
+import com.githubreader.GitResultsActivityTest
+import com.githubreader.di.component.AppComponent
+import com.githubreader.di.module.AppModule
+import com.githubreader.di.module.DataModule
+import com.githubreader.di.module.NetModule
+import com.githubreader.di.module.ThreadModule
 import dagger.Component
 import javax.inject.Singleton
 

@@ -1,4 +1,4 @@
-package com.asanatest
+package com.githubreader
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView

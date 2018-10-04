@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AsanaTest.iml" filepath="$PROJECT_DIR$/AsanaTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\JAVA\AsanaTest\gitHubReaderMVP_MVVM.iml" filepath="E:\JAVA\AsanaTest\gitHubReaderMVP_MVVM.iml" />
-      <module fileurl="file://E:\JAVA\AsanaTest\.idea\gitHubReaderMVP_MVVM.iml" filepath="E:\JAVA\AsanaTest\.idea\gitHubReaderMVP_MVVM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/gitHubReaderMVP_MVVM.iml" filepath="$PROJECT_DIR$/.idea/gitHubReaderMVP_MVVM.iml" />
+      <module fileurl="file://E:/JAVA/AsanaTest/.idea/gitHubReaderMVP_MVVM.iml" filepath="E:/JAVA/AsanaTest/.idea/gitHubReaderMVP_MVVM.iml" />
+      <module fileurl="file://E:/JAVA/AsanaTest/gitHubReaderMVP_MVVM.iml" filepath="E:/JAVA/AsanaTest/gitHubReaderMVP_MVVM.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.asanatest">
+    package="com.githubreader">
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".App"
+        android:name="com.githubreader.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.activities.SplashActivity"
+            android:name="com.githubreader.view.activities.SplashActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar">
@@ -29,13 +29,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.GitResults.GitResultsActivity"
+            android:name="com.githubreader.view.activities.GitResults.GitResultsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activities.GitResults.GitResultDetailsActivity"
+            android:name="com.githubreader.view.activities.GitResults.GitResultDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activities.BaseActivity"
+            android:name="com.githubreader.view.activities.BaseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
     </application>

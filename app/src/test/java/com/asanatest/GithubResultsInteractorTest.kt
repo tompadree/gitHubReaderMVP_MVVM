@@ -1,20 +1,13 @@
-package com.asanatest
+package com.githubreader
 
-import com.asanatest.data.api.APIConstants
-import com.asanatest.data.models.OwnerObject
-import com.asanatest.data.models.RepoObject
-import com.asanatest.data.models.ReposModel
-import com.asanatest.data.repositories.githubresults.LocalGithubResultsDataStore
-import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subscribers.TestSubscriber
+import com.githubreader.data.api.APIConstants
+import com.githubreader.data.models.OwnerObject
+import com.githubreader.data.models.RepoObject
+import com.githubreader.data.models.ReposModel
+import com.githubreader.data.repositories.githubresults.LocalGithubResultsDataStore
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 
