@@ -82,6 +82,8 @@ class GithubResultsInteractorImpl
                             saveLocalResults(repoName, it.items, listener)
                     } else {
                         currentPage = -1
+                        loading = false
+                        listener.hideLoading()
                     }
                 }, {
                     listener.onReposError(it as Throwable)
@@ -129,7 +131,7 @@ class GithubResultsInteractorImpl
                                 .subscribeOn(subscribeScheduler)
                                 .observeOn(observeScheduler)
                                 .unsubscribeOn(subscribeScheduler)
-                    }else
+                    } else
                         Flowable.just(it)
 
                 }
@@ -148,6 +150,7 @@ class GithubResultsInteractorImpl
                         }
                     } else {
                         currentPage = -1
+                        loading = false
                         listener.hideLoading()
                     }
                 },
@@ -171,6 +174,7 @@ class GithubResultsInteractorImpl
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
+
                         var test: LongArray = t
                         test = t
                     }

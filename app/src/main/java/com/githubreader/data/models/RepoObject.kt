@@ -34,6 +34,9 @@ class RepoObject : Serializable {
     @SerializedName("open_issues_count")
     var open_issues_count: Int = 0
 
+    @SerializedName("stargazers_count")
+    var stargazers_count: Int = 0
+
     @SerializedName("description")
     var description: String? = ""
 

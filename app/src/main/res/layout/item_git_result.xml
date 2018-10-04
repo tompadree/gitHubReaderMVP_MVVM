@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/repo_item_main_relative_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/repo_item_main_relative_layout">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/repo_item_image_view"
         android:layout_width="59dp"
         android:layout_height="66dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
-        android:layout_centerVertical="true"
-        />
+        android:src="@mipmap/ic_launcher" />
 
     <RelativeLayout
         android:id="@+id/repo_item_relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/repo_item_image_view"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        >
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/repo_item_image_view">
 
         <TextView
             android:id="@+id/repo_item_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/object_text_color_black"
-            />
+            android:textColor="@color/object_text_color_black" />
 
         <TextView
             android:id="@+id/repo_desc_id_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/object_text_color_black"
-            android:textStyle="bold"
             android:layout_below="@+id/repo_item_name_text_view"
             android:layout_marginTop="4dp"
-            />
+            android:textColor="@color/object_text_color_black"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/repo_forks_text_view_label"
@@ -48,19 +43,38 @@
             android:layout_below="@+id/repo_desc_id_text_view"
             android:layout_marginTop="4dp"
             android:text="@string/forks"
-            android:textStyle="italic"
-            />
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/repo_forks_text_view"
             android:layout_width="wrap_content"
-            android:layout_toEndOf="@+id/repo_forks_text_view_label"
-            android:layout_marginStart="5dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/repo_desc_id_text_view"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="4dp"
-            android:textStyle="italic"
-            />
+            android:layout_toEndOf="@+id/repo_forks_text_view_label"
+            android:textStyle="italic" />
+
+
+        <TextView
+            android:id="@+id/repo_stars_text_view_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/repo_desc_id_text_view"
+            android:layout_marginStart="170dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/stars"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/repo_stars_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/repo_desc_id_text_view"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/repo_stars_text_view_label"
+            android:textStyle="italic" />
 
     </RelativeLayout>
 
@@ -68,10 +82,9 @@
         android:id="@+id/repo_item_separator_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separator_grey"
-        android:layout_below="@+id/repo_item_relative_layout"
         android:layout_alignStart="@+id/repo_item_relative_layout"
-        />
+        android:layout_below="@+id/repo_item_relative_layout"
+        android:background="@color/separator_grey" />
 
 
 </RelativeLayout>

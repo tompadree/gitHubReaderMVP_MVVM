@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import com.githubreader.R
+import com.githubreader.data.api.APIConstants.Companion.DUMMY_SEARCH
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.di.component.DaggerGitResultComponent
@@ -22,6 +23,7 @@ import com.githubreader.domain.listeners.OnResultItemClicked
 import com.githubreader.presenter.GithubResultsPresenter
 import com.githubreader.utils.AppConstants.Companion.REPO_ID
 import com.githubreader.utils.AppConstants.Companion.REPO_NAME
+import com.githubreader.utils.AppConstants.Companion.REPO_OBJECT
 import com.githubreader.utils.AppConstants.Companion.SUBSCRIBERS
 import com.githubreader.utils.AppConstants.Companion.USER_NAME
 import com.githubreader.utils.helpers.NetworkHelper
@@ -53,7 +55,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
         localRepos = ArrayList()
         gitResultActivitySwipeLayout.setOnRefreshListener(this)
 
-        githubResultsPresenter.fetchRepos("a")
+        githubResultsPresenter.fetchRepos(DUMMY_SEARCH)
 
     }
 
@@ -113,7 +115,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
     override fun onRefresh() {
         localRepos = ArrayList()
-        githubResultsPresenter.fetchRepos("a")
+        githubResultsPresenter.fetchRepos(DUMMY_SEARCH)
     }
 
     override fun updateList(repos: ArrayList<RepoObject>) {
@@ -136,6 +138,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
             return
 
         val intent = Intent(this, GitResultDetailsActivity::class.java)
+        intent.putExtra(REPO_OBJECT, localRepos[position])
         intent.putExtra(REPO_NAME, localRepos[position].repoName)
         intent.putExtra(REPO_ID, localRepos[position].repoId)
         intent.putExtra(SUBSCRIBERS, localRepos[position].watchers_count)
@@ -178,7 +181,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
                     localRepos = ArrayList()
                     gitResultsAdapter?.notifyDataSetChanged()
                     if (newText == "")
-                        githubResultsPresenter.fetchRepos("a")
+                        githubResultsPresenter.fetchRepos(DUMMY_SEARCH)
                     else
                         githubResultsPresenter.fetchRepos(newText)
                     lastText = newText
@@ -196,7 +199,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
                     localRepos = ArrayList()
                     gitResultsAdapter?.notifyDataSetChanged()
                     if (query == "")
-                        githubResultsPresenter.fetchRepos("a")
+                        githubResultsPresenter.fetchRepos(DUMMY_SEARCH)
                     else
                         githubResultsPresenter.fetchRepos(query)
                 }
@@ -222,7 +225,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount = layoutManager.itemCount
-                val myTotalCount = totalItemCount - 34
+                val myTotalCount = totalItemCount - 14
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                 if (dy > 0) { //dy scrolling down

@@ -49,6 +49,10 @@ android {
     kapt {
         generateStubs = true
     }
+
+    androidExtensions {
+        experimental = true
+    }
     buildToolsVersion '27.0.3'
 }
 

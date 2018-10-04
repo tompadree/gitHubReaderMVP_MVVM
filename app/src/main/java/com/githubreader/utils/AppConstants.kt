@@ -10,6 +10,7 @@ interface AppConstants {
         const val REPO_ID = "repoId"
         const val SUBSCRIBERS = "subscribers"
         const val USER_NAME = "userName"
+        const val REPO_OBJECT = "repoObject"
 
         const val SPLASH_DISPLAY_LENGTH : Long = 2000
 

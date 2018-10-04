@@ -7,8 +7,21 @@
     <!--GitResults-->
     <string name="search">Search</string>
     <string name="forks">Forks: </string>
+    <string name="stars">Stars: </string>
 
     <!--GitDetails-->
-    <string name="subscribers">Subscribers: </string>
+    <string name="subscribers_">Subscribers: </string>
+    <string name="subscribers">Subscribers</string>
+    <string name="view_text_email">Email: </string>
+    <string name="view_text_description">Description: </string>
+    <string name="view_text_language">Programming language: </string>
+    <string name="view_text_created">Created at: </string>
+    <string name="view_text_modified">Updated at: </string>
+    <string name="view_text_forks">Number of forks: </string>
+    <string name="view_text_issues">Number of issues: </string>
+    <string name="view_text_watchers">Number of watchers: </string>
+    <string name="view_text_typeUser">Type of user: </string>
+    <string name="view_text_siteAdmin">Is Admin: </string>
+    <string name="view_text_subscriptions">Number of subscriptions: </string>
 
 </resources>

@@ -16,6 +16,7 @@ interface GithubApi {
     @Headers(CONTENT_TYPE)
     @GET(API_URL_GET_SEARCH)
     fun searchRepos(@Query("q") repoName: String,
+                    @Query("sort") stars: String,
                     @Query("page") page: String,
                     @Query("per_page") per_page: String): Flowable<ReposModel>
 

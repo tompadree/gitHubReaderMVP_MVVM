@@ -6,9 +6,10 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import com.githubreader.R
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
@@ -18,6 +19,7 @@ import com.githubreader.domain.listeners.OnInternetConnected
 import com.githubreader.presenter.GithubResultsPresenter
 import com.githubreader.utils.AppConstants.Companion.REPO_ID
 import com.githubreader.utils.AppConstants.Companion.REPO_NAME
+import com.githubreader.utils.AppConstants.Companion.REPO_OBJECT
 import com.githubreader.utils.AppConstants.Companion.SUBSCRIBERS
 import com.githubreader.utils.AppConstants.Companion.USER_NAME
 import com.githubreader.utils.helpers.NetworkHelper
@@ -25,6 +27,7 @@ import com.githubreader.view.activities.BaseActivity
 import com.githubreader.view.adapters.GitResultDetailsAdapter
 import com.githubreader.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result_details.*
+import java.util.*
 import javax.inject.Inject
 
 class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConnected {
@@ -35,11 +38,14 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
     lateinit var internetReceiver: BroadcastReceiver
     lateinit var gitResultDetailsAdapter: GitResultDetailsAdapter
     lateinit var localSubscribers: ArrayList<OwnerObject>
+    lateinit var repoObject: RepoObject
+
     var repoName = ""
     var userName = ""
     var subscribersCt = 0
     var repoId = 0
     var lastText = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +66,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
             if (repoName != "")
                 supportActionBar?.title = repoName
 
+            repoObject = it.getSerializableExtra(REPO_OBJECT) as RepoObject
             userName = it.getStringExtra(USER_NAME)
             repoId = it.getIntExtra(REPO_ID, 0)
             subscribersCt = it.getIntExtra(SUBSCRIBERS, 0)
@@ -67,8 +74,8 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
         localSubscribers = ArrayList()
 
         githubResultsPresenter.fetchRepoSubscribers(repoId, repoName)
-    }
 
+    }
 
     override fun onResume() {
         super.onResume()
@@ -120,9 +127,11 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
         if (localSubscribers.size == 0) {
             localSubscribers = subscribers
             setupRecyclerView()
+            Log.e("TEST1", localSubscribers.size.toString() +  "  " + subscribers[0].userName)
         } else {
             localSubscribers.addAll(subscribers)
             repo_detail_subscribers_rv.adapter.notifyDataSetChanged()
+            Log.e("TEST", localSubscribers.size.toString() +  "  " + subscribers[0].userName)
         }
     }
 
@@ -138,7 +147,6 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
         Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
 
         hideLoading()
-
     }
 
     internal fun isInternetAvailable() {
@@ -150,11 +158,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
 
     fun setupRecyclerView() {
 
-        repo_detail_info_layout.visibility = View.VISIBLE
-        repo_detail_name_text_view.text = repoName
-        repo_detail_subscribers_number.text = subscribersCt.toString()
-
-        gitResultDetailsAdapter = GitResultDetailsAdapter(this, localSubscribers)
+        gitResultDetailsAdapter = GitResultDetailsAdapter(this, localSubscribers, repoObject)
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         repo_detail_subscribers_rv.layoutManager = layoutManager
@@ -169,6 +173,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
                 val myTotalCount = totalItemCount - 14
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
+
                 if (dy > 0) { //dy scrolling down
                     if ((firstVisibleItemPosition >= myTotalCount) && firstVisibleItemPosition > 0
                             && myTotalCount > 0 && localSubscribers.size <= totalItemCount)
@@ -178,7 +183,6 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
         })
 
         hideLoading()
-
     }
 
 

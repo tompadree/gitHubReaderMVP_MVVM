@@ -54,6 +54,7 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.name.text = item.repoName
             holder.repoDesc.text = item.description
             holder.repoForks.text = item.forks_count.toString()
+            holder.repoStars.text = item.stargazers_count.toString()
 
             holder.repoItem.setOnClickListener { onListItemClicked.onItemClicked(position) }
 
@@ -94,6 +95,9 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @BindView(R.id.repo_forks_text_view)
         lateinit var repoForks: TextView
+
+        @BindView(R.id.repo_stars_text_view)
+        lateinit var repoStars: TextView
 
         init {
             ButterKnife.bind(this, itemView)
