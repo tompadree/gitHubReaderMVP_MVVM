@@ -1,13 +1,10 @@
-package com.githubreader.view.adapters
+package com.githubreader.gitresults
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
 import com.githubreader.R
 import com.githubreader.data.models.RepoObject
 import com.githubreader.domain.listeners.OnResultItemClicked
@@ -36,7 +33,9 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM) {
-            ResultItemHolder(LayoutInflater.from(context).inflate(R.layout.item_git_result, parent, false))
+            ResultItemHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_git_result, parent, false)
+            )
         } else {
             LoadingViewHolder(LayoutInflater.from(context).inflate(R.layout.item_git_result_loading, parent, false))
         }
@@ -81,28 +80,6 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ResultItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
 
         override val containerView: View? = itemView
-
-//        @BindView(R.id.repo_item_main_relative_layout)
-//        lateinit var repoItem: RelativeLayout
-//
-//        @BindView(R.id.repo_item_image_view)
-//        lateinit var repo_item_image_view: ImageView
-//
-//        @BindView(R.id.repo_item_name_text_view)
-//        lateinit var name: TextView
-//
-//        @BindView(R.id.repo_desc_id_text_view)
-//        lateinit var repoDesc: TextView
-//
-//        @BindView(R.id.repo_forks_text_view)
-//        lateinit var repoForks: TextView
-//
-//        @BindView(R.id.repo_stars_text_view)
-//        lateinit var repoStars: TextView
-//
-//        init {
-//            ButterKnife.bind(this, itemView)
-//        }
 
     }
 

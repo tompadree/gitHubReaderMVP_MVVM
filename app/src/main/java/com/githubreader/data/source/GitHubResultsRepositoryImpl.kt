@@ -5,17 +5,16 @@ import com.currencytrackingapp.utils.wrapEspressoIdlingResource
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.data.models.Result
-import com.githubreader.data.source.local.GitHubResultsLocalDataSource
-import com.githubreader.data.source.remote.GithubResultsRemoteDataSource
-import java.lang.Error
+import com.githubreader.data.models.Result.Error
+import com.githubreader.data.models.Result.Success
 import java.lang.Exception
 
 /**
  * @author Tomislav Curis
  */
 class GitHubResultsRepositoryImpl(
-    private val gitHubResultsLocalDataSource: GitHubResultsLocalDataSource,
-    private val githubResultsRemoteDataSource: GithubResultsRemoteDataSource) : GitHubResultsRepository {
+    private val gitHubResultsLocalDataSource: GitHubResultsDataSource,
+    private val gitHubResultsRemoteDataSource: GitHubResultsDataSource) : GitHubResultsRepository {
 
     override fun observeRepos(): LiveData<Result<List<RepoObject>>> {
         wrapEspressoIdlingResource {
@@ -35,7 +34,7 @@ class GitHubResultsRepositoryImpl(
             try {
                 updateGitHubResultsFromRemote(repoName, page, per_page)
             } catch (e: Exception) {
-                throw Error(e)
+                return Error(e)
             }
 
         return gitHubResultsLocalDataSource.getGitHubResults(repoName, page, per_page)
@@ -63,7 +62,7 @@ class GitHubResultsRepositoryImpl(
             try {
                 updateGitHubResultSubscribersFromRemote(repoName, page, per_page)
             } catch (e: Exception) {
-                throw Error(e)
+                return Error(e)
             }
 
         return gitHubResultsLocalDataSource.getGitHubResultSubscribers(repoName, page, per_page)
@@ -75,8 +74,8 @@ class GitHubResultsRepositoryImpl(
         per_page: Int
     ) {
         wrapEspressoIdlingResource {
-            val remoteRepos = githubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
-            if(remoteRepos is Result.Success){
+            val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
+            if(remoteRepos is Success){
                 gitHubResultsLocalDataSource.saveGitHubResultsDB(repoName, remoteRepos.data)
             } else if(remoteRepos is Result.Error){
                 throw remoteRepos.exception
@@ -91,10 +90,10 @@ class GitHubResultsRepositoryImpl(
         per_page: Int
     ) {
         wrapEspressoIdlingResource {
-            val remoteRepos = githubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
-            if(remoteRepos is Result.Success){
+            val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
+            if(remoteRepos is Success){
                 gitHubResultsLocalDataSource.saveGitHubResultsDB(repoName, remoteRepos.data)
-            } else if(remoteRepos is Result.Error){
+            } else if(remoteRepos is Error){
                 throw remoteRepos.exception
             }
         }

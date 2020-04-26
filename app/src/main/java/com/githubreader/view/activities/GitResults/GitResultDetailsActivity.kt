@@ -22,7 +22,7 @@ import com.githubreader.utils.AppConstants.Companion.SUBSCRIBERS
 import com.githubreader.utils.AppConstants.Companion.USER_NAME
 import com.githubreader.utils.helpers.NetworkHelper
 import com.githubreader.view.activities.BaseActivity
-import com.githubreader.view.adapters.GitResultDetailsAdapter
+import com.githubreader.gitresultsdetails.GitResultDetailsAdapter
 import com.githubreader.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result_details.*
 import java.util.*
@@ -154,7 +154,12 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
 
     fun setupRecyclerView() {
 
-        gitResultDetailsAdapter = GitResultDetailsAdapter(this, localSubscribers, repoObject)
+        gitResultDetailsAdapter =
+            GitResultDetailsAdapter(
+                this,
+                localSubscribers,
+                repoObject
+            )
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         repo_detail_subscribers_rv.layoutManager = layoutManager

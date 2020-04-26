@@ -8,6 +8,7 @@ import com.githubreader.data.models.RepoObject
 import com.githubreader.data.source.GitHubResultsRepository
 import kotlinx.coroutines.launch
 import com.githubreader.data.models.*
+import com.githubreader.data.source.remote.api.APIConstants.Companion.DUMMY_SEARCH
 
 /**
  * @author Tomislav Curis
@@ -17,6 +18,7 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
 ) : ViewModel() {
 
     val _currentPage = ObservableField<Int>(1)
+    val _currentSearch = ObservableField<String>(DUMMY_SEARCH)
 
     private val _snackbarText = SingleLiveEvent<Int>()
 
@@ -30,17 +32,18 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
-    private val _items: LiveData<List<RepoObject>> = _forceUpdate.switchMap { forceUpdate ->
+    private val _items: LiveData<List<RepoObject>> =
+        _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate && internetConnectionManager.hasInternetConnection()) {
             viewModelScope.launch {
-//                handleResponseWithError(
-                    repository.getGitHubResults(forceUpdate, "", _currentPage.get()!!, 30)
+                handleResponseWithError( repository.getGitHubResults(forceUpdate, _currentSearch.get()!!, _currentPage.get()!!, 30))
                 _dataLoading.value = false
             }
         }
 
 
-        repository.observeRepos().map { handleResponseWithError(it)!! }
+        repository.observeRepos().map {
+            handleResponseWithError(it)!! }
     }
 
     val items: LiveData<List<RepoObject>> = _items
@@ -48,6 +51,10 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
     // This LiveData depends on another so we can use a transformation.
     val empty: LiveData<Boolean> = Transformations.map(_items) {
         it.isEmpty()
+    }
+
+    fun refresh(refresh: Boolean) {
+        _forceUpdate.value = refresh
     }
 
     private fun showSnackbarMessage(message: Int) {

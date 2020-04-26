@@ -26,7 +26,7 @@ import com.githubreader.utils.AppConstants.Companion.SUBSCRIBERS
 import com.githubreader.utils.AppConstants.Companion.USER_NAME
 import com.githubreader.utils.helpers.NetworkHelper
 import com.githubreader.view.activities.BaseActivity
-import com.githubreader.view.adapters.GitResultsAdapter
+import com.githubreader.gitresults.GitResultsAdapter
 import com.githubreader.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result.*
 
@@ -204,7 +204,8 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     }
 
     fun setupRecyclerView() {
-        gitResultsAdapter = GitResultsAdapter(this, localRepos, this)
+        gitResultsAdapter =
+            GitResultsAdapter(this, localRepos, this)
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         gitResultActivityRv.layoutManager = layoutManager

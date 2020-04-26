@@ -15,8 +15,11 @@ class NetworkException(response: Response?) : IOException() {
     private fun handleResponse(response: Response): NetworkError? {
         return try {
             val errorBodyJson = response.body()?.string() ?: "{}"
-            message = Gson().fromJson(errorBodyJson, NetworkError::class.java).message!!
-            Gson().fromJson(errorBodyJson, NetworkError::class.java)
+
+            val networkError = Gson().fromJson(errorBodyJson, NetworkError::class.java)
+            message = networkError.message + ": " + networkError.errors?.get(0)?.resource + " "+
+                    networkError.errors?.get(0)?.field + " " + networkError.errors?.get(0)?.code
+            networkError
         } catch (e: Exception) {
             Gson().fromJson(e.localizedMessage, NetworkError::class.java)
         }
@@ -27,7 +30,7 @@ class NetworkException(response: Response?) : IOException() {
             if (message != "Some error")
                 return message
             val errorBodyJson = response.body()?.string() ?: "{}"
-            Gson().fromJson(errorBodyJson, NetworkError::class.java).message!!
+            Gson().fromJson(errorBodyJson, NetworkError::class.java).message
         } catch (e: Exception) {
             e.localizedMessage
         }

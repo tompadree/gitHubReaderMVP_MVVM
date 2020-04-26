@@ -14,7 +14,7 @@ import java.io.IOException
 /**
  * @author Tomislav Curis
  */
-class GithubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubResultsDataSource {
+class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubResultsDataSource {
 
     private val observableRepos = MutableLiveData<Result<List<RepoObject>>>()
 

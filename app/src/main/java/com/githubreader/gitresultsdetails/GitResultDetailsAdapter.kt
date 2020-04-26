@@ -1,4 +1,4 @@
-package com.githubreader.view.adapters
+package com.githubreader.gitresultsdetails
 
 import android.content.Context
 import android.graphics.Typeface
@@ -6,10 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
 //import butterknife.BindView
 //import butterknife.ButterKnife
 import com.githubreader.R
@@ -45,11 +41,18 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_DETAILS)
-            DetailsHolder(LayoutInflater.from(context).inflate(R.layout.layout_repo_details, parent, false))
+            DetailsHolder(
+                LayoutInflater.from(context).inflate(R.layout.layout_repo_details, parent, false)
+            )
         else if (viewType == TYPE_LIST_HEADER)
-            ResultsHeaderHolder(LayoutInflater.from(context).inflate(R.layout.layout_repo_detail_header, parent, false))
+            ResultsHeaderHolder(
+                LayoutInflater.from(context)
+                    .inflate(R.layout.layout_repo_detail_header, parent, false)
+            )
         else if (viewType == AppConstants.ITEM) {
-            ResultItemHolder(LayoutInflater.from(context).inflate(R.layout.item_git_result, parent, false))
+            ResultItemHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_git_result, parent, false)
+            )
         } else {
             LoadingViewHolder(LayoutInflater.from(context).inflate(R.layout.item_git_result_loading, parent, false))
         }

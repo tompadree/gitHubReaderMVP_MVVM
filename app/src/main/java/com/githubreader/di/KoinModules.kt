@@ -11,7 +11,7 @@ import com.githubreader.data.source.GitHubResultsRepository
 import com.githubreader.data.source.GitHubResultsRepositoryImpl
 import com.githubreader.data.source.local.GitHubDatabase
 import com.githubreader.data.source.local.GitHubResultsLocalDataSource
-import com.githubreader.data.source.remote.GithubResultsRemoteDataSource
+import com.githubreader.data.source.remote.GitHubResultsRemoteDataSource
 import com.githubreader.data.source.remote.api.APIConstants
 import com.githubreader.data.source.remote.api.GithubApi
 import com.githubreader.gitresults.GitResultsViewModel
@@ -41,13 +41,13 @@ val AppModule = module {
 
 val DataModule = module {
 
-    single { Room.databaseBuilder(androidContext(), GitHubDatabase::class.java, "test_db").build() }
+    single { Room.databaseBuilder(androidContext(), GitHubDatabase::class.java, "github_db").build() }
     single  { get<GitHubDatabase>().getGitHubDao() }
 
     single { Dispatchers.IO }
 
     single(named("local")) { GitHubResultsLocalDataSource(get(), get()) as GitHubResultsDataSource }
-    single(named("remote")) { GithubResultsRemoteDataSource(get()) as GitHubResultsDataSource }
+    single(named("remote")) { GitHubResultsRemoteDataSource(get()) as GitHubResultsDataSource }
 
     viewModel { GitResultsViewModel(get(), get()) }
     viewModel { GitResultsDetailsViewModel(get(), get()) }

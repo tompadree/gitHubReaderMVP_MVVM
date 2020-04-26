@@ -15,7 +15,7 @@ interface GitHubResultsDataSource {
 
     suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>)
 
-    suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>>
+    suspend fun getGitHubResults(repoName: String = "a", page: Int, per_page: Int): Result<List<RepoObject>>
 
     suspend fun refreshRepos(repoName: String, page: Int, per_page: Int)
 
