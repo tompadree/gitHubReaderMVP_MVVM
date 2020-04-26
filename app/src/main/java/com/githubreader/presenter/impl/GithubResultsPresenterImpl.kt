@@ -7,13 +7,12 @@ import com.githubreader.domain.interactors.GithubResultsInteractor
 import com.githubreader.domain.listeners.OnResultFetchListener
 import com.githubreader.presenter.GithubResultsPresenter
 import com.githubreader.view.views.GitResultsView
-import javax.inject.Inject
 
 /**
  * Created by Tom on 22.5.2018..
  */
 class GithubResultsPresenterImpl
-@Inject
+
 constructor(private val context: Context, private val interactor: GithubResultsInteractor,
             private val gitResultsView: GitResultsView) : GithubResultsPresenter, OnResultFetchListener {
 

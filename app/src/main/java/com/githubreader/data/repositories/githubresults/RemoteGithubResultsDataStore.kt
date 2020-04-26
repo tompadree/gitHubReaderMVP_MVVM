@@ -6,13 +6,12 @@ import com.githubreader.data.models.RepoObject
 import com.githubreader.data.models.ReposModel
 import io.reactivex.Flowable
 import io.reactivex.Single
-import javax.inject.Inject
 
 /**
  * Created by Tom on 22.5.2018..
  */
 class RemoteGithubResultsDataStore
-@Inject
+
 constructor(private val networkApi: NetworkApi) : GitHubResultsDataStore {
 
     override fun saveGitHubResultsDB(repoName: String, githubResults: ArrayList<RepoObject>): Single<LongArray> {

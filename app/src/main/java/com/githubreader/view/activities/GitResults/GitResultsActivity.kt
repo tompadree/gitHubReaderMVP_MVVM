@@ -5,10 +5,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
@@ -16,8 +16,6 @@ import com.githubreader.R
 import com.githubreader.data.api.APIConstants.Companion.DUMMY_SEARCH
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
-import com.githubreader.di.component.DaggerGitResultComponent
-import com.githubreader.di.module.GitResultModule
 import com.githubreader.domain.listeners.OnInternetConnected
 import com.githubreader.domain.listeners.OnResultItemClicked
 import com.githubreader.presenter.GithubResultsPresenter
@@ -31,11 +29,9 @@ import com.githubreader.view.activities.BaseActivity
 import com.githubreader.view.adapters.GitResultsAdapter
 import com.githubreader.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result.*
-import javax.inject.Inject
 
 class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, SwipeRefreshLayout.OnRefreshListener, OnInternetConnected {
 
-    @Inject
     lateinit var githubResultsPresenter: GithubResultsPresenter
 
     lateinit var internetReceiver: BroadcastReceiver
@@ -46,11 +42,6 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_git_result)
-
-        DaggerGitResultComponent.builder()
-                .appComponent(getApplicationComponent())
-                .gitResultModule(GitResultModule(this))
-                .build().inject(this)
 
         localRepos = ArrayList()
         gitResultActivitySwipeLayout.setOnRefreshListener(this)
@@ -124,7 +115,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
             setupRecyclerView()
         } else {
             localRepos.addAll(repos)
-            gitResultActivityRv.adapter.notifyDataSetChanged()
+            gitResultActivityRv.adapter?.notifyDataSetChanged()
         }
         hideLoading()
         hideRefreshLoading()
@@ -221,7 +212,7 @@ class GitResultsActivity : BaseActivity(), GitResultsView, OnResultItemClicked, 
 
         gitResultActivityRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount = layoutManager.itemCount

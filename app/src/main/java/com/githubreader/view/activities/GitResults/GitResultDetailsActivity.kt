@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -13,8 +13,6 @@ import android.widget.*
 import com.githubreader.R
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
-import com.githubreader.di.component.DaggerGitResultComponent
-import com.githubreader.di.module.GitResultModule
 import com.githubreader.domain.listeners.OnInternetConnected
 import com.githubreader.presenter.GithubResultsPresenter
 import com.githubreader.utils.AppConstants.Companion.REPO_ID
@@ -28,11 +26,9 @@ import com.githubreader.view.adapters.GitResultDetailsAdapter
 import com.githubreader.view.views.GitResultsView
 import kotlinx.android.synthetic.main.activity_git_result_details.*
 import java.util.*
-import javax.inject.Inject
 
 class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConnected {
 
-    @Inject
     lateinit var githubResultsPresenter: GithubResultsPresenter
 
     lateinit var internetReceiver: BroadcastReceiver
@@ -53,10 +49,10 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
 
         // showLoading()
 
-        DaggerGitResultComponent.builder()
-                .appComponent(getApplicationComponent())
-                .gitResultModule(GitResultModule(this))
-                .build().inject(this)
+//        DaggerGitResultComponent.builder()
+//                .appComponent(getApplicationComponent())
+//                .gitResultModule(GitResultModule(this))
+//                .build().inject(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -130,7 +126,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
             Log.e("TEST1", localSubscribers.size.toString() +  "  " + subscribers[0].userName)
         } else {
             localSubscribers.addAll(subscribers)
-            repo_detail_subscribers_rv.adapter.notifyDataSetChanged()
+            repo_detail_subscribers_rv.adapter?.notifyDataSetChanged()
             Log.e("TEST", localSubscribers.size.toString() +  "  " + subscribers[0].userName)
         }
     }
@@ -166,7 +162,7 @@ class GitResultDetailsActivity : BaseActivity(), GitResultsView, OnInternetConne
 
         repo_detail_subscribers_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount = layoutManager.itemCount

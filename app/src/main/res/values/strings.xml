@@ -3,6 +3,19 @@
 
     <!--General-->
     <string name="no_internet_message">No internet connection. To fetch data, please, connect to the internet.</string>
+    <string name="ok">Ok</string>
+    <string name="error_default">Something went wrong</string>
+    <string name="error_default_db">Something went wrong with database</string>
+    <string name="no_internet_connection_title">No internet connection</string>
+    <string name="no_internet_connection_text">Something is wrong with your internet connection</string>
+    <string name="no_internet_connection_text_2">Something is wrong with your internet connection. Please check it.</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat.
+    </string>
+    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua.</string>
 
     <!--GitResults-->
     <string name="search">Search</string>
@@ -23,5 +36,6 @@
     <string name="view_text_typeUser">Type of user: </string>
     <string name="view_text_siteAdmin">Is Admin: </string>
     <string name="view_text_subscriptions">Number of subscriptions: </string>
+
 
 </resources>

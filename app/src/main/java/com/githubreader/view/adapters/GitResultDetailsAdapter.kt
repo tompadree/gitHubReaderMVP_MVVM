@@ -2,7 +2,7 @@ package com.githubreader.view.adapters
 
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +10,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
+//import butterknife.BindView
+//import butterknife.ButterKnife
 import com.githubreader.R
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.utils.AppConstants
-import com.squareup.picasso.Picasso
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_git_result.*
+import kotlinx.android.synthetic.main.layout_repo_detail_header.*
+import kotlinx.android.synthetic.main.layout_repo_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +43,7 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.repoObject = repoObject
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_DETAILS)
             DetailsHolder(LayoutInflater.from(context).inflate(R.layout.layout_repo_details, parent, false))
         else if (viewType == TYPE_LIST_HEADER)
@@ -60,17 +63,17 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             val item = subscribers[position]
 
-            holder.name.text = item.userName
-            holder.name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            holder.repoForksLabel.visibility = View.GONE
-            holder.repoStarsLabel.visibility = View.GONE
+            holder.repo_item_name_text_view.text = item.userName
+            holder.repo_item_name_text_view.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            holder.repo_forks_text_view_label.visibility = View.GONE
+            holder.repo_forks_text_view_label.visibility = View.GONE
 
-            Picasso.get()
-                    .load(item.avatarUrl)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .tag(context)
-                    .fit().centerCrop()
-                    .into(holder.repo_item_image_view)
+//            Picasso.get()
+//                    .load(item.avatarUrl)
+//                    .placeholder(R.mipmap.ic_launcher)
+//                    .tag(context)
+//                    .fit().centerCrop()
+//                    .into(holder.repo_item_image_view)
         }
 
         else if (viewType == TYPE_DETAILS){
@@ -138,96 +141,102 @@ class GitResultDetailsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return subscribers.size
     }
 
-    class ResultItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ResultItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
 
-        @BindView(R.id.repo_item_main_relative_layout)
-        lateinit var repoItem: RelativeLayout
+        override val containerView: View? = itemView
 
-        @BindView(R.id.repo_item_image_view)
-        lateinit var repo_item_image_view: ImageView
-
-        @BindView(R.id.repo_forks_text_view_label)
-        lateinit var repoForksLabel: TextView
-
-        @BindView(R.id.repo_stars_text_view_label)
-        lateinit var repoStarsLabel: TextView
-
-        @BindView(R.id.repo_item_name_text_view)
-        lateinit var name: TextView
-
-        @BindView(R.id.repo_desc_id_text_view)
-        lateinit var repoDesc: TextView
-
-        @BindView(R.id.repo_forks_text_view)
-        lateinit var repoForks: TextView
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
-
-    }
-
-    class DetailsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        @BindView(R.id.layout_repo_details_language_layout)
-        lateinit var layout_repo_details_language_layout: LinearLayout
-
-        @BindView(R.id.layout_repo_details_tv_language)
-        lateinit var layout_repo_details_tv_language: TextView
-
-        @BindView(R.id.layout_repo_details_created_layout)
-        lateinit var layout_repo_details_created_layout: LinearLayout
-
-        @BindView(R.id.layout_repo_details_tv_created)
-        lateinit var layout_repo_details_tv_created: TextView
-
-        @BindView(R.id.layout_repo_details_tv_modified)
-        lateinit var layout_repo_details_tv_modified: TextView
-
-        @BindView(R.id.layout_repo_details_modified_layout)
-        lateinit var layout_repo_details_modified_layout: LinearLayout
-
-        @BindView(R.id.layout_repo_details_tv_watchers)
-        lateinit var layout_repo_details_tv_watchers: TextView
-
-        @BindView(R.id.layout_repo_details_tv_forks)
-        lateinit var layout_repo_details_tv_forks: TextView
-
-        @BindView(R.id.layout_repo_details_tv_subscriptions)
-        lateinit var layout_repo_details_tv_subscriptions: TextView
-
-        @BindView(R.id.layout_repo_details_tv_typeUser)
-        lateinit var layout_repo_details_tv_typeUser: TextView
-
-        @BindView(R.id.layout_repo_details_typeUser_layout)
-        lateinit var layout_repo_details_typeUser_layout: LinearLayout
-
-        @BindView(R.id.layout_repo_details_tv_siteAdmin)
-        lateinit var layout_repo_details_tv_siteAdmin: TextView
-
-        @BindView(R.id.layout_repo_details_siteAdmin_layout)
-        lateinit var layout_repo_details_siteAdmin_layout: LinearLayout
-
-        @BindView(R.id.layout_repo_details_tv_issues)
-        lateinit var layout_repo_details_tv_issues: TextView
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+//        @BindView(R.id.repo_item_main_relative_layout)
+//        lateinit var repoItem: RelativeLayout
+//
+//        @BindView(R.id.repo_item_image_view)
+//        lateinit var repo_item_image_view: ImageView
+//
+//        @BindView(R.id.repo_forks_text_view_label)
+//        lateinit var repoForksLabel: TextView
+//
+//        @BindView(R.id.repo_stars_text_view_label)
+//        lateinit var repoStarsLabel: TextView
+//
+//        @BindView(R.id.repo_item_name_text_view)
+//        lateinit var name: TextView
+//
+//        @BindView(R.id.repo_desc_id_text_view)
+//        lateinit var repoDesc: TextView
+//
+//        @BindView(R.id.repo_forks_text_view)
+//        lateinit var repoForks: TextView
+//
+//        init {
+//            ButterKnife.bind(this, itemView)
+//        }
 
     }
 
-    class ResultsHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class DetailsHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer  {
 
-        @BindView(R.id.repo_detail_info_layout)
-        lateinit var repo_detail_info_layout: RelativeLayout
+        override val containerView: View? = itemView
 
-        @BindView(R.id.repo_detail_name_text_view)
-        lateinit var repo_detail_name_text_view: TextView
+//        @BindView(R.id.layout_repo_details_language_layout)
+//        lateinit var layout_repo_details_language_layout: LinearLayout
+//
+//        @BindView(R.id.layout_repo_details_tv_language)
+//        lateinit var layout_repo_details_tv_language: TextView
+//
+//        @BindView(R.id.layout_repo_details_created_layout)
+//        lateinit var layout_repo_details_created_layout: LinearLayout
+//
+//        @BindView(R.id.layout_repo_details_tv_created)
+//        lateinit var layout_repo_details_tv_created: TextView
+//
+//        @BindView(R.id.layout_repo_details_tv_modified)
+//        lateinit var layout_repo_details_tv_modified: TextView
+//
+//        @BindView(R.id.layout_repo_details_modified_layout)
+//        lateinit var layout_repo_details_modified_layout: LinearLayout
+//
+//        @BindView(R.id.layout_repo_details_tv_watchers)
+//        lateinit var layout_repo_details_tv_watchers: TextView
+//
+//        @BindView(R.id.layout_repo_details_tv_forks)
+//        lateinit var layout_repo_details_tv_forks: TextView
+//
+//        @BindView(R.id.layout_repo_details_tv_subscriptions)
+//        lateinit var layout_repo_details_tv_subscriptions: TextView
+//
+//        @BindView(R.id.layout_repo_details_tv_typeUser)
+//        lateinit var layout_repo_details_tv_typeUser: TextView
+//
+//        @BindView(R.id.layout_repo_details_typeUser_layout)
+//        lateinit var layout_repo_details_typeUser_layout: LinearLayout
+//
+//        @BindView(R.id.layout_repo_details_tv_siteAdmin)
+//        lateinit var layout_repo_details_tv_siteAdmin: TextView
+//
+//        @BindView(R.id.layout_repo_details_siteAdmin_layout)
+//        lateinit var layout_repo_details_siteAdmin_layout: LinearLayout
+//
+//        @BindView(R.id.layout_repo_details_tv_issues)
+//        lateinit var layout_repo_details_tv_issues: TextView
+//
+//        init {
+//            ButterKnife.bind(this, itemView)
+//        }
 
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+    }
+
+    class ResultsHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+
+        override val containerView: View? = itemView
+
+//        @BindView(R.id.repo_detail_info_layout)
+//        lateinit var repo_detail_info_layout: RelativeLayout
+//
+//        @BindView(R.id.repo_detail_name_text_view)
+//        lateinit var repo_detail_name_text_view: TextView
+//
+//        init {
+//            ButterKnife.bind(this, itemView)
+//        }
 
     }
 

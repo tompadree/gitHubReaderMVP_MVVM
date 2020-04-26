@@ -6,7 +6,6 @@ import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.data.repositories.githubresults.LocalGithubResultsDataStore
 import com.githubreader.data.repositories.githubresults.RemoteGithubResultsDataStore
-import com.githubreader.di.module.ThreadModule
 import com.githubreader.domain.interactors.GithubResultsInteractor
 import com.githubreader.domain.listeners.OnResultFetchListener
 import com.githubreader.utils.helpers.NetworkHelper
@@ -16,23 +15,19 @@ import io.reactivex.SingleObserver
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
-import javax.inject.Inject
-import javax.inject.Named
 import kotlin.collections.ArrayList
 
 /**
  * Created by Tom on 22.5.2018..
  */
 class GithubResultsInteractorImpl
-@Inject constructor(private val context: Context, private val localGithubResultsDataStore: LocalGithubResultsDataStore,
+ constructor(private val context: Context, private val localGithubResultsDataStore: LocalGithubResultsDataStore,
                     private val remoteGithubResultsDataStore: RemoteGithubResultsDataStore) : GithubResultsInteractor {
 
-    @Inject
-    @field:Named(ThreadModule.SUBSCRIBE_SCHEDULER)
+//    @field:Named(ThreadModule.SUBSCRIBE_SCHEDULER)
     lateinit var subscribeScheduler: Scheduler
 
-    @Inject
-    @field:Named(ThreadModule.OBSERVE_SCHEDULER)
+//    @field:Named(ThreadModule.OBSERVE_SCHEDULER)
     lateinit var observeScheduler: Scheduler
 
     private var currentPage: Int = 0
@@ -170,7 +165,7 @@ class GithubResultsInteractorImpl
         localGithubResultsDataStore.saveGitHubResultsDB(repoName, resultItems)
                 .subscribeOn(subscribeScheduler)
                 .observeOn(observeScheduler)
-                .unsubscribeOn(subscribeScheduler)
+//                .unsubscribeOn(subscribeScheduler)
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {
@@ -196,7 +191,7 @@ class GithubResultsInteractorImpl
         localGithubResultsDataStore.saveGitHubResultSubscribersDB(repoName, subscribers)
                 .subscribeOn(subscribeScheduler)
                 .observeOn(observeScheduler)
-                .unsubscribeOn(subscribeScheduler)
+//                .unsubscribeOn(subscribeScheduler)
                 .subscribe(object : SingleObserver<LongArray> {
 
                     override fun onSuccess(t: LongArray) {

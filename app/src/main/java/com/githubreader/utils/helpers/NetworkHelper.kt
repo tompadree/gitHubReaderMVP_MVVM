@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.NetworkInfo
 import android.os.Parcelable
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import com.githubreader.domain.listeners.OnInternetConnected
 

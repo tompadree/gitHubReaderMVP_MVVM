@@ -1,0 +1,62 @@
+package com.githubreader.data.source.remote
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.githubreader.data.models.OwnerObject
+import com.githubreader.data.models.RepoObject
+import com.githubreader.data.models.ReposModel
+import com.githubreader.data.models.Result
+import com.githubreader.data.source.GitHubResultsDataSource
+import com.githubreader.data.source.remote.api.GithubApi
+import java.io.IOException
+
+
+/**
+ * @author Tomislav Curis
+ */
+class GithubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubResultsDataSource {
+
+    private val observableRepos = MutableLiveData<Result<List<RepoObject>>>()
+
+    override fun observeRepos(): LiveData<Result<List<RepoObject>>> = observableRepos
+
+
+    override suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> {
+        val response = githubApi.searchRepos(repoName, "stars", page.toString(), per_page.toString())
+        if(response.isSuccessful){
+            val body = response.body()
+            if(response.body() != null)
+                return Result.Success(body!!.items)
+        }
+        return Result.Error(IOException("Error loading data " + "${response.code()} ${response.message()}"))
+    }
+
+    override suspend fun refreshRepos(repoName: String, page: Int, per_page: Int) {
+//        observableRepos.value = getGitHubResults()
+    }
+
+    override suspend fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int)
+            : Result<List<OwnerObject>> {
+        val response = githubApi.getRepoSubscribers(repoName, page.toString(), per_page.toString())
+        if(response.isSuccessful){
+            val body = response.body()
+            if(response.body() != null)
+                return Result.Success(body!!)
+        }
+        return Result.Error(IOException("Error loading data " + "${response.code()} ${response.message()}"))
+    }
+
+
+    override suspend fun saveGitHubResultsDB(
+        repoName: String,
+        githubResults: List<RepoObject>
+    ) {
+        TODO("Not yet implemented")
+    }
+    override suspend fun saveGitHubResultSubscribersDB(
+        repoName: String,
+        subscribers: List<OwnerObject>
+    ) {
+        TODO("Not yet implemented")
+    }
+}

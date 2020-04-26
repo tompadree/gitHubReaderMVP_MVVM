@@ -1,31 +1,26 @@
 package com.githubreader
 
-import android.app.Application
-import com.githubreader.di.component.AppComponent
-import com.githubreader.di.component.DaggerAppComponent
-import com.githubreader.di.module.AppModule
+import androidx.multidex.MultiDexApplication
+import com.githubreader.di.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 /**
  * Created by Tom on 22.5.2018..
  */
-class App : Application() {
-
-    var appComponent: AppComponent? = null
-        set
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
-        instance = this
-
-        this.appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-
-
+        initKoin()
     }
 
-    companion object {
-        var instance: App? = null
+    private fun initKoin() {
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(listOf(AppModule, DataModule, RepoModule, NetModule))
+        }
     }
 }

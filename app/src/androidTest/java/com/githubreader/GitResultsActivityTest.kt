@@ -1,22 +1,17 @@
 package com.githubreader
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.githubreader.view.activities.GitResults.GitResultsActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers
-import com.githubreader.di.DaggerAppComponentTest
-import com.githubreader.di.module.AppModule
-import com.githubreader.di.module.DataModule
-import com.githubreader.di.module.NetModule
-import com.githubreader.di.module.ThreadModule
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matchers
 import org.mockito.Mock
 import com.githubreader.App
@@ -31,14 +26,14 @@ class GitResultsActivityTest {
     var gitResultsActivity: GitResultsActivity? = null
     private val DUMMY_SEARCH = "a"
 
-    @Mock
-    val netModule = NetModule()
-
-    @Mock
-    val dataModule = DataModule()
-
-    @Mock
-    val threadModule = ThreadModule()
+//    @Mock
+//    val netModule = NetModule()
+//
+//    @Mock
+//    val dataModule = DataModule()
+//
+//    @Mock
+//    val threadModule = ThreadModule()
 
     @Rule @JvmField
     val activityTestRule = ActivityTestRule<GitResultsActivity>(GitResultsActivity::class.java)
@@ -56,17 +51,17 @@ class GitResultsActivityTest {
     fun setup() {
 //        MockitoAnnotations.initMocks(this)
 
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val app = InstrumentationRegistry.getTargetContext().applicationContext as App
-
-        val testAppComponent = DaggerAppComponentTest.builder()
-                .appModule(AppModule(app))
-                .netModule(netModule)
-                .dataModule(dataModule)
-                .threadModule(threadModule)
-                .build()
-        app.appComponent = testAppComponent
-        testAppComponent.inject(this)
+//        val instrumentation = InstrumentationRegistry.getInstrumentation()
+//        val app = InstrumentationRegistry.getTargetContext().applicationContext as App
+//
+//        val testAppComponent = DaggerAppComponentTest.builder()
+//                .appModule(AppModule(app))
+//                .netModule(netModule)
+//                .dataModule(dataModule)
+//                .threadModule(threadModule)
+//                .build()
+//        app.appComponent = testAppComponent
+//        testAppComponent.inject(this)
 
         activityTestRule.launchActivity(null)
 

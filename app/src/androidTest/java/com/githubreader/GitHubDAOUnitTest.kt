@@ -1,8 +1,9 @@
 package com.githubreader
 
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.room.Room
+import androidx.test.InstrumentationRegistry.getTargetContext
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.githubreader.data.db.GitHubDAO
 import com.githubreader.data.db.GitHubDatabase
 import com.githubreader.data.models.OwnerObject
@@ -26,8 +27,8 @@ class GitHubDAOUnitTest {
 
     @Before
     fun setup() {
-        val context = InstrumentationRegistry.getTargetContext()
-        database = Room.inMemoryDatabaseBuilder(context, GitHubDatabase::class.java).build()
+//        val context = InstrumentationRegistry.getTargetContext()
+//        database = Room.inMemoryDatabaseBuilder(context, GitHubDatabase::class.java).build()
         userDao = database.getGitHubDao()
     }
 

@@ -1,21 +1,20 @@
 package com.githubreader.view.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.githubreader.R
 import com.githubreader.data.models.RepoObject
 import com.githubreader.domain.listeners.OnResultItemClicked
 import com.githubreader.utils.AppConstants.Companion.ITEM
 import com.githubreader.utils.AppConstants.Companion.LOADING
-import com.squareup.picasso.Picasso
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_git_result.*
 
 /**
  * Created by Tom on 22.5.2018..
@@ -35,7 +34,7 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.onListItemClicked = onListItemClicked
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM) {
             ResultItemHolder(LayoutInflater.from(context).inflate(R.layout.item_git_result, parent, false))
         } else {
@@ -51,19 +50,19 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             val item = repos[position]
 
-            holder.name.text = item.repoName
-            holder.repoDesc.text = item.description
-            holder.repoForks.text = item.forks_count.toString()
-            holder.repoStars.text = item.stargazers_count.toString()
+            holder.repo_item_name_text_view.text = item.repoName
+            holder.repo_desc_id_text_view.text = item.description
+            holder.repo_forks_text_view.text = item.forks_count.toString()
+            holder.repo_stars_text_view.text = item.stargazers_count.toString()
 
-            holder.repoItem.setOnClickListener { onListItemClicked.onItemClicked(position) }
+            holder.repo_item_main_relative_layout.setOnClickListener { onListItemClicked.onItemClicked(position) }
 
-            Picasso.get()
-                    .load(item.owner?.avatarUrl)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .tag(context)
-                    .fit().centerCrop()
-                    .into(holder.repo_item_image_view)
+//            Picasso.get()
+//                    .load(item.owner?.avatarUrl)
+//                    .placeholder(R.mipmap.ic_launcher)
+//                    .tag(context)
+//                    .fit().centerCrop()
+//                    .into(holder.repo_item_image_view)
         }
     }
 
@@ -79,29 +78,31 @@ class GitResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return repos.size
     }
 
-    class ResultItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ResultItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
 
-        @BindView(R.id.repo_item_main_relative_layout)
-        lateinit var repoItem: RelativeLayout
+        override val containerView: View? = itemView
 
-        @BindView(R.id.repo_item_image_view)
-        lateinit var repo_item_image_view: ImageView
-
-        @BindView(R.id.repo_item_name_text_view)
-        lateinit var name: TextView
-
-        @BindView(R.id.repo_desc_id_text_view)
-        lateinit var repoDesc: TextView
-
-        @BindView(R.id.repo_forks_text_view)
-        lateinit var repoForks: TextView
-
-        @BindView(R.id.repo_stars_text_view)
-        lateinit var repoStars: TextView
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+//        @BindView(R.id.repo_item_main_relative_layout)
+//        lateinit var repoItem: RelativeLayout
+//
+//        @BindView(R.id.repo_item_image_view)
+//        lateinit var repo_item_image_view: ImageView
+//
+//        @BindView(R.id.repo_item_name_text_view)
+//        lateinit var name: TextView
+//
+//        @BindView(R.id.repo_desc_id_text_view)
+//        lateinit var repoDesc: TextView
+//
+//        @BindView(R.id.repo_forks_text_view)
+//        lateinit var repoForks: TextView
+//
+//        @BindView(R.id.repo_stars_text_view)
+//        lateinit var repoStars: TextView
+//
+//        init {
+//            ButterKnife.bind(this, itemView)
+//        }
 
     }
 
