@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 
 import com.githubreader.R
 import com.githubreader.base.BindingFragment
+import com.githubreader.base.GitHubActivity
 import com.githubreader.data.models.RepoObject
 import com.githubreader.databinding.FragmentGitResultsDetailsBinding
 import com.githubreader.utils.AppConstants.Companion.REPO_OBJECT
@@ -43,6 +44,8 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         repoObject = arguments?.getSerializable(REPO_OBJECT) as RepoObject
+
+        (activity as GitHubActivity).supportActionBar?.title = repoObject.repoName
 
 //        shimmerViewContainer.startShimmer()
         setupObservers()

@@ -21,7 +21,8 @@
             android:name="com.githubreader.base.GitHubActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBar">
+            >
+<!--            android:theme="@style/AppThemeNoActionBar"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
