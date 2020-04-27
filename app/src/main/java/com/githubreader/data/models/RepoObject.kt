@@ -12,7 +12,7 @@ import java.io.Serializable
  */
 
 @Entity(tableName = "repos")
-class RepoObject constructor (
+data class RepoObject constructor (
 
     @SerializedName("id")
     var repoId: Int = 0,

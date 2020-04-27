@@ -22,22 +22,23 @@ class GitHubResultsRepositoryImpl(
         }
     }
 
+    override fun observeSubscribers(): LiveData<Result<List<OwnerObject>>> {
+        wrapEspressoIdlingResource {
+            return gitHubResultsLocalDataSource.observeSubscribers()
+        }
+    }
 
+    override suspend fun getGitHubResults(update: Boolean, repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> {
+        wrapEspressoIdlingResource {
+            if (update)
+                try {
+                    updateGitHubResultsFromRemote(repoName, page, per_page)
+                } catch (e: Exception) {
+                    return Error(e)
+                }
 
-    override suspend fun getGitHubResults(
-        update: Boolean,
-        repoName: String,
-        page: Int,
-        per_page: Int
-    ): Result<List<RepoObject>> {
-        if(update)
-            try {
-                updateGitHubResultsFromRemote(repoName, page, per_page)
-            } catch (e: Exception) {
-                return Error(e)
-            }
-
-        return gitHubResultsLocalDataSource.getGitHubResults(repoName, page, per_page)
+            return gitHubResultsLocalDataSource.getGitHubResults(repoName, page, per_page)
+        }
     }
 
     // Only for test
@@ -45,34 +46,24 @@ class GitHubResultsRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveGitHubResultSubscribersDB(
-        repoName: String,
-        subscribers: List<OwnerObject>
-    ) {
+    override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getGitHubResultSubscribers(
-        update: Boolean,
-        repoName: String,
-        page: Int,
-        per_page: Int
-    ): Result<List<OwnerObject>> {
-        if(update)
-            try {
-                updateGitHubResultSubscribersFromRemote(repoName, page, per_page)
-            } catch (e: Exception) {
-                return Error(e)
-            }
+    override suspend fun getGitHubResultSubscribers(update: Boolean, repoName: String, page: Int, per_page: Int): Result<List<OwnerObject>> {
+        wrapEspressoIdlingResource {
+            if (update)
+                try {
+                    updateGitHubResultSubscribersFromRemote(repoName, page, per_page)
+                } catch (e: Exception) {
+                    return Error(e)
+                }
 
-        return gitHubResultsLocalDataSource.getGitHubResultSubscribers(repoName, page, per_page)
+            return gitHubResultsLocalDataSource.getGitHubResultSubscribers(repoName, page, per_page)
+        }
     }
 
-    private suspend fun updateGitHubResultsFromRemote(
-        repoName: String,
-        page: Int,
-        per_page: Int
-    ) {
+    private suspend fun updateGitHubResultsFromRemote(repoName: String, page: Int, per_page: Int) {
         wrapEspressoIdlingResource {
             val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
             if(remoteRepos is Success){
@@ -84,11 +75,7 @@ class GitHubResultsRepositoryImpl(
 
     }
 
-    private suspend fun updateGitHubResultSubscribersFromRemote(
-        repoName: String,
-        page: Int,
-        per_page: Int
-    ) {
+    private suspend fun updateGitHubResultSubscribersFromRemote(repoName: String, page: Int, per_page: Int) {
         wrapEspressoIdlingResource {
             val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
             if(remoteRepos is Success){

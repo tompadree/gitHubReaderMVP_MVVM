@@ -10,9 +10,9 @@
         <import type="androidx.core.content.ContextCompat" />
 
 
-                <variable
-                    name="viewModel"
-                    type="com.githubreader.gitresults.GitResultsViewModel" />
+        <variable
+            name="viewModel"
+            type="com.githubreader.gitresults.GitResultsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -23,9 +23,9 @@
         <com.githubreader.base.ScrollChildSwipeRefreshLayout
             android:id="@+id/gitResultFragSwipeLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-<!--            app:onRefreshListener="@{() -> viewModel.refresh(true)}"-->
-<!--            app:refreshing="@{viewModel.dataLoading}">-->
+            android:layout_height="match_parent"
+            app:onRefreshListener="@{() -> viewModel.refresh(true)}"
+            app:refreshing="@{viewModel.dataLoading}">
 
 
             <RelativeLayout
@@ -41,10 +41,49 @@
                     android:theme="@style/BlackAcccent"
                     android:visibility="invisible" />
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerViewContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:duration="300">
+                    <!--                android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}">-->
+
+                    <!-- Adding 7 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gitResultFragRv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:items="@{viewModel.items}"/>
 
             </RelativeLayout>
 

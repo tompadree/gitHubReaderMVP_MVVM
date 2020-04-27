@@ -5,105 +5,102 @@
 
     <data>
         <variable
-            name="repoObject"
-            type="com.githubreader.data.models.RepoObject" />
+            name="ownerObject"
+            type="com.githubreader.data.models.OwnerObject" />
 
         <variable
             name="viewModel"
-            type="com.githubreader.gitresults.GitResultsViewModel" />
+            type="com.githubreader.gitresultsdetails.GitResultsDetailsViewModel" />
     </data>
 
     <RelativeLayout
-        android:id="@+id/repo_item_main_relative_layout"
+        android:id="@+id/owner_item_main_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{() -> viewModel.onItemClick(repoObject)}">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/repo_item_image_view"
+            android:id="@+id/owner_item_image_view"
             android:layout_width="59dp"
             android:layout_height="66dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="11dp"
             android:layout_marginRight="11dp"
             android:src="@mipmap/ic_launcher"
-            app:imageSource="@{repoObject.owner.avatarUrl}"/>
+            app:imageSubscribersSource="@{ownerObject.avatarUrl}"/>
 
         <RelativeLayout
-            android:id="@+id/repo_item_relative_layout"
+            android:id="@+id/owner_item_relative_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_toEndOf="@+id/repo_item_image_view">
+            android:layout_toEndOf="@+id/owner_item_image_view">
 
             <TextView
-                android:id="@+id/repo_item_name_text_view"
+                android:id="@+id/owner_item_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/object_text_color_black"
-                android:text="@{repoObject.repoName}"/>
+                android:text="@{ownerObject.userName}" />
 
             <TextView
-                android:id="@+id/repo_desc_id_text_view"
+                android:id="@+id/owner_desc_id_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/repo_item_name_text_view"
+                android:layout_below="@+id/owner_item_name_text_view"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/object_text_color_black"
-                android:textStyle="bold"
-                android:text="@{repoObject.description}"/>
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/repo_forks_text_view_label"
+                android:id="@+id/owner_forks_text_view_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/repo_desc_id_text_view"
+                android:layout_below="@+id/owner_desc_id_text_view"
                 android:layout_marginTop="4dp"
                 android:text="@string/forks"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/repo_forks_text_view"
+                android:id="@+id/owner_forks_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/repo_desc_id_text_view"
+                android:layout_below="@+id/owner_desc_id_text_view"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="4dp"
-                android:layout_toEndOf="@+id/repo_forks_text_view_label"
-                android:textStyle="italic"
-                android:text="@{String.valueOf(repoObject.forks_count)}"/>
+                android:layout_toEndOf="@+id/owner_forks_text_view_label"
+                android:textStyle="italic"/>
 
 
             <TextView
-                android:id="@+id/repo_stars_text_view_label"
+                android:id="@+id/owner_stars_text_view_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/repo_desc_id_text_view"
+                android:layout_below="@+id/owner_desc_id_text_view"
                 android:layout_marginStart="170dp"
                 android:layout_marginTop="4dp"
                 android:text="@string/stars"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/repo_stars_text_view"
+                android:id="@+id/owner_stars_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/repo_desc_id_text_view"
+                android:layout_below="@+id/owner_desc_id_text_view"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="4dp"
-                android:layout_toEndOf="@+id/repo_stars_text_view_label"
-                android:textStyle="italic"
-                android:text="@{String.valueOf(repoObject.stargazers_count)}"/>
+                android:layout_toEndOf="@+id/owner_stars_text_view_label"
+                android:textStyle="italic"/>
 
         </RelativeLayout>
 
         <View
-            android:id="@+id/repo_item_separator_view"
+            android:id="@+id/owner_item_separator_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/repo_item_relative_layout"
-            android:layout_alignStart="@+id/repo_item_relative_layout"
+            android:layout_below="@+id/owner_item_relative_layout"
+            android:layout_alignStart="@+id/owner_item_relative_layout"
             android:background="@color/separator_grey" />
 
 

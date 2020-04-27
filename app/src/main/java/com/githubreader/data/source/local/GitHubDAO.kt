@@ -21,7 +21,15 @@ interface GitHubDAO {
      * @return all repos.
      */
     @Query("SELECT * FROM repos")
-    fun observeTasks(): LiveData<List<RepoObject>>
+    fun observeRepos(): LiveData<List<RepoObject>>
+
+    /**
+     * Observes list of owners.
+     *
+     * @return all owners.
+     */
+    @Query("SELECT * FROM owners")
+    fun observeSubscribers(): LiveData<List<OwnerObject>>
 
     /**
      * Delete all repos.

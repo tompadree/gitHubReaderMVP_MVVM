@@ -18,15 +18,22 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
 
     private val observableRepos = MutableLiveData<Result<List<RepoObject>>>()
 
+    private val observableOwners = MutableLiveData<Result<List<OwnerObject>>>()
+
     override fun observeRepos(): LiveData<Result<List<RepoObject>>> = observableRepos
 
+    override fun observeSubscribers(): LiveData<Result<List<OwnerObject>>> = observableOwners
 
     override suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> {
-        val response = githubApi.searchRepos(repoName, "stars", page.toString(), per_page.toString())
-        if(response.isSuccessful){
+        val response =
+            githubApi.searchRepos(repoName, "stars", page.toString(), per_page.toString())
+        if (response.isSuccessful) {
             val body = response.body()
-            if(response.body() != null)
-                return Result.Success(body!!.items)
+            if (response.body() != null) {
+                val result = Result.Success(body!!.items)
+                observableRepos.value = result
+                return result
+            }
         }
         return Result.Error(IOException("Error loading data " + "${response.code()} ${response.message()}"))
     }
@@ -40,8 +47,11 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
         val response = githubApi.getRepoSubscribers(repoName, page.toString(), per_page.toString())
         if(response.isSuccessful){
             val body = response.body()
-            if(response.body() != null)
-                return Result.Success(body!!)
+            if(response.body() != null){
+                val result = Result.Success(body!!)
+                observableOwners.value = result
+                return result
+            }
         }
         return Result.Error(IOException("Error loading data " + "${response.code()} ${response.message()}"))
     }
