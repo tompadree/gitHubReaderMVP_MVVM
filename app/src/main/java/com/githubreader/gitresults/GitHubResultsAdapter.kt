@@ -27,6 +27,10 @@ class GitHubResultsAdapter(private val gitResultsViewModel: GitResultsViewModel)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReposViewHolder {
         return ReposViewHolder.from(parent)
     }
+
+    override fun submitList(list: List<RepoObject>?) {
+        super.submitList(list)
+    }
 }
 
 class ReposViewHolder private constructor(val binding: ItemGitResultBinding)

@@ -81,9 +81,9 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
         _forceUpdate.value = refresh
     }
 
-    fun onItemClick(repoObject: RepoObject){
-        _itemClicked.postValue(repoObject)
-    }
+//    fun onItemClick(repoObject: RepoObject){
+//        _itemClicked.postValue(repoObject)
+//    }
 
     private fun showSnackbarMessage(message: Int) {
         _snackbarText.postValue(message)
