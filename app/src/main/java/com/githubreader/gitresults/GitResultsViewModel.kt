@@ -23,7 +23,7 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
 
     private val _snackbarText = SingleLiveEvent<Int>()
 
-    val isDataLoadingError = MutableLiveData<Boolean>(true)
+    val isDataLoadingError = MutableLiveData<Boolean>(false)
 
     val _itemClicked = SingleLiveEvent<RepoObject>()
     val itemClicked: LiveData<RepoObject> = _itemClicked
@@ -81,9 +81,9 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
         _forceUpdate.value = refresh
     }
 
-//    fun onItemClick(repoObject: RepoObject){
-//        _itemClicked.postValue(repoObject)
-//    }
+    fun onItemClick(repoObject: RepoObject){
+        _itemClicked.postValue(repoObject)
+    }
 
     private fun showSnackbarMessage(message: Int) {
         _snackbarText.postValue(message)

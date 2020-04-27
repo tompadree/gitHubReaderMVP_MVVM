@@ -45,7 +45,9 @@ class GitHubResultsLocalDataSource(
 
 
     override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>
-    ) = withContext(dispatchers) { dao.saveGitHubResultSubscribers(subscribers)}
+    ) = withContext(dispatchers) {
+        dao.deleteOwners()
+        dao.saveGitHubResultSubscribers(subscribers)}
 
     override suspend fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int
     ): Result<List<OwnerObject>> =

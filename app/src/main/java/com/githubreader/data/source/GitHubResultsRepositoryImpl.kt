@@ -77,9 +77,9 @@ class GitHubResultsRepositoryImpl(
 
     private suspend fun updateGitHubResultSubscribersFromRemote(repoName: String, page: Int, per_page: Int) {
         wrapEspressoIdlingResource {
-            val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
+            val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResultSubscribers(repoName, page, per_page)
             if(remoteRepos is Success){
-                gitHubResultsLocalDataSource.saveGitHubResultsDB(repoName, remoteRepos.data)
+                gitHubResultsLocalDataSource.saveGitHubResultSubscribersDB(repoName, remoteRepos.data)
             } else if(remoteRepos is Error){
                 throw remoteRepos.exception
             }

@@ -47,7 +47,7 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
             if(it == true) {
                 emptyShimmerCheck = true
                 shimmerViewContainer.startShimmer()
-            } else if(it == false && emptyShimmerCheck) {
+            } else if(it == false) { // && emptyShimmerCheck) {
                 shimmerViewContainer.stopShimmer()
                 shimmerViewContainer.visibility = View.GONE
                 emptyShimmerCheck = false
@@ -61,15 +61,15 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
             }
         }
 
-//        viewModel.itemClicked.observe(this){
-//              it?.let {  navigateToGitREsultsSubscribers(it) }
-//        }
+        viewModel.itemClicked.observe(this){
+              it?.let {  navigateToGitREsultsSubscribers(it) }
+        }
     }
 
-//    private fun navigateToGitREsultsSubscribers(repoObject: RepoObject){
-//        val nc = NavHostFragment.findNavController(this)
-//        nc.navigate(GitResultsFragmentDirections.actionGitResultsFragmentToGitResultsDetailsFragment(repoObject))
-//    }
+    private fun navigateToGitREsultsSubscribers(repoObject: RepoObject){
+        val nc = NavHostFragment.findNavController(this)
+        nc.navigate(GitResultsFragmentDirections.actionGitResultsFragmentToGitResultsDetailsFragment(repoObject))
+    }
 
     private fun setupRv() {
         gitHubResultsAdapter = GitHubResultsAdapter(viewModel)
@@ -80,21 +80,20 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
             (this.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
             // width and height don't change
-            setHasFixedSize(true)
+//            setHasFixedSize(true)
 
             // Set the number of offscreen views to retain before adding them
             // to the potentially shared recycled view pool
             setItemViewCacheSize(100)
 
                         // Scroll to first item after change
-            gitHubResultsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                    super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-                    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
-                }
-            })
+//            gitHubResultsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+//                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+//                    super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+//                    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+//                }
+//            })
         }
-
     }
 }
 

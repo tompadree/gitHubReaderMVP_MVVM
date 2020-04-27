@@ -16,7 +16,8 @@
     <RelativeLayout
         android:id="@+id/repo_item_main_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.onItemClick(repoObject)}">
 
         <ImageView
             android:id="@+id/repo_item_image_view"

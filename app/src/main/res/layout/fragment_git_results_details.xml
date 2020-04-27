@@ -19,16 +19,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.githubreader.base.ScrollChildSwipeRefreshLayout
-            android:id="@+id/gitResultDetailsFragSwipeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:onRefreshListener="@{() -> viewModel.refresh(true)}"
-            app:refreshing="@{viewModel.dataLoading}">
 
-            <RelativeLayout
+
+<!--        <com.githubreader.base.ScrollChildSwipeRefreshLayout-->
+<!--            android:id="@+id/gitResultDetailsFragSwipeLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:onRefreshListener="@{() -> viewModel.refresh(true)}"-->
+<!--            app:refreshing="@{viewModel.dataLoading}">-->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/layout_repo_details"/>
 
 <!--                <ProgressBar-->
 <!--                    android:id="@+id/repo_detail_ProgressBar"-->
@@ -61,7 +66,7 @@
                 <!--</LinearLayout>-->
 
 
-            </RelativeLayout>
-        </com.githubreader.base.ScrollChildSwipeRefreshLayout>
+            </LinearLayout>
+<!--        </com.githubreader.base.ScrollChildSwipeRefreshLayout>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
