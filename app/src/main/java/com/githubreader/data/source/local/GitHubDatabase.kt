@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.githubreader.data.models.*
-import com.githubreader.data.source.local.GitHubDAO
 
 /**
  * Created by Tom on 22.5.2018..

@@ -32,14 +32,6 @@ class OwnerObject constructor(
     var parentRepo: String? = ""
 ) : Serializable
 
-//    constructor(userName: String?, avatarUrl: String?, userType: String?, siteAdmin: String?, parentRepo: String?) {
-//        this.userName = userName
-//        this.avatarUrl = avatarUrl
-//        this.userType = userType
-//        this.siteAdmin = siteAdmin
-//        this.parentRepo = parentRepo
-//    }
-
 class OwnerConverter {
 
     @TypeConverter

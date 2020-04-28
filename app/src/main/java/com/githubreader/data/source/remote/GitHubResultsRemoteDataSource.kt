@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
-import com.githubreader.data.models.ReposModel
 import com.githubreader.data.models.Result
 import com.githubreader.data.source.GitHubResultsDataSource
+import com.githubreader.data.source.remote.api.APIConstants.Companion.SORT_STARS
 import com.githubreader.data.source.remote.api.GithubApi
 import java.io.IOException
 
@@ -26,7 +26,7 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
 
     override suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> {
         val response =
-            githubApi.searchRepos(repoName, "stars", page.toString(), per_page.toString())
+            githubApi.searchRepos(repoName, SORT_STARS, page.toString(), per_page.toString())
         if (response.isSuccessful) {
             val body = response.body()
             if (response.body() != null) {

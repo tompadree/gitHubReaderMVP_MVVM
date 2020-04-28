@@ -1,4 +1,4 @@
-package com.githubreader.gitresults.diffUtil
+package com.githubreader.gitresults
 
 import androidx.recyclerview.widget.DiffUtil
 import com.githubreader.data.models.RepoObject

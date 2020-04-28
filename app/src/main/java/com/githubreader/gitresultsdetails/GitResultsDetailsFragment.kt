@@ -1,20 +1,12 @@
 package com.githubreader.gitresultsdetails
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-
 import com.githubreader.R
 import com.githubreader.base.BindingFragment
-import com.githubreader.base.GitHubActivity
 import com.githubreader.data.models.RepoObject
 import com.githubreader.databinding.FragmentGitResultsDetailsBinding
 import com.githubreader.utils.AppConstants.Companion.REPO_OBJECT

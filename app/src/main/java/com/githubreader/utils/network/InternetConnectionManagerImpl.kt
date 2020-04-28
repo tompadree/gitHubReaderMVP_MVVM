@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.githubreader.R
-import com.githubreader.utils.network.InternetConnectionManager
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -19,12 +18,6 @@ class InternetConnectionManagerImpl : InternetConnectionManager {
 
     override fun hasInternetConnection(): Boolean {
         return isInternetOn
-//        if (BuildConfig.DEBUG) return true
-//
-//            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-//
-//        if(cm == null) return true
-//        return cm!!.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
     }
 
 
@@ -37,7 +30,8 @@ class InternetConnectionManagerImpl : InternetConnectionManager {
         )
 
         val textView = noIntSnaBar.view.findViewById(R.id.snackbar_text) as TextView
-        textView.setTextColor(ContextCompat.getColor(mParentLayout.context, R.color.colorPrimary))
+        textView.setTextColor(ContextCompat.getColor(mParentLayout.context, R.color.white))
+        noIntSnaBar.setBackgroundTint(ContextCompat.getColor(mParentLayout.context,R.color.colorPrimary))
 
         return object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {

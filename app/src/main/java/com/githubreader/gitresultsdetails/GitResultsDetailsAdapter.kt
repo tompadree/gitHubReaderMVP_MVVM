@@ -5,11 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.githubreader.data.models.OwnerObject
-import com.githubreader.data.models.RepoObject
-import com.githubreader.databinding.ItemGitResultBinding
 import com.githubreader.databinding.ItemGitResultDetailsBinding
-import com.githubreader.gitresults.GitResultsViewModel
-import com.githubreader.gitresults.diffUtil.ReposDiffUtil
 import kotlinx.android.extensions.LayoutContainer
 
 /**

@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -16,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.githubreader.utils.network.InternetConnectionManager
 import com.githubreader.R
-import com.githubreader.data.api.APIConstants
 import org.koin.android.ext.android.inject
 
 

@@ -12,8 +12,6 @@ import com.githubreader.data.models.RepoObject
 import com.githubreader.data.source.remote.api.APIConstants
 import com.githubreader.data.source.remote.api.APIConstants.Companion.DUMMY_SEARCH
 import com.githubreader.gitresultsdetails.GitHubResultsDetailsAdapter
-import kotlinx.android.synthetic.main.fragment_git_results.*
-import kotlinx.android.synthetic.main.item_git_result.*
 
 /**
  * @author Tomislav Curis
@@ -69,33 +67,19 @@ fun fetchSearchResults(gitResultToolbar: Toolbar, queryListener: OnSearchTermLis
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
         override fun onQueryTextChange(newText: String): Boolean {
-
                 if (newText != lastText) {
-//
-//                    showLoading()
-//                    localRepos.clear()
-//                    gitResultsAdapter?.clear()
-//                    localRepos = ArrayList()
-//                    gitResultsAdapter?.notifyDataSetChanged()
                     if (newText == "")
                         queryListener.onQuery(APIConstants.DUMMY_SEARCH)
                     else
                         queryListener.onQuery(newText)
                     lastText = newText
                 }
-
-
             return false
         }
 
         override fun onQueryTextSubmit(query: String): Boolean {
-
                 if (!query.isEmpty()) {
-//                    showLoading()
-//                    localRepos.clear()
-//                    gitResultsAdapter?.clear()
-//                    localRepos = ArrayList()
-//                    gitResultsAdapter?.notifyDataSetChanged()
+
                     if (query == "")
                         queryListener.onQuery(DUMMY_SEARCH)
                     else
@@ -103,7 +87,6 @@ fun fetchSearchResults(gitResultToolbar: Toolbar, queryListener: OnSearchTermLis
                 }
             return false
         }
-
     })
 }
 

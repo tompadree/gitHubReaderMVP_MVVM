@@ -2,13 +2,10 @@ package com.githubreader.gitresults
 
 import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.githubreader.databinding.FragmentGitResultsBinding
@@ -16,7 +13,6 @@ import com.githubreader.base.BindingFragment
 import com.githubreader.R
 import com.githubreader.base.GitHubActivity
 import com.githubreader.data.models.RepoObject
-import com.githubreader.splash.SplashFragmentDirections
 import com.githubreader.utils.helpers.observe
 import kotlinx.android.synthetic.main.fragment_git_results.*
 
@@ -43,11 +39,9 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
 
     override fun onResume() {
         super.onResume()
-//        gitResultToolbar
         (activity as GitHubActivity).supportActionBar?.title = getString(R.string.app_name)
         (activity as GitHubActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         // Close keyboard
-
     }
 
     override fun onPause() {

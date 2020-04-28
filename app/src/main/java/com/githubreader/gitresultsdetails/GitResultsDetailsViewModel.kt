@@ -9,7 +9,7 @@ import com.currencytrackingapp.utils.SingleLiveEvent
 import com.githubreader.data.models.OwnerObject
 import kotlinx.coroutines.launch
 import com.githubreader.data.models.*
-import com.githubreader.data.source.remote.api.APIConstants.Companion.DUMMY_SEARCH
+import com.githubreader.data.source.remote.api.APIConstants.Companion.PAGE_ENTRIES
 
 /**
  * @author Tomislav Curis
@@ -37,7 +37,8 @@ class GitResultsDetailsViewModel(private val repository: GitHubResultsRepository
         _forceUpdate.switchMap { forceUpdate ->
             if (forceUpdate && internetConnectionManager.hasInternetConnection()) {
                 viewModelScope.launch {
-                    handleResponseWithError( repository.getGitHubResultSubscribers(forceUpdate, _parentRepoObject.get()!!.repoName, _currentPage.get()!!, 30))
+                     handleResponseWithError( repository.getGitHubResultSubscribers(
+                        forceUpdate, _parentRepoObject.get()!!.repoName, _currentPage.get()!!, PAGE_ENTRIES))
                     _dataLoading.value = false
                 }
             }

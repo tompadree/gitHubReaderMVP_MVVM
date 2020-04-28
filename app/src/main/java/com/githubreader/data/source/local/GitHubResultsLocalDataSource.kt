@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
-import com.githubreader.data.models.ReposModel
 import com.githubreader.data.models.Result
 import com.githubreader.data.source.GitHubResultsDataSource
 import kotlinx.coroutines.CoroutineDispatcher

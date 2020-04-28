@@ -56,14 +56,4 @@ data class RepoObject constructor (
     @TypeConverters(OwnerConverter::class)
     var owner: OwnerObject? = OwnerObject()
 
-
-//    constructor(repoId: Int, repoName: String?, watchers_count: Int, forks_count: Int,  createdAt: String?,  from_cache: Boolean?, owner: OwnerObject?) {
-//        this.repoId = repoId
-//        this.repoName = repoName
-//        this.watchers_count = watchers_count
-//        this.forks_count = forks_count
-//        this.createdAt = createdAt
-//        this.from_cache = from_cache
-//        this.owner = owner
-//    }
 ) : Serializable
