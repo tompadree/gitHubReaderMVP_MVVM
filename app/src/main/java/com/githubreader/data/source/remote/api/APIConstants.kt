@@ -12,7 +12,7 @@ interface APIConstants {
         const val API_URL_GET_SEARCH = "/search/repositories"
         const val API_URL_GET_REPO = "/repos"
 
-        const val DUMMY_SEARCH = "created:>2018-09-01"
+        const val DUMMY_SEARCH = "a" //created:>2018-09-01"
 
         const val CONTENT_TYPE = "Content-Type: application/json; charset=utf-8"
 

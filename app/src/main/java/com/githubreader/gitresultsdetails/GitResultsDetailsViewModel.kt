@@ -42,7 +42,7 @@ class GitResultsDetailsViewModel(private val repository: GitHubResultsRepository
                 }
             }
 
-            repository.observeSubscribers().map {
+            repository.observeSubscribers(_parentRepoObject.get()!!.repoName).map {
                 handleResponseWithError(it)!! }
         }
 

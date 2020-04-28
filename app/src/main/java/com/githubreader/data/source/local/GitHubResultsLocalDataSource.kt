@@ -19,21 +19,23 @@ class GitHubResultsLocalDataSource(
     private val dao: GitHubDAO,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : GitHubResultsDataSource {
 
-    override fun observeRepos(): LiveData<Result<List<RepoObject>>> {
-        return dao.observeRepos().map { Result.Success(it) }
+    override fun observeRepos(repoName: String): LiveData<Result<List<RepoObject>>> {
+        return dao.observeRepos("%$repoName%").map { Result.Success(it) }
     }
 
-    override fun observeSubscribers(): LiveData<Result<List<OwnerObject>>> {
-        return dao.observeSubscribers().map { Result.Success(it) }
+    override fun observeSubscribers(repoName: String): LiveData<Result<List<OwnerObject>>> {
+        return dao.observeSubscribers("%$repoName%").map { Result.Success(it) }
     }
 
     override suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>)
-            = withContext(dispatchers) { dao.saveGitHubResults(githubResults)}
+            = withContext(dispatchers) {
+//        dao.deleteRepos()
+        dao.saveGitHubResults(githubResults)}
 
     override suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> =
         withContext(dispatchers) {
             return@withContext try {
-                Result.Success(dao.getGitHubResults(repoName, page, per_page))
+                Result.Success(dao.getGitHubResults("%$repoName%", page, per_page))
             } catch (e: Exception) {
                 Result.Error(e)
             }
@@ -46,14 +48,18 @@ class GitHubResultsLocalDataSource(
 
     override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>
     ) = withContext(dispatchers) {
+        // Adding parent repo for id
+        for (element in subscribers)
+            element.parentRepo = repoName
         dao.deleteOwners()
-        dao.saveGitHubResultSubscribers(subscribers)}
+        dao.saveGitHubResultSubscribers(subscribers)
+    }
 
     override suspend fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int
     ): Result<List<OwnerObject>> =
         withContext(dispatchers) {
             return@withContext try {
-                Result.Success(dao.getGitHubResultSubscribers(repoName, page, per_page))
+                Result.Success(dao.getGitHubResultSubscribers("%$repoName%", page, per_page))
             } catch (e: Exception) {
                 Result.Error(e)
             }

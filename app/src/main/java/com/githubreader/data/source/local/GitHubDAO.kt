@@ -20,16 +20,16 @@ interface GitHubDAO {
      *
      * @return all repos.
      */
-    @Query("SELECT * FROM repos")
-    fun observeRepos(): LiveData<List<RepoObject>>
+    @Query("SELECT * FROM repos WHERE repoName LIKE :repoName")
+    fun observeRepos(repoName: String): LiveData<List<RepoObject>>
 
     /**
      * Observes list of owners.
      *
      * @return all owners.
      */
-    @Query("SELECT * FROM owners")
-    fun observeSubscribers(): LiveData<List<OwnerObject>>
+    @Query("SELECT * FROM owners WHERE parentRepo LIKE :repoName")
+    fun observeSubscribers(repoName: String): LiveData<List<OwnerObject>>
 
     /**
      * Delete all repos.

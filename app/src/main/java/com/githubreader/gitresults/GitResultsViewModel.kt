@@ -38,20 +38,21 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
 
     private val _items: LiveData<List<RepoObject>> =
         _forceUpdate.switchMap { forceUpdate ->
-        if (forceUpdate && internetConnectionManager.hasInternetConnection()) {
+        if (forceUpdate && internetConnectionManager.hasInternetConnection()) { //f
             viewModelScope.launch {
-                handleResponseWithError(
-                    repository.getGitHubResults(forceUpdate, _currentSearch.get()!!, _currentPage.get()!!, 30)  )
+//                handleResponseWithError(
+                    repository.getGitHubResults(forceUpdate, _currentSearch.get()!!, _currentPage.get()!!, 30) // )
                 _dataLoading.value = false
             }
         }
+//            if(!forceUpdate)
+//                _items.value. = mutableListOf()
 
-            repository.observeRepos().map { handleResponseWithError(it)!! }
+            repository.observeRepos(_currentSearch.get()!!).switchMap {
+//            handleResponseWithError(it)
+                    filterRates(it)
+                }
 
-//        repository.observeRepos().switchMap {
-////            handleResponseWithError(it)
-//            filterRates(it)
-//        }
     }
 
     val items: LiveData<List<RepoObject>> = _items
@@ -79,6 +80,12 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
 
     fun refresh(refresh: Boolean) {
         _forceUpdate.value = refresh
+    }
+
+    fun onSearchTextChanged(query: String){
+        _currentSearch.set(query)
+        items.value
+        _forceUpdate.value = false
     }
 
     fun onItemClick(repoObject: RepoObject){

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,21 +46,41 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
 
         repoObject = arguments?.getSerializable(REPO_OBJECT) as RepoObject
 
-        (activity as GitHubActivity).supportActionBar?.title = repoObject.repoName
-
-//        shimmerViewContainer.startShimmer()
+        setupToolbar()
         setupObservers()
         setupDetails()
         setupRv()
+        initVM()
+    }
 
+    private fun initVM(){
         viewModel._parentRepoObject.set(repoObject)
         viewModel.refresh(true)
+    }
+
+    private fun setupToolbar() {
+        gitResultDetailsToolbar.title = repoObject.repoName
+        gitResultDetailsToolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+
+        // Hide keyboard
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
 
     private fun setupObservers(){
 
         observeError(viewModel.error)
+        viewModel.empty.observe(this) {
 
+            if(it == true) {
+                emptyShimmerCheck = true
+                shimmerViewContainerDetails.startShimmer()
+            } else if(it == false) { // && emptyShimmerCheck) {
+                shimmerViewContainerDetails.stopShimmer()
+                shimmerViewContainerDetails.visibility = View.GONE
+                emptyShimmerCheck = false
+            }
+        }
     }
 
     private fun setupRv() {
@@ -69,9 +90,6 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = gitHubResultsDetailsAdapter
             (this.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-            // width and height don't change
-//            setHasFixedSize(true)
 
             // Set the number of offscreen views to retain before adding them
             // to the potentially shared recycled view pool
@@ -117,8 +135,6 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
             layout_repo_details_siteAdmin_layout.visibility = View.GONE
 
         layout_repo_details_tv_issues.text = repoObject.open_issues_count.toString()
-
-
     }
 }
 

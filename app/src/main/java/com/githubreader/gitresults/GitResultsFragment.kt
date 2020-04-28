@@ -1,7 +1,11 @@
 package com.githubreader.gitresults
 
+import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.githubreader.databinding.FragmentGitResultsBinding
 import com.githubreader.base.BindingFragment
 import com.githubreader.R
+import com.githubreader.base.GitHubActivity
 import com.githubreader.data.models.RepoObject
 import com.githubreader.splash.SplashFragmentDirections
 import com.githubreader.utils.helpers.observe
@@ -31,10 +36,28 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-
-//        shimmerViewContainer.startShimmer()
         setupObservers()
         setupRv()
+        initVM()
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        gitResultToolbar
+        (activity as GitHubActivity).supportActionBar?.title = getString(R.string.app_name)
+        (activity as GitHubActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        // Close keyboard
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(activity?.currentFocus?.windowToken?: return, 0)
+    }
+
+    private fun initVM() {
+        viewModel._currentSearch.set("a")
         viewModel.refresh(true)
     }
 
@@ -79,20 +102,9 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
             adapter = gitHubResultsAdapter
             (this.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-            // width and height don't change
-//            setHasFixedSize(true)
-
             // Set the number of offscreen views to retain before adding them
             // to the potentially shared recycled view pool
             setItemViewCacheSize(100)
-
-                        // Scroll to first item after change
-//            gitHubResultsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-//                override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-//                    super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-//                    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
-//                }
-//            })
         }
     }
 }

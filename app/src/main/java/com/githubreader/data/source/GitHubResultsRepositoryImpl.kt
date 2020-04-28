@@ -16,15 +16,15 @@ class GitHubResultsRepositoryImpl(
     private val gitHubResultsLocalDataSource: GitHubResultsDataSource,
     private val gitHubResultsRemoteDataSource: GitHubResultsDataSource) : GitHubResultsRepository {
 
-    override fun observeRepos(): LiveData<Result<List<RepoObject>>> {
+    override fun observeRepos(repoName: String): LiveData<Result<List<RepoObject>>> {
         wrapEspressoIdlingResource {
-            return gitHubResultsLocalDataSource.observeRepos()
+            return gitHubResultsLocalDataSource.observeRepos(repoName)
         }
     }
 
-    override fun observeSubscribers(): LiveData<Result<List<OwnerObject>>> {
+    override fun observeSubscribers(repoName: String): LiveData<Result<List<OwnerObject>>> {
         wrapEspressoIdlingResource {
-            return gitHubResultsLocalDataSource.observeSubscribers()
+            return gitHubResultsLocalDataSource.observeSubscribers(repoName)
         }
     }
 

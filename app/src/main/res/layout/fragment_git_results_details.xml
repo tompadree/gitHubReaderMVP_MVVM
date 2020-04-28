@@ -19,8 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
 <!--        <com.githubreader.base.ScrollChildSwipeRefreshLayout-->
 <!--            android:id="@+id/gitResultDetailsFragSwipeLayout"-->
 <!--            android:layout_width="match_parent"-->
@@ -32,6 +30,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/gitResultDetailsToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/AppThemeNoActionBarToolbar"
+                    app:navigationIcon="?attr/homeAsUpIndicator"/>
 
                 <include layout="@layout/layout_repo_details"/>
 
@@ -55,7 +60,32 @@
                 <!--android:orientation="vertical">-->
 
                 <!--<include layout="@layout/layout_repo_details" />-->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerViewContainerDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:duration="300">
+                    <!--                android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}">-->
 
+                    <!-- Adding 7 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                        <include layout="@layout/item_placeholder" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/repo_detail_subscribers_rv"

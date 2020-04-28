@@ -11,9 +11,9 @@ import com.githubreader.data.models.Result
 
 interface GitHubResultsRepository {
 
-    fun observeRepos(): LiveData<Result<List<RepoObject>>>
+    fun observeRepos(repoName: String = "a"): LiveData<Result<List<RepoObject>>>
 
-    fun observeSubscribers(): LiveData<Result<List<OwnerObject>>>
+    fun observeSubscribers(repoName: String): LiveData<Result<List<OwnerObject>>>
 
     suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>)
 

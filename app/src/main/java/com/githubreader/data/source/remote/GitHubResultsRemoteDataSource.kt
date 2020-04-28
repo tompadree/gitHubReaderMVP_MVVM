@@ -20,9 +20,9 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
 
     private val observableOwners = MutableLiveData<Result<List<OwnerObject>>>()
 
-    override fun observeRepos(): LiveData<Result<List<RepoObject>>> = observableRepos
+    override fun observeRepos(repoName: String): LiveData<Result<List<RepoObject>>> = observableRepos
 
-    override fun observeSubscribers(): LiveData<Result<List<OwnerObject>>> = observableOwners
+    override fun observeSubscribers(repoName: String): LiveData<Result<List<OwnerObject>>> = observableOwners
 
     override suspend fun getGitHubResults(repoName: String, page: Int, per_page: Int): Result<List<RepoObject>> {
         val response =

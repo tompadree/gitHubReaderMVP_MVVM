@@ -1,13 +1,18 @@
 package com.githubreader.gitresults
 
 import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.githubreader.R
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
+import com.githubreader.data.source.remote.api.APIConstants
+import com.githubreader.data.source.remote.api.APIConstants.Companion.DUMMY_SEARCH
 import com.githubreader.gitresultsdetails.GitHubResultsDetailsAdapter
+import kotlinx.android.synthetic.main.fragment_git_results.*
 import kotlinx.android.synthetic.main.item_git_result.*
 
 /**
@@ -49,4 +54,59 @@ fun setIconSubscribers(imageViewSubs: ImageView, avatarUrlOwner: String?) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+@BindingAdapter("app:searchResult")
+fun fetchSearchResults(gitResultToolbar: Toolbar, queryListener: OnSearchTermListener) {
+
+    gitResultToolbar.inflateMenu(R.menu.git_results_menu)
+
+    val searchItem = gitResultToolbar.menu.findItem(R.id.action_search)
+    val searchView = searchItem.actionView as SearchView
+
+    var lastText = ""
+
+    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+        override fun onQueryTextChange(newText: String): Boolean {
+
+                if (newText != lastText) {
+//
+//                    showLoading()
+//                    localRepos.clear()
+//                    gitResultsAdapter?.clear()
+//                    localRepos = ArrayList()
+//                    gitResultsAdapter?.notifyDataSetChanged()
+                    if (newText == "")
+                        queryListener.onQuery(APIConstants.DUMMY_SEARCH)
+                    else
+                        queryListener.onQuery(newText)
+                    lastText = newText
+                }
+
+
+            return false
+        }
+
+        override fun onQueryTextSubmit(query: String): Boolean {
+
+                if (!query.isEmpty()) {
+//                    showLoading()
+//                    localRepos.clear()
+//                    gitResultsAdapter?.clear()
+//                    localRepos = ArrayList()
+//                    gitResultsAdapter?.notifyDataSetChanged()
+                    if (query == "")
+                        queryListener.onQuery(DUMMY_SEARCH)
+                    else
+                        queryListener.onQuery(query)
+                }
+            return false
+        }
+
+    })
+}
+
+interface OnSearchTermListener {
+    fun onQuery(query: String)
 }
