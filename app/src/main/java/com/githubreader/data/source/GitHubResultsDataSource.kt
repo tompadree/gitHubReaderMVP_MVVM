@@ -15,7 +15,7 @@ interface GitHubResultsDataSource {
 
     fun observeSubscribers(repoName: String): LiveData<Result<List<OwnerObject>>>
 
-    suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>)
+    suspend fun saveGitHubResultsDB(githubResults: List<RepoObject>)
 
     suspend fun getGitHubResults(repoName: String = "a", page: Int, per_page: Int): Result<List<RepoObject>>
 

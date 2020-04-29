@@ -26,7 +26,7 @@ class GitHubResultsLocalDataSource(
         return dao.observeSubscribers("%$repoName%").map { Result.Success(it) }
     }
 
-    override suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>)
+    override suspend fun saveGitHubResultsDB(githubResults: List<RepoObject>)
             = withContext(dispatchers) {
 //        dao.deleteRepos()
         dao.saveGitHubResults(githubResults)}

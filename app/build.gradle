@@ -129,7 +129,12 @@ dependencies {
     // Idling
     implementation "androidx.test.espresso:espresso-idling-resource:3.3.0-beta01"
 
+    // Test
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+
+    // AndroidTest
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
 }

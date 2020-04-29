@@ -57,10 +57,7 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
     }
 
 
-    override suspend fun saveGitHubResultsDB(
-        repoName: String,
-        githubResults: List<RepoObject>
-    ) {
+    override suspend fun saveGitHubResultsDB(githubResults: List<RepoObject>) {
         TODO("Not yet implemented")
     }
     override suspend fun saveGitHubResultSubscribersDB(
