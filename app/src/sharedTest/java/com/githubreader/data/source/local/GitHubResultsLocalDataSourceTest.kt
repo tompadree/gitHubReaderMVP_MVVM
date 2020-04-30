@@ -150,5 +150,4 @@ class GitHubResultsLocalDataSourceTest {
         assertThat(ownersTemp.data[1].userName, `is` (owners[1].userName))
         assertThat(ownersTemp.data[1].parentRepo, `is` (owners[1].parentRepo))
     }
-
 }
