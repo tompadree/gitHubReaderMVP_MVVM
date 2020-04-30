@@ -19,6 +19,9 @@ class OwnerObject constructor(
     @SerializedName("login")
     var userName: String = "",
 
+    @SerializedName("parent_repo")
+    var parentRepo: String? = "",
+
     @SerializedName("avatar_url")
     var avatarUrl: String? = null,
 
@@ -26,10 +29,9 @@ class OwnerObject constructor(
     var userType: String? = null,
 
     @SerializedName("site_admin")
-    var siteAdmin: String? = null,
+    var siteAdmin: String? = null
 
-    @SerializedName("parent_repo")
-    var parentRepo: String? = ""
+
 ) : Serializable
 
 class OwnerConverter {
