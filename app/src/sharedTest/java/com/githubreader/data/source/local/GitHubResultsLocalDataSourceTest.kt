@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 import org.hamcrest.MatcherAssert.assertThat
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
 
 /**
  * @author Tomislav Curis
