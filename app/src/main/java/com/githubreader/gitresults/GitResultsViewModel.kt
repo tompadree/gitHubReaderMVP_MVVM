@@ -39,7 +39,7 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
         _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate && internetConnectionManager.hasInternetConnection()) { //f
             viewModelScope.launch {
-                    repository.getGitHubResults(forceUpdate, _currentSearch.get()!!, _currentPage.get()!!, PAGE_ENTRIES)
+                handleResponseWithError(repository.getGitHubResults(forceUpdate, _currentSearch.get()!!, _currentPage.get()!!, PAGE_ENTRIES))
                 _dataLoading.value = false
             }
         }
@@ -57,6 +57,7 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
     }
 
     fun refresh(refresh: Boolean) {
+        _dataLoading.value = internetConnectionManager.hasInternetConnection() && !isDataLoadingError.value!! && refresh
         _forceUpdate.value = refresh
     }
 

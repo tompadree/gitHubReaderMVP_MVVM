@@ -19,7 +19,7 @@ class GitResultsDetailsViewModel(private val repository: GitHubResultsRepository
 ) : ViewModel() {
 
     val _currentPage = ObservableField<Int>(1)
-    val _parentRepoObject = ObservableField<RepoObject>()
+    val _parentRepoObject = ObservableField<RepoObject>(RepoObject(1,"RepoName"))
 
     private val _snackbarText = SingleLiveEvent<Int>()
 
@@ -55,6 +55,7 @@ class GitResultsDetailsViewModel(private val repository: GitHubResultsRepository
     }
 
     fun refresh(refresh: Boolean) {
+        _dataLoading.value = internetConnectionManager.hasInternetConnection() && !isDataLoadingError.value!! && refresh
         _forceUpdate.value = refresh
     }
 

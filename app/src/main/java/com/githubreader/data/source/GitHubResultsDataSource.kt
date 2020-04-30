@@ -24,4 +24,8 @@ interface GitHubResultsDataSource {
     suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>)
 
     suspend fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int): Result<List<OwnerObject>>
+
+    suspend fun deleteRepos()
+
+    suspend fun deleteOwners()
 }

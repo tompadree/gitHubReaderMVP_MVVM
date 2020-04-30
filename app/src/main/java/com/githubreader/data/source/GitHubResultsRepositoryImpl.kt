@@ -7,6 +7,8 @@ import com.githubreader.data.models.RepoObject
 import com.githubreader.data.models.Result
 import com.githubreader.data.models.Result.Error
 import com.githubreader.data.models.Result.Success
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 /**
@@ -43,11 +45,23 @@ class GitHubResultsRepositoryImpl(
 
     // Only for test
     override suspend fun saveGitHubResultsDB(repoName: String, githubResults: List<RepoObject>) {
-        TODO("Not yet implemented")
+        coroutineScope {
+            try {
+                launch { gitHubResultsLocalDataSource.saveGitHubResultsDB(githubResults) }
+            } catch (e: Exception) {
+                throw e
+            }
+        }
     }
 
     override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>) {
-        TODO("Not yet implemented")
+        coroutineScope {
+            try {
+                launch { gitHubResultsLocalDataSource.saveGitHubResultSubscribersDB(repoName, subscribers) }
+            } catch (e: Exception) {
+                throw e
+            }
+        }
     }
 
     override suspend fun getGitHubResultSubscribers(update: Boolean, repoName: String, page: Int, per_page: Int): Result<List<OwnerObject>> {
@@ -67,7 +81,7 @@ class GitHubResultsRepositoryImpl(
         wrapEspressoIdlingResource {
             val remoteRepos = gitHubResultsRemoteDataSource.getGitHubResults(repoName, page, per_page)
             if(remoteRepos is Success){
-                gitHubResultsLocalDataSource.saveGitHubResultsDB(repoName, remoteRepos.data)
+                gitHubResultsLocalDataSource.saveGitHubResultsDB(remoteRepos.data)
             } else if(remoteRepos is Result.Error){
                 throw remoteRepos.exception
             }

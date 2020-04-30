@@ -66,4 +66,12 @@ class GitHubResultsRemoteDataSource(private val githubApi: GithubApi): GitHubRes
     ) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteRepos() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteOwners() {
+        TODO("Not yet implemented")
+    }
 }

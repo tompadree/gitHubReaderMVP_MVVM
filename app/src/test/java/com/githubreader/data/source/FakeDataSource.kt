@@ -37,10 +37,18 @@ class FakeDataSource(
     }
 
     override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>) {
-        TODO("Not yet implemented")
-    }
+        owners?.clear()
+        owners?.addAll(subscribers)    }
 
     override suspend fun getGitHubResultSubscribers(repoName: String, page: Int, per_page: Int): Result<List<OwnerObject>> {
-        TODO("Not yet implemented")
+        owners?.let { return  Result.Success(ArrayList(it)) }
+        return Result.Error(Exception("Repos not found"))    }
+
+    override suspend fun deleteRepos() {
+        repos?.clear()
+    }
+
+    override suspend fun deleteOwners() {
+        owners?.clear()
     }
 }

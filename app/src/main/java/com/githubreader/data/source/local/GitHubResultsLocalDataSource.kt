@@ -44,7 +44,6 @@ class GitHubResultsLocalDataSource(
         TODO("Not yet implemented")
     }
 
-
     override suspend fun saveGitHubResultSubscribersDB(repoName: String, subscribers: List<OwnerObject>
     ) = withContext(dispatchers) {
         // Adding parent repo for id
@@ -63,4 +62,8 @@ class GitHubResultsLocalDataSource(
                 Result.Error(e)
             }
         }
+
+    override suspend fun deleteRepos() = withContext(dispatchers) { dao.deleteRepos()}
+
+    override suspend fun deleteOwners() = withContext(dispatchers) { dao.deleteOwners() }
 }
