@@ -25,6 +25,12 @@ class FakeRepository : GitHubResultsRepository{
     }
 
     override fun observeRepos(repoName: String): LiveData<Result<List<RepoObject>>> {
+        /*TODO sorting empty list*/
+//        val filtered: ArrayList<RepoObject> = ArrayList()
+//        for(repo in currentListRepos)
+//            if(repo.repoName == repoName)
+//                filtered.add(repo)
+
         runBlocking { observableRepos.value = Result.Success(currentListRepos) }
         return observableRepos
     }

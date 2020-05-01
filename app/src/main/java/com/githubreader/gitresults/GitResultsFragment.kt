@@ -39,9 +39,10 @@ class GitResultsFragment : BindingFragment<FragmentGitResultsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        (activity as GitHubActivity).supportActionBar?.title = getString(R.string.app_name)
-        (activity as GitHubActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        // Close keyboard
+        if(activity is GitHubActivity) {
+            (activity as GitHubActivity).supportActionBar?.title = getString(R.string.app_name)
+            (activity as GitHubActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        }
     }
 
     override fun onPause() {

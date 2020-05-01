@@ -26,9 +26,7 @@
         <action
             android:id="@+id/action_gitResultsFragment_to_gitResultsDetailsFragment"
             app:destination="@id/gitResultsDetailsFragment" >
-            <argument
-                android:name="repoObject"
-                app:argType="com.githubreader.data.models.RepoObject" />
+
         </action>
 
     </fragment>
@@ -40,6 +38,9 @@
         <action
             android:id="@+id/action_gitResultsDetailsFragment_to_gitResultsFragment"
             app:destination="@id/gitResultsFragment" />
+        <argument
+                android:name="repoObject"
+                app:argType="com.githubreader.data.models.RepoObject" />
     </fragment>
 
 

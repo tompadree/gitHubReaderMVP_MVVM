@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.WindowManager
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.githubreader.R
 import com.githubreader.base.BindingFragment
@@ -26,6 +28,8 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
 
     private val viewModel: GitResultsDetailsViewModel by viewModel()
 
+    private val args: GitResultsDetailsFragmentArgs by navArgs()
+
     private lateinit var gitHubResultsDetailsAdapter : GitHubResultsDetailsAdapter
     private var emptyShimmerCheck = true
     private lateinit var repoObject: RepoObject
@@ -36,7 +40,7 @@ class GitResultsDetailsFragment : BindingFragment<FragmentGitResultsDetailsBindi
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        repoObject = arguments?.getSerializable(REPO_OBJECT) as RepoObject
+        repoObject = args.repoObject
 
         setupToolbar()
         setupObservers()

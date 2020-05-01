@@ -64,7 +64,7 @@ class GitResultsViewModel(private val repository: GitHubResultsRepository,
     fun onSearchTextChanged(query: String){
         _currentSearch.set(query)
         items.value
-        _forceUpdate.value = false
+        _forceUpdate.postValue(false)
     }
 
     fun onItemClick(repoObject: RepoObject){
