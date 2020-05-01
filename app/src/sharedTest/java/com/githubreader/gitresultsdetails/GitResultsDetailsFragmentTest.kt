@@ -1,17 +1,13 @@
 package com.githubreader.gitresultsdetails
 
-import android.view.View
-import android.widget.ImageButton
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.pressMenuKey
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -25,8 +21,6 @@ import com.githubreader.data.source.GitHubResultsRepository
 import com.githubreader.gitresults.GitResultsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,9 +28,6 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.mockito.Mockito
-import org.mockito.Mockito.verify
-import org.robolectric.annotation.LooperMode
-import org.robolectric.annotation.TextLayoutMode
 
 
 /**
@@ -44,8 +35,6 @@ import org.robolectric.annotation.TextLayoutMode
  */
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-@LooperMode(LooperMode.Mode.PAUSED)
-@TextLayoutMode(TextLayoutMode.Mode.REALISTIC)
 @ExperimentalCoroutinesApi
 class GitResultsDetailsFragmentTest : KoinTest {
 
@@ -69,19 +58,14 @@ class GitResultsDetailsFragmentTest : KoinTest {
         runBlocking {  repository.saveGitHubResultSubscribersDB("RepoTest", owners) }
     }
 
-//    @After
-//    fun cleanUpDB(){
-//        runBlocking {  repo() }
-//    }
-
     @Test
     fun displaySubscribers() {
         // GIVEN - On the home screen
         launchFragment()
 
         // THEN - Verify repos are displayed on screen
-        onView(ViewMatchers.withText("User1")).check(matches(isDisplayed()))
-        onView(ViewMatchers.withText("User2")).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText("User1")).check(matches(isDisplayed()))
+        onView(withText("User2")).check(ViewAssertions.matches(isDisplayed()))
     }
 
     @Test
@@ -94,9 +78,9 @@ class GitResultsDetailsFragmentTest : KoinTest {
         launchFragment()
 
         // THEN - Verify subscriber is displayed on screen
-        onView(ViewMatchers.withText("User11"))
+        onView(withText("User11"))
             .check(matches(isDisplayed()))
-        onView(ViewMatchers.withText("User22"))
+        onView(withText("User22"))
             .check(matches(isDisplayed()))
     }
 
@@ -112,7 +96,7 @@ class GitResultsDetailsFragmentTest : KoinTest {
         }
 
         // WHEN - Click on back
-        onView(isRoot()).perform(ViewActions.pressMenuKey())
+        onView(isRoot()).perform(pressMenuKey())
 //        pressBack()
 
         // THEN - Verify that we navigate to the owner screen
@@ -120,13 +104,6 @@ class GitResultsDetailsFragmentTest : KoinTest {
 //        verify(navController).navigate(
 //            GitResultsDetailsFragmentDirections.actionGitResultsDetailsFragmentToGitResultsFragment()
 //        )
-    }
-
-    fun navigationIconMatcher(): Matcher<View?>? {
-        return allOf(
-            isAssignableFrom(ImageButton::class.java),
-            withParent(isAssignableFrom(Toolbar::class.java))
-        )
     }
 
     private fun launchFragment() {
@@ -139,5 +116,4 @@ class GitResultsDetailsFragmentTest : KoinTest {
             Navigation.setViewNavController(it.view!!, navController)
         }
     }
-
 }

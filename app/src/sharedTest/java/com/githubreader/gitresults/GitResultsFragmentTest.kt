@@ -60,11 +60,6 @@ class GitResultsFragmentTest : KoinTest {
         runBlocking {  repository.saveGitHubResultsDB("RepoTest", repos) }
     }
 
-//    @After
-//    fun cleanUpDB(){
-//        runBlocking {  repo() }
-//    }
-
     @Test
     fun displayRepos() {
         // GIVEN - On the home screen
@@ -107,12 +102,11 @@ class GitResultsFragmentTest : KoinTest {
         viewModel.onSearchTextChanged("kfhsafh")
 
         onView(withText("Repo1")).check(matches(isDisplayed()))
-//        onView(withText("Repo2")).check(doesNotExist())
+        onView(withText("Repo2")).check(matches(isDisplayed()))
     }
 
     @Test
     fun clickRepo_navigateGitResultsDetailsFragment() {
-        // GIVEN - On the home screen
         // GIVEN - On the home screen
         val scenario = launchFragmentInContainer<GitResultsFragment>(Bundle(), R.style.AppTheme)
 

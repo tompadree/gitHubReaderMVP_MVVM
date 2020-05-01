@@ -3,7 +3,6 @@ package com.currencytrackingapp.util
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingResource

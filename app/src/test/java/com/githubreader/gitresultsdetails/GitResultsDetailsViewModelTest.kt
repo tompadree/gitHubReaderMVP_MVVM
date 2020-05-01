@@ -7,13 +7,11 @@ import com.githubreader.di.AppModule
 import com.githubreader.di.DataModule
 import com.githubreader.di.NetModule
 import com.githubreader.getOrAwaitValue
-import com.githubreader.gitresults.GitResultsViewModel
 import com.githubreader.observeForTesting
 import com.githubreader.util.MainCoroutineRule
 import com.githubreader.utils.network.InternetConnectionManager
 import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

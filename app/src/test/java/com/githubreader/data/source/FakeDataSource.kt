@@ -5,7 +5,6 @@ import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.data.models.Result
 import java.lang.Exception
-import javax.sql.DataSource
 
 /**
  * @author Tomislav Curis

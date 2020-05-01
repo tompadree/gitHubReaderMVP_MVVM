@@ -1,22 +1,16 @@
 package com.githubreader.data.source
 
-import androidx.lifecycle.LiveData
 import com.githubreader.data.models.OwnerObject
 import com.githubreader.data.models.RepoObject
 import com.githubreader.data.models.Result
-import com.githubreader.data.source.local.GitHubResultsLocalDataSource
-import com.githubreader.data.source.remote.GitHubResultsRemoteDataSource
 import com.githubreader.util.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.Exception
 import com.google.common.truth.Truth.*
-import junit.framework.Assert.assertEquals
-import org.hamcrest.core.IsEqual
+import org.junit.Assert.assertEquals
 
 /**
  * @author Tomislav Curis
